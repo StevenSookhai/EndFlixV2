@@ -8,7 +8,7 @@ class Video(db.Model):
     __tablename__ = 'videos'
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(255), nullable=False)
-    description = db.Column(db.String(255), nullable=False)
+    description = db.Column(db.String, nullable=False)
     genre = db.Column(db.ARRAY(db.String), nullable=True)
     cast = db.Column(db.String(255), nullable=True)
     director = db.Column(db.String(255), nullable=True)
