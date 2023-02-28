@@ -8,10 +8,21 @@ from datetime import datetime
 class List(db.Model):
     __tablename__ = 'lists'
     id = db.Column(db.Integer, primary_key=True)
-    profile_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('profiles.id')), nullable=False)
-    video_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('videos.id')), nullable=False)
+    profile_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('profiles.id')), nullable=False, unique=True)
+    # video_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('videos.id')), nullable=False)
+    videos = db.Column(db.JSON, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow())
     updated_at = db.Column(db.DateTime, default=datetime.utcnow())
 
-    videos = db.relationship("Video")
+    # videos = db.relationship("Video")
+    # profile = db.relationship("Profile", back_populates="list")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "profile_id": self.profile_id,
+            "videos": self.videos,
+        }
+        
+
 

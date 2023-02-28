@@ -11,3 +11,10 @@ class VideoLikes(db.Model):
     likes = db.Column(db.Integer, nullable=False)
     created_at = db.Column(db.DateTime, default=datetime.utcnow())
     updated_at = db.Column(db.DateTime, default=datetime.utcnow())
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "video_id": self.video_id,
+            "likes": self.likes,
+        }

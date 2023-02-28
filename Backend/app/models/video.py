@@ -22,3 +22,18 @@ class Video(db.Model):
 
     likes = db.relationship('VideoLikes')
     impressions = db.relationship('Trending')
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "title": self.title,
+            "description": self.description,
+            "genre": self.genre,
+            "cast": self.cast,
+            "director": self.director,
+            "year": self.year,
+            "duration": self.duration,
+            "rating": self.rating,
+            "image": self.image,
+            "tags": self.tags,
+        }

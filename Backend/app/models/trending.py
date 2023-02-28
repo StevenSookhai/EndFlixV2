@@ -6,18 +6,16 @@ from datetime import datetime
 
 class Trending(db.Model):
     __tablename__ = 'trending'
-    
+
     id = db.Column(db.Integer, primary_key=True)
     video_id = db.Column(db.Integer, db.ForeignKey(add_prefix_for_prod('videos.id')), nullable=False)
-    impressions = db.Column(db.Integer, nullable=False)
+    impressions = db.Column(db.Integer, nullable=False) #need to change impressions to bigint
     created_at = db.Column(db.DateTime, default=datetime.utcnow())
     updated_at = db.Column(db.DateTime, default=datetime.utcnow())
 
-    # def to_dict(self):
-    #     return {
-    #         "id": self.id,
-    #         "video_id": self.video_id,
-    #         "profile_id": self.profile_id,
-    #         "created_at": self.created_at,
-    #         "updated_at": self.updated_at,
-    #     }
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "video_id": self.video_id,
+            "impressions": self.impressions,
+        }
