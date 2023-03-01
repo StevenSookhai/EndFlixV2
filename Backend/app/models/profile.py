@@ -16,3 +16,10 @@ class Profile(db.Model):
     updated_at = db.Column(db.DateTime, default=datetime.utcnow())
 
     user = relationship("User", back_populates="profiles")
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "name": self.name,
+        }
