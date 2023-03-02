@@ -3,7 +3,7 @@ from app.models import db, Profile
 
 profile_routes = Blueprint('profiles', __name__)
 
-@profile_routes.route('/', methods=['POST', 'GET'])
+@profile_routes.route('/', methods=['POST'])
 def create_profile():
     try:
         if request.method == 'POST':
