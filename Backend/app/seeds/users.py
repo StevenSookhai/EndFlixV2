@@ -5,15 +5,15 @@ from sqlalchemy.sql import text
 def seed_users():
     demo = User(
         email='Demo',
-        password='password'
+        hash_password='password'
     )
     marnie = User(
         email="marnie@gmail.com",
-        password="password"
+        hash_password="password"
     )
     bobbie = User(
         email="bobbie@gmail.com",
-        password="password"
+        hash_password="password"
     )
     db.session.add(demo)
     db.session.add(marnie)
