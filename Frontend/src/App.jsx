@@ -1,34 +1,41 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import './App.css'
+import React, { useState, useEffect } from "react";
+import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App = () => {
+  const [videos, setVideos] = useState([]);
+
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/videos");
+        const data = await response.json();
+        setVideos(data.videos);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchVideos();
+    console.log(videos);
+  }, []);
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+    <div>
+      <h1 className="text-6xl font-bold underline m-0">Video List</h1>
+      <div className="flex flex-col justify-center items-center">
+        {videos.map((video) => (
+          <div
+            className="flex flex-col justify-center items-center"
+            key={video._id}
+          >
+            <h2 className="font-bold">{video.title}</h2>
+            <p className="max-w-[1000px] px-[10px] my-[10px]">
+              {video.description}
+            </p>
+          </div>
+        ))}
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
     </div>
-  )
-}
+  );
+};
 
-export default App
+export default App;
