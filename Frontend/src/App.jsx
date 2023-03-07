@@ -1,5 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
+import SplashPage from "./pages/splashPage";
+import AuthPage from "./pages/authPage";
+import ViewPage from "./pages/viewPage";
+import ProfilesPage from "./pages/profilesPage";
 
 const App = () => {
   const [videos, setVideos] = useState([]);
@@ -19,22 +23,25 @@ const App = () => {
   }, []);
 
   return (
-    <div>
-      <h1 className="text-6xl font-bold underline m-0">Video List</h1>
-      <div className="flex flex-col justify-center items-center">
-        {videos.map((video) => (
-          <div
-            className="flex flex-col justify-center items-center"
-            key={video._id}
-          >
-            <h2 className="font-bold">{video.title}</h2>
-            <p className="max-w-[1000px] px-[10px] my-[10px]">
-              {video.description}
-            </p>
-          </div>
-        ))}
-      </div>
-    </div>
+    // <div>
+    //   <h1 className="text-6xl font-bold underline m-0">Video List</h1>
+    //   <div className="flex flex-col justify-center items-center">
+    //     {videos.map((video) => (
+    //       <div
+    //         className="flex flex-col justify-center items-center"
+    //         key={video._id}
+    //       >
+    //         <h2 className="font-bold">{video.title}</h2>
+    //         <p className="max-w-[1000px] px-[10px] my-[10px]">
+    //           {video.description}
+    //         </p>
+    //       </div>
+    //     ))}
+    //   </div>
+    // </div>
+    <>
+      <SplashPage />
+    </>
   );
 };
 
