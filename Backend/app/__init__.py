@@ -14,6 +14,7 @@ from flask_login import LoginManager
 from .models import User
 from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect, generate_csrf
+import os
 
 
 app = Flask(__name__)

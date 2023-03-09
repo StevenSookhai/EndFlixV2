@@ -309,8 +309,6 @@ def seed_videos():
         image="https://image.tmdb.org/t/p/w500/6t6r1VGQTTQecN4V0sZeqsmdU9g.jpg",
         tags=["Paclfic Rim", "Charlie Hunnam", "Unknown"]
     )
-
-
     db.session.add(video1)
     db.session.add(video2)
     db.session.add(video3)
@@ -338,6 +336,7 @@ def seed_videos():
     db.session.add(video25)
 
     db.session.commit()
+    
 def undo_videos():
     db.session.execute(text('TRUNCATE videos RESTART IDENTITY CASCADE;'))
     db.session.commit()

@@ -1,12 +1,12 @@
 import React from "react";
-
+import styles from "../style";
+import { layout } from "../style";
 const splashPage = () => {
   const backgroundImage =
     "https://assets.nflxext.com/ffe/siteui/vlv3/a43711df-c428-4f88-8bb3-b2ac5f20608f/dd2786e8-9d8a-4c59-a1fc-0f85cf5efda4/US-en-20230227-popsignuptwoweeks-perspective_alpha_website_large.jpg";
   return (
     <div>
       <div className="relative z-10">
-        {/* <div className="ml-20">Netflix</div> */}
         <svg className="w-[110px] h-[32px] top-10 ml-20 absolute">
           <path
             className="fill-current text-[#E50914]"
@@ -30,7 +30,7 @@ const splashPage = () => {
             src={backgroundImage}
           ></img>
         </div>
-
+        {/*section 1 content */}
         <div className="absolute top-[30%] left-0 right-0 ">
           <div className="flex flex-col justify-center items-center">
             <h2 className="text-white text-center  xs:text-3xl sm:text-4xl md:text-6xl  text-8xl font-bold font-poppins leading-tight">
@@ -57,10 +57,113 @@ const splashPage = () => {
           </div>
         </div>
       </div>
-      <div>Section 2</div>
-      <div>Section 3</div>
-      <div>Section 4</div>
-      <div>Section 5</div>
+      {/* section1 */}
+      <div
+        className={`${layout.section} bg-black w-full h-[550px] max-w-full border-5 border-b-8 border-[rgb(52,52,52)]`}
+      >
+        <div className="flex flex-col md:items-start md:mr-[px]">
+          <h2 className="text-white text-center xs:text-3xl sm:text-4xl md:text-5xl  text-8xl font-bold font-poppins leading-tight">
+            {" "}
+            Enjoy on your TV.
+          </h2>
+          <p className="text-white max-w-[500px] md:min-w-[500px] font-poppins leading-tight xs:text-lg sm:text-base md:text-2xl text-8xl mt-5">
+            Watch on Smart TVs, Playstation, Xbox, Chromecast, Apple TV, Blu-ray
+            players, and more.
+          </p>
+        </div>
+        <div className="relative">
+          <img
+            className="absolute w-[480px] h-[350x] md:mt-0 mt-5"
+            src="https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/tv.png"
+            alt=""
+          />
+          <video
+            className="w-[480px] h-[350px] md:mt-0 mt-5 "
+            src="https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/video-tv-0819.m4v"
+            autoPlay
+            loop
+            muted
+          ></video>
+        </div>
+      </div>
+      {/* section2 */}
+      <div
+        className={`flex md:flex-row flex-col-reverse items-center justify-center ${styles.padding} bg-black w-full h-[550px] max-w-full border-5 border-b-8 border-[rgb(52,52,52)]`}
+      >
+        <div className="relative flex justify-center items-center md:mr-[50px] md:min-w-[700px] md:max-h-[700px] xs:min-w-[450px] xs:min-h-[350px]">
+          <img
+            className="absolute md:mt-0"
+            src="https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/device-pile.png"
+            alt=""
+          />
+          <video
+            className=" md:w-[400px] md:mb-[150px] xs:mb-[100px] xs:w-[280px] md:mt-0 "
+            src="https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/video-devices.m4v"
+            autoPlay
+            loop
+            muted
+          ></video>
+        </div>
+
+        <div className="flex flex-col md:items-start md:text-start text-center ">
+          <h2 className="text-white md:text-start text-center xs:text-3xl sm:text-4xl md:text-5xl  text-8xl font-bold font-poppins leading-none">
+            Watch everywhere.
+          </h2>
+          <p className="text-white max-w-[500px] md:min-w-[500px] font-poppins leading-tight xs:text-lg sm:text-base md:text-2xl text-8xl mt-5">
+            Stream unlimited movies and TV shows on your phone, tablet, laptop,
+            and TV without paying more.
+          </p>
+        </div>
+      </div>
+      {/* section3 */}
+      <div
+        className={`${layout.section} bg-black w-full h-[550px] max-w-full border-5 border-b-8 border-[rgb(52,52,52)]`}
+      >
+        <div className="flex flex-col md:items-start md:mr-[px] md:text-start text-center ">
+          <h2 className="text-white md:text-start text-center xs:text-3xl sm:text-4xl md:text-5xl  text-8xl font-bold font-poppins leading-tight">
+            {" "}
+            Create profiles for kids.
+          </h2>
+          <p className="text-white max-w-[500px] md:min-w-[500px] font-poppins leading-tight xs:text-lg sm:text-base md:text-2xl text-8xl mt-5">
+            Send kids on adventures with their favorite characters in a space
+            made just for them— <br className="sm:block hidden"></br>free with
+            your membership.
+          </p>
+        </div>
+        <div className="relative">
+          <img
+            className="xs:w-[480px] xs:h-[350x] md:w-full  md:mt-0 mt-5"
+            src="https://occ-0-3266-1001.1.nflxso.net/dnm/api/v6/19OhWN2dO19C9txTON9tvTFtefw/AAAABfpnX3dbgjZ-Je8Ax3xn0kXehZm_5L6-xe6YSTq_ucht9TI5jwDMqusWZKNYT8DfGudD0_wWVVTFLiN2_kaQJumz2iivUWbIbAtF.png?r=11f"
+            alt=""
+          />
+        </div>
+      </div>
+      {/* section4 */}
+      <div
+        className={`flex md:flex-row flex-col-reverse items-center justify-center ${styles.padding} bg-black w-full h-[550px] max-w-full border-5 border-b-8 border-[rgb(52,52,52)]`}
+      >
+        <div className="relative flex justify-center items-center  md:min-w-[700px] md:max-h-[700px] xs:min-w-[450px] xs:min-h-[350px]">
+          <img
+            className=" xs:w-[480px] xs:h-[350x] md:w-full  md:mt-0 mt-5"
+            src="https://assets.nflxext.com/ffe/siteui/acquisition/ourStory/fuji/desktop/mobile-0819.jpg"
+            alt=""
+          />
+        </div>
+
+        <div className="flex flex-col md:items-start md:text-start text-center">
+          <h2 className="text-white md:text-start text-center xs:text-3xl sm:text-4xl md:text-5xl text-8xl font-bold font-poppins leading-none">
+            Download your shows <br className="hidden md:block"></br>to watch
+            offline.
+          </h2>
+          <p className="text-white max-w-[500px] md:min-w-[500px] font-poppins leading-tight xs:text-lg sm:text-base md:text-2xl text-8xl mt-5">
+            Only available on ad-free plans.
+          </p>
+        </div>
+      </div>
+      {/* section5 Social Links*/}
+      <div
+        className={`${layout.section} bg-black w-full h-[250px] max-w-full border-5 `}
+      ></div>
     </div>
   );
 };
