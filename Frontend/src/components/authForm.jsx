@@ -6,19 +6,21 @@ import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const AuthForm = () => {
-  const [toggle, setToggle] = useState(true);
-  const [email, setEmail] = useState("stevensookhai@gmail.com");
-  const [password, setPassword] = useState("password");
+  const [toggle, setToggle] = useState(true); // true = sign in, false = sign up
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
-  console.log("User: ", user);
+
 
   const handleSignIn = async (e) => {
     e.preventDefault();
-    // const csrfToken = Cookies.get("XSRF-TOKEN");
-    // console.log(csrfToken);
-    const response = await fetch("http://localhost:5000/api/auth/login", {
+    const url = toggle
+      ? "http://localhost:5000/api/auth/login"
+      : "http://localhost:5000/api/auth/signup";
+
+    const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

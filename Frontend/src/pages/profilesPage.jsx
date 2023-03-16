@@ -9,6 +9,7 @@ import { authActions } from "../store/authSlice";
 const profilesPage = () => {
   const [profiles, setProfiles] = useState([]);
   const user = useSelector((state) => state.auth.user);
+  console.log(user);
   const dispatch = useDispatch();
   useEffect(() => {
     //will change to fetch all profiles from the database and display them using redux later
