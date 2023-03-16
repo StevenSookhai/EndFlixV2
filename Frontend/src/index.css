@@ -16,3 +16,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.relative:focus-within label {
+  transform: translate(-0.4rem, -.8rem) scale(0.70);
+}

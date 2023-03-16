@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
 const initialState = {
   user: null,
@@ -18,6 +19,7 @@ const authSlice = createSlice({
       state.user = null;
       state.isAuthenticated = false;
     },
+    authenticate(state, action) {},
   },
 });
 
