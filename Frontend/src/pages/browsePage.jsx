@@ -1,9 +1,9 @@
 import React from 'react'
 
-const browsePage = () => {
+const BrowsePage = () => {
   return (
-    <div>browsePage</div>
+    <div>BrowsePage</div>
   )
 }
 
-export default browsePage
+export default BrowsePage

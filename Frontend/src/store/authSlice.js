@@ -5,6 +5,8 @@ const initialState = {
   user: null,
   token: null,
   isAuthenticated: false,
+  profile: null,
+  list: null,
 };
 
 const authSlice = createSlice({
@@ -18,6 +20,15 @@ const authSlice = createSlice({
     logout(state) {
       state.user = null;
       state.isAuthenticated = false;
+      state.token = null;
+      state.profile = null;
+      state.list = null;
+    },
+    setProfile(state, action) {
+      state.profile = action.payload;
+    },
+    setList(state, action) {
+      state.list = action.payload;
     },
     authenticate(state, action) {},
   },

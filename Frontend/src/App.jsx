@@ -4,6 +4,7 @@ import SplashPage from "./pages/splash/splashPage.jsx";
 import AuthPage from "./pages/authPage";
 import ViewPage from "./pages/viewPage";
 import ProfilesPage from "./pages/profilesPage";
+import BrowsePage from "./pages/browsePage";
 import ProtectedRoute from "./util/ProtectedRoute.jsx";
 import { useSelector } from "react-redux";
 
@@ -69,7 +70,15 @@ const App = () => {
         <Routes>
           <Route path="/" element={<SplashPage />} />
           <Route path="/login" element={<AuthPage />} />
-          <Route path="/view" element={<ViewPage />} />
+          <Route
+            exact
+            path="/browse"
+            element={
+              <ProtectedRoute>
+                <BrowsePage />
+              </ProtectedRoute>
+            }
+          ></Route>
           <Route
             exact
             path="/profiles"
