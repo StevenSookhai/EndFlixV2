@@ -7,16 +7,15 @@ import ProfileForm from "../components/ProfileForm";
 import { useState } from "react";
 
 const ManageProfiles = ({ profiles, handleManageProfile }) => {
-  const [toggleEdit, setToggleEdit] = useState(false);
   const [selectedProfile, setSelectedProfile] = useState(null);
-
+  const image =
+    "http://occ-0-3266-444.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQd4d531rYr0QnH2lEC7omicvIWxQTw1_rx-kENeMVr5DuRh51NtzpJa8GXfVivy7C207tpMW4R7NUMXAJOrt8dZHNszpECL4nre.png?r=8d7";
   const handleToggleEdit = (profile) => {
     setSelectedProfile(profile);
-    // setToggleEdit(!toggleEdit);
   };
 
   return (
-    <div className="fixed w-full h-full bg-[#141414]">
+    <div className="h-screen w-screen fixed bg-[#141414] overflow-y-auto">
       <div className="bg-gradient-to-b from-[#0A0A0A] to-[#141414] h-[80px] top-0 left-0"></div>
       {!selectedProfile ? (
         <div className="flex flex-col justify-center items-center absolute left-0 top-0 right-0 bottom-0">
@@ -49,6 +48,7 @@ const ManageProfiles = ({ profiles, handleManageProfile }) => {
       ) : (
         <ProfileForm
           profile={selectedProfile}
+          image={image}
           handleToggleEdit={handleToggleEdit}
         />
       )}
