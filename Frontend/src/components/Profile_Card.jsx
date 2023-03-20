@@ -33,7 +33,7 @@ const ProfileCard = ({
           alt=""
         ></img>
       </div>
-      <span className="sm:mt-3 font-poppins text-center text-gray-500  text-[1.3vw] sm:text-[1.3vw] xs:text-[3vw] text-truncate text-8xl hover:text-white cursor-pointer">
+      <span className="sm:mt-3 font-poppins text-center text-gray-500  text-[1.3vw] sm:text-[1.3vw] xs:text-[3vw] text-truncate text-8xl hover:text-white cursor-pointer max-w[100px] w-full max-w-[160px] truncate">
         {name}
       </span>
     </li>

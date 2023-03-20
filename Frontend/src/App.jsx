@@ -11,7 +11,7 @@ import { useSelector } from "react-redux";
 const App = () => {
   const [videos, setVideos] = useState([]);
   const user = useSelector((state) => state.auth.user);
-  console.log("User: ", user);
+  // console.log("User: ", user);
   useEffect(() => {
     const authenticate = async () => {
       const response = await fetch("http://localhost:5000/api/auth/", {

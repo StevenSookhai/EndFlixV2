@@ -1,12 +1,9 @@
 import React from "react";
-import { layout } from "../style";
-import styles from "../style";
 import ProfileCard from "../components/Profile_Card";
-import AddProfileButton from "../components/AddProfileButton";
 import ProfileForm from "../components/ProfileForm";
 import { useState } from "react";
 
-const ManageProfiles = ({ profiles, handleManageProfile }) => {
+const ManageProfiles = ({ profiles, handleManageProfile, getProfiles }) => {
   const [selectedProfile, setSelectedProfile] = useState(null);
   const image =
     "http://occ-0-3266-444.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQd4d531rYr0QnH2lEC7omicvIWxQTw1_rx-kENeMVr5DuRh51NtzpJa8GXfVivy7C207tpMW4R7NUMXAJOrt8dZHNszpECL4nre.png?r=8d7";
@@ -50,6 +47,9 @@ const ManageProfiles = ({ profiles, handleManageProfile }) => {
           profile={selectedProfile}
           image={image}
           handleToggleEdit={handleToggleEdit}
+          handleManageProfile={handleManageProfile}
+          getProfiles={getProfiles}
+          add={false}
         />
       )}
     </div>
