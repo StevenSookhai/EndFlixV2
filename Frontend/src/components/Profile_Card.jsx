@@ -1,6 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import ProfileForm from "./ProfileForm";
+import { useNavigate } from "react-router-dom";
+import { authActions } from "../store/authSlice";
+import { useDispatch } from "react-redux";
 
 const ProfileCard = ({
   profile,
@@ -10,9 +13,14 @@ const ProfileCard = ({
   manage,
   handleToggleEdit,
 }) => {
-  //   console.log(name);
-  //   console.log(profile);
   const [edit, setEdit] = React.useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  const handleNavigate = () => {
+    dispatch(authActions.setProfile(profile));
+    navigate("/browse");
+  };
 
   const handleEdit = () => {
     handleToggleEdit(profile);
@@ -20,7 +28,7 @@ const ProfileCard = ({
   };
   return (
     <li
-      onClick={manage ? handleEdit : null}
+      onClick={manage ? handleEdit : handleNavigate}
       className="flex flex-col justify-center items-center rounded-md mr-5 hover:text-white cursor-pointer relative"
     >
       <div className="relative">

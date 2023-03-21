@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../store/authSlice";
 import ProfileForm from "../components/ProfileForm";
 
-const profilesPage = () => {
+const ProfilesPage = () => {
   const [profiles, setProfiles] = useState([]);
   const [maxProfiles, setMaxProfiles] = useState(false);
   const [manageProfile, setManage] = useState(false);
@@ -55,7 +55,7 @@ const profilesPage = () => {
     }
   };
 
-  const handleManage = () => {
+  const handleManage = () => { // Well update these into one function later on to handle both manage and add profile
     setManage(!manageProfile);
   };
 
@@ -121,4 +121,4 @@ const profilesPage = () => {
   );
 };
 
-export default profilesPage;
+export default ProfilesPage;

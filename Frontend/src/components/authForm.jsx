@@ -36,8 +36,8 @@ const AuthForm = () => {
     if (response.ok) {
       const data = await response.json();
       dispatch(authActions.login(data.user));
-      // console.log(data.user);
-      // console.log("User: ", user);
+      console.log(data.user);
+      console.log("User: ", user);
       navigate("/profiles");
     } else if (response.status < 500) {
       const data = await response.json();

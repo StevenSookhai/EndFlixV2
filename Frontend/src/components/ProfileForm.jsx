@@ -93,7 +93,7 @@ const ProfileForm = ({
   };
 
   return (
-    <div className="flex flex-col items-center mt-[10%] overflow-y-auto">
+    <div className="flex flex-col items-center mt-[7%] overflow-y-auto">
       <div className="flex items-start justify-start w-[70%] border-b border-gray-500">
         <h2 className="text-[40px] font-poppins ">
           {add ? "Add" : "Edit"} Profile
