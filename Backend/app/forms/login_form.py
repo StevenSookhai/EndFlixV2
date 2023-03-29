@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField
+from wtforms import StringField, PasswordField, SubmitField, HiddenField
 from wtforms.validators import DataRequired, Email, EqualTo, Length, ValidationError
 from app.models import User
 
@@ -20,4 +20,3 @@ def check_password(form, field):
 class LoginForm(FlaskForm):
     email = StringField('Email', validators=[DataRequired(), user_exists])
     password = PasswordField('Password', validators=[DataRequired(), check_password])
-    submit = SubmitField('Log In')

@@ -5,7 +5,7 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #141414;
+  /* background-color: #141414; */
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -13,6 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 }
+
 body {
   background: #141414;
 }
@@ -23,4 +24,13 @@ body {
 
 .relative:focus-within label {
   transform: translate(-0.4rem, -0.8rem) scale(0.7);
+}
+#slider::-webkit-scrollbar {
+  display: none;
+}
+
+@layer components {
+  .bannerButton {
+    @apply flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 md:py-2.5 md:px-8 md:text-xl;
+  }
 }

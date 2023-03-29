@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, session, request, render_template, redirec
 from app.models import User, db
 from app.forms import LoginForm, SignUpForm
 from flask_login import login_user, logout_user, current_user, login_required, LoginManager
- 
+from flask_cors import CORS, cross_origin
 
 auth_routes = Blueprint('auth', __name__)
 
@@ -17,28 +17,22 @@ def validation_errors_to_error_messages(validation_errors):
 def authenticate():
     if current_user.is_authenticated:
         return current_user.to_dict()
-    return {'errors': 'Unauthorized'}, 401
+    return {'errors': ['Unauthorized']}
 
-@auth_routes.route('/login', methods=['POST', 'GET'])
+@auth_routes.route('/login', methods=['POST'])
+
 def login():
-    if current_user.is_authenticated:
-        return current_user.to_dict()
     form = LoginForm()
     form['csrf_token'].data = request.cookies['csrf_token']
     if form.validate_on_submit():
         user = User.query.filter(User.email == form.data['email']).first()
-        if not user:
-            return {'errors': {"email: Email is invalid"}}, 401
-        if not user.check_password(form.data['password']):
-            return {'errors': {"password: Password is invalid"}}, 401
         login_user(user)
-        return user.to_dict()
-        # return redirect(url_for('auth.secrets'))
-    return {'errors': validation_errors_to_error_messages(form.errors)}
-    # return render_template("login.html", form=form) 
+        print(current_user)
+        return {'user': user.to_dict() }
+    return {'errors': validation_errors_to_error_messages(form.errors)}, 401 
 
 
-@auth_routes.route('/signup', methods=['POST' , 'GET'])
+@auth_routes.route('/signup', methods=['POST'])
 def signup():
     form = SignUpForm() 
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -50,10 +44,7 @@ def signup():
         db.session.add(user)
         db.session.commit()
         login_user(user)
-        return user.to_dict()
-        # return redirect(url_for('auth.login'))
-    # return {'errors': 'Unauthorized'}, 401
-    # return render_template("register.html", form=form)
+        return {'user': user.to_dict() }
     return {'errors': validation_errors_to_error_messages(form.errors)}
 
 @auth_routes.route('/logout')
@@ -64,16 +55,5 @@ def logout():
 
 @auth_routes.route('/unauthorized')
 def unauthorized():
-    """
-    Returns unauthorized JSON when flask-login authentication fails
-    """
     return {'errors': ['Unauthorized']}, 401
- 
-#Testing auth routes
-# @auth_routes.route('/secrets')
-# @login_required
-# def secrets():
-#     return render_template("secrets.html")
-
-
  

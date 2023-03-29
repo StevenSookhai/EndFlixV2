@@ -20,7 +20,10 @@ def create_user():
 def get_user(id):
     try:
         user = User.query.get(id)
-        return {'user': user.to_dict()}
+        profiles = user.profiles
+        return {'user': user.to_dict(),
+                'profiles': [profile.to_dict() for profile in profiles]}
+                
     except Exception as error:
         return {'error': 'User not found'}, 404
 

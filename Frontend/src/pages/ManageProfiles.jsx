@@ -16,7 +16,7 @@ const ManageProfiles = ({ profiles, handleManageProfile, getProfiles }) => {
       <div className="bg-gradient-to-b from-[#0A0A0A] to-[#141414] h-[80px] top-0 left-0"></div>
       {!selectedProfile ? (
         <div className="flex flex-col justify-center items-center absolute left-0 top-0 right-0 bottom-0">
-          <h2 className="w-full font-poppins text-center sm:text-[3.5vw] text-[30px]">
+          <h2 className="w-full font-poppins text-center sm:text-[3.5vw] text-[30px] text-white">
             Manage Profiles:
           </h2>
           <div className="max-w-[80%] block mt-[1.5em]">
