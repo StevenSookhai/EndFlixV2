@@ -3,6 +3,7 @@ import authSlice from "./authSlice";
 import videoSlice from "./videoSlice";
 import profileSlice from "./profileSlice";
 import listSlice from "./listSlice";
+import videoModalSlice from "./videoModal";
 
 import {
   persistStore,
@@ -15,7 +16,6 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
-
 
 // const store = configureStore({
 //   reducer: {
@@ -38,6 +38,7 @@ const rootReducer = combineReducers({
   video: videoSlice.reducer,
   profile: profileSlice.reducer,
   list: listSlice.reducer,
+  videoModal: videoModalSlice.reducer,
 });
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
