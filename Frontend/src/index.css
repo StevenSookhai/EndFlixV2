@@ -28,7 +28,24 @@ body {
 #slider::-webkit-scrollbar {
   display: none;
 }
+.card-enter {
+  transform: scale(1);
+  transform-origin: top center;
+}
 
+.card-enter-active {
+  transform: scale(1.5);
+  transition: transform 500ms ease-in-out;
+}
+
+.card-exit {
+  transform: scale(1.5);
+}
+
+.card-exit-active {
+  transform: scale(1);
+  transition: transform 500ms ease-in-out;
+}
 @layer components {
   .bannerButton {
     @apply flex items-center gap-x-2 rounded px-5 py-1.5 text-sm font-semibold transition hover:opacity-75 md:py-2.5 md:px-8 md:text-xl;

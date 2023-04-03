@@ -17,13 +17,21 @@ const MovieCard = ({ movie, sliderPos, scrollLeft, clientWidth }) => {
   };
 
   const handlePosition = () => {
+    if (showVideoModal) {
+      return;
+    }
     const element = cardRef.current.getBoundingClientRect();
-    const width = element.width;
+    // console.log(element.right);
+    const ScreenWidth = window.innerWidth;
+    // console.log(ScreenWidth);
+    const nearRightEdge = ScreenWidth - element.right < 100;
+    console.log(nearRightEdge);
     const pos = {
       x: element.left,
       y: element.top,
       height: element.height,
       width: element.width,
+      nearRightEdge: nearRightEdge,
     };
     dispatch(videoModalActions.showCard({ movie: movie, pos: pos }));
   };
