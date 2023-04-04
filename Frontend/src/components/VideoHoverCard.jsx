@@ -14,10 +14,12 @@ const VideoHoverCard = () => {
   const [scaleCard, setScaleCard] = useState(false);
   const [hasCardCreated, setHasCardCreated] = useState(false);
   const [windowYOffset, setWindowYOffset] = useState(0);
+  const [videoTop, setVideoTop] = useState(0);
   useEffect(() => {
     setScaleCard(true);
     setHasCardCreated(true);
     setWindowYOffset(window.pageYOffset);
+    setVideoTop(videoPos.y);
   }, []);
 
   const closeVideoModal = () => {
@@ -30,7 +32,7 @@ const VideoHoverCard = () => {
   return (
     <div
       onMouseLeave={closeVideoModal}
-      className={`absolute top-0 left-0 border border-red-500 bg-none z-30 `}
+      className={`absolute top-0 left-0 border border-red-500 bg-none z-20 `}
     >
       {/* <CSSTransition
         in={scaleCard}
@@ -42,7 +44,7 @@ const VideoHoverCard = () => {
       <div
         onMouseLeave={closeVideoModal}
         style={{
-          top: videoPos.y + windowYOffset,
+          top: videoTop + windowYOffset,
           // top: `calc(${videoPos.y}px + ${window.pageYOffset}px - 100%)`,
           left: videoPos.x,
           width: videoPos.width,
