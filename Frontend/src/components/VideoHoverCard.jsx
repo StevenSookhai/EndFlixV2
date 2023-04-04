@@ -13,8 +13,8 @@ const VideoHoverCard = () => {
   const dispatch = useDispatch();
   const [scaleCard, setScaleCard] = useState(false);
   const [hasCardCreated, setHasCardCreated] = useState(false);
-  const [windowYOffset, setWindowYOffset] = useState(0);
-  const [videoTop, setVideoTop] = useState(0);
+  const [windowYOffset, setWindowYOffset] = useState(window.pageYOffset);
+  const [videoTop, setVideoTop] = useState(videoPos.y);
   useEffect(() => {
     setScaleCard(true);
     setHasCardCreated(true);
@@ -24,9 +24,10 @@ const VideoHoverCard = () => {
 
   const closeVideoModal = () => {
     setScaleCard(false);
-    setTimeout(() => {
+    const timeOutId = setTimeout(() => {
       dispatch(videoModalActions.hideCard());
     }, 300);
+    return () => clearTimeout(timeOutId);
   };
 
   return (
@@ -34,18 +35,10 @@ const VideoHoverCard = () => {
       onMouseLeave={closeVideoModal}
       className={`absolute top-0 left-0 border border-red-500 bg-none z-20 `}
     >
-      {/* <CSSTransition
-        in={scaleCard}
-        timeout={500}
-        classNames={setHasCardCreated ? "card" : ""}
-        mountOnEnter
-        unmountOnExit
-      > */}
       <div
         onMouseLeave={closeVideoModal}
         style={{
           top: videoTop + windowYOffset,
-          // top: `calc(${videoPos.y}px + ${window.pageYOffset}px - 100%)`,
           left: videoPos.x,
           width: videoPos.width,
           className: "card",
@@ -70,7 +63,6 @@ const VideoHoverCard = () => {
           </div>
         </div>
       </div>
-      {/* </CSSTransition> */}
     </div>
   );
 };
