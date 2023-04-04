@@ -28,7 +28,7 @@ const MovieCard = ({ movie }) => {
       return;
     }
     const element = cardRef.current.getBoundingClientRect();
-
+    if (element.right > window.innerWidth) return;
     const ScreenWidth = window.innerWidth;
 
     const nearRightEdge = ScreenWidth - element.right < 100;

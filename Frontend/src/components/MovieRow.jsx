@@ -26,10 +26,17 @@ const MovieRow = ({ genre, MovieEndpoints }) => {
 
       const pos = scrollLeft / clientWidth;
 
-      const scrollTo =
+      let scrollTo =
         direction === "left"
-          ? scrollLeft - clientWidth
-          : scrollLeft + clientWidth;
+          ? scrollLeft - clientWidth * 0.96
+          : scrollLeft + clientWidth * 0.96;
+
+      if (scrollTo < 0) {
+        scrollTo = 0;
+      } else if (scrollTo > rowRef.current.scrollWidth - clientWidth) {
+        scrollTo = rowRef.current.scrollWidth - clientWidth;
+      }
+
       rowRef.current.scrollTo({
         left: scrollTo,
         behavior: "smooth",
@@ -50,7 +57,7 @@ const MovieRow = ({ genre, MovieEndpoints }) => {
           <AiOutlineLeft size={30} />
         </div>
         <div ref={rowRef} id={"slider"} className="overflow-x-scroll ">
-          <div className="flex ">
+          <div className="flex w-[96%] ">
             {movies.map((movie) => (
               <MovieCard key={movie.id} movie={movie} />
             ))}
