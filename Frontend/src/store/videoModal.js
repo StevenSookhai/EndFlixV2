@@ -4,6 +4,7 @@ const initialState = {
   video: null,
   videoPos: null,
   showCard: false,
+  showVideoModal: false,
 };
 
 const videoModalSlice = createSlice({
@@ -19,6 +20,14 @@ const videoModalSlice = createSlice({
       state.video = null;
       state.videoPos = null;
       state.showCard = false;
+      // state.showVideoModal = false;
+    },
+    showModal(state) {
+      state.showVideoModal = true;
+      state.showCard = false;
+    },
+    hideModal(state) {
+      state.showVideoModal = false;
     },
   },
 });
