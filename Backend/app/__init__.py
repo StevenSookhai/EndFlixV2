@@ -25,10 +25,9 @@ login.login_view = 'auth.unauthorized'
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-
+CORS(app, supports_credentials=True, resources={r'/*' : {'origins': ['http://localhost:5173']}})
 app.cli.add_command(seed_commands)
 app.config.from_object(Config)
- 
  
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(video_routes, url_prefix='/api/videos')
@@ -42,7 +41,7 @@ db.init_app(app)
 Migrate(app, db)
 # CSRFProtect(app)
 
-CORS(app, supports_credentials=True)
+
 
 @app.before_request
 def https_redirect():
@@ -59,9 +58,9 @@ def inject_csrf_token(response):
         'csrf_token',
         generate_csrf(),
         secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
-        samesite='Strict' if os.environ.get('FLASK_ENV') == 'production' else None,
-        
-    )
+        samesite='Strict' if os.environ.get(
+            'FLASK_ENV') == 'production' else None,
+        httponly=True)
     return response
 
 

@@ -19,6 +19,7 @@ const App = () => {
         headers: {
           "Content-Type": "application/json",
         },
+        credentials: "include",
       });
       if (response.ok) {
         const data = await response.json();
@@ -34,19 +35,19 @@ const App = () => {
     authenticate();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchVideos = async () => {
-  //     try {
-  //       const response = await fetch("http://localhost:5000/api/videos");
-  //       const data = await response.json();
-  //       setVideos(data.videos);
-  //     } catch (error) {
-  //       console.log(error);
-  //     }
-  //   };
-  //   fetchVideos();
-  //   console.log(videos);
-  // }, []);
+  useEffect(() => {
+    const fetchVideos = async () => {
+      try {
+        const response = await fetch("http://localhost:5000/api/videos");
+        const data = await response.json();
+        setVideos(data.videos);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchVideos();
+    console.log(videos);
+  }, []);
 
   return (
     // <div>

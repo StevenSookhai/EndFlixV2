@@ -3,7 +3,12 @@ import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { videoModalActions } from "../store/videoModal";
 
-const MovieCard = ({ movie }) => {
+const MovieCard = ({
+  movie,
+  containerLeft,
+  containerScrollLeft,
+  getScrollLeft,
+}) => {
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef(null);
   const dispatch = useDispatch();
@@ -19,6 +24,7 @@ const MovieCard = ({ movie }) => {
   }, [isHovered]);
 
   const handleHover = (event) => {
+    getScrollLeft();
     setIsHovered(true);
   };
 
@@ -33,12 +39,15 @@ const MovieCard = ({ movie }) => {
 
     const nearRightEdge = ScreenWidth - element.right < 100;
 
+    const nearLeftEdge = element.left < 100;
+    console.log(nearLeftEdge);
     const pos = {
       x: element.left,
       y: element.top,
       height: element.height,
       width: element.width,
       nearRightEdge: nearRightEdge,
+      nearLeftEdge: nearLeftEdge,
     };
     dispatch(videoModalActions.showCard({ movie: movie, pos: pos }));
   };

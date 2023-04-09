@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { MovieEndpoints } from "../util/keys";
 import { FaPlay } from "react-icons/fa";
 import { GrCircleInformation } from "react-icons/gr";
-// import { InformationCircleIcon } from "@heroicons/react/outline";
+import { MdOutlineReplay } from "react-icons/md";
 
 const HeroVideo = ({ video }) => {
   const [movies, setMovies] = useState([]);
@@ -17,7 +17,6 @@ const HeroVideo = ({ video }) => {
       const response = await fetch(MovieEndpoints.top_rated);
       const data = await response.json();
       setMovies(data.results);
-      //   console.log(data.results);
     };
 
     fetchVideos();
@@ -28,13 +27,15 @@ const HeroVideo = ({ video }) => {
       <div className="relative">
         <img
           className="w-full object-cover"
-          //   src={`https://image.tmdb.org/t/p/original/${randomMovie?.backdrop_path}`}
+          // src={`https://image.tmdb.org/t/p/original/${randomMovie?.backdrop_path}`}
           src={img}
           alt="Hero Video"
         />
         <div className="w-full h-[20%] bg-gradient-to-t from-[#141414] absolute   top-[80.1%]"></div>
-        <div className="border absolute top-[60%] right-[10%] rounded-lg sm:w-[50px] sm:h-[50px] w-[25px] h-[25px] justify-center items-center flex">
-          <button>RP</button>
+        <div className="border absolute top-[60%] right-[10%] rounded-full sm:w-[50px] sm:h-[50px] w-[25px] h-[25px] justify-center items-center flex -rotate-180 scale-y-[-1] ">
+          <button>
+            <MdOutlineReplay size={25} />
+          </button>
         </div>
       </div>
 
