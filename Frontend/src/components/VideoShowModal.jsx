@@ -4,34 +4,91 @@ import { FaPlay } from "react-icons/fa";
 import { MdAdd } from "react-icons/md";
 import { useDispatch } from "react-redux";
 import { videoModalActions } from "../store/videoModal";
-const VideoShowModal = ({ video }) => {
+import { useRef, useState, useEffect } from "react";
+import { MovieApiKeys } from "../../src/util/keys";
+// import dotenv from "dotenv";
+// dotenv.config();
+
+const VideoShowModal = ({
+  video,
+  handleHideModal,
+  forwaredRef,
+  videoCurrentTime,
+}) => {
   const dispatch = useDispatch();
+  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const videoRef = useRef(null);
   const listOneStyle = "text-sm md:text-lg font-poppins truncate ";
   const listTwoStyle = "sm:text-lg font-poppins truncate";
   const spanStyle = "sm:text-xl font-poppins";
+  // const apiKey = process.env.REACT_APP_TMDBAPIKEY;
   const img =
     "https://occ-0-3266-444.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABUeuoA1khfzqaYFyd0_HVrA_ePvgLNPDH12DEwsA3nFCAH4bNbTH4Uh0RODjAZDN25_4Bqal2Vk3ub2IGBhYnyg3LtLIDlkL44rL.webp?r=db0";
 
-  const handleCloseModal = () => {
+  useEffect(() => {
+    const getVideo = async () => {
+      const res = await fetch(
+        `https://api.themoviedb.org/3/movie/${video?.id}/videos?api_key=057e037396b3e44f631f913549e9891d&language=en-US`
+      );
+      console.log(video.id);
+      console.log(MovieApiKeys);
+      const data = await res.json();
+      console.log(data);
+      // setVideo(data);
+    };
+    getVideo();
+    videoRef.current.currentTime = videoCurrentTime;
+  }, []);
+  const handleCloseModal = ({ handleHideModal }) => {
     dispatch(videoModalActions.hideModal());
   };
+  console.log(video);
+
+  const handleVideoEnded = () => {
+    setIsVideoPlaying(false);
+  };
+
   return (
-    <div className="fixed left-auto w-[90%] sm:w-[82%]  bg-[#181818] md:min-w-[850px] top-10 mb-[2rem] h-[100vh] xl:max-w-[1300px] rounded-lg">
+    <div
+      ref={forwaredRef}
+      className="fixed left-auto xs:w-[90vw] md:w-[90vh] max-w-[1200px] bg-[#181818] md:min-w-[850px] top-10 mb-[2rem] h-[100vw] rounded-lg z-50 "
+    >
       <div className="relative">
         <div className="h-[60%] w-full rounded-lg relative">
           <div
-            onClick={handleCloseModal}
-            className=" absolute sm:right-6 right-2 sm:top-5 xs:top-3 sm:w-[35px] w-[20px] bg-[#181818] sm:h-[35px] h-[20px] rounded-full flex justify-center items-center   hover:cursor-pointer"
+            onClick={() => handleHideModal()}
+            className=" absolute sm:right-6 right-2 sm:top-5 xs:top-3 sm:w-[35px] w-[20px] bg-[#181818] sm:h-[35px] h-[20px] rounded-full flex justify-center items-center   hover:cursor-pointer z-50"
           >
             <AiOutlineClose size={18} color={"white"} />
           </div>
-          <img className="object-cover rounded-t-lg w-full " src={img} alt="" />
+          <div className="w-full h-[100%] rounded-lg">
+            {!isVideoPlaying && (
+              <img
+                className="object-cover rounded-t-lg w-full  "
+                // src={img}
+                src={`https://image.tmdb.org/t/p/w500/${video?.backdrop_path}`}
+                alt=""
+              />
+            )}
+            {isVideoPlaying && (
+              <video
+                ref={videoRef}
+                className="object-cover rounded-t-md w-full h-full "
+                onEnded={handleVideoEnded}
+                autoPlay
+                // loop
+                muted
+                src="https://endflix-seeds.s3.amazonaws.com/HathAway.mp4"
+              />
+            )}
+          </div>
         </div>
-        <div className="absolute w-[40%] left-[3rem] h-[40%] top-[50%] flex flex-col  ">
+        <div className="absolute w-[40%] left-[3rem] h-[40%] top-[50%] flex flex-col z-10 ">
           <div className="w-full h-full relative">
             <div>
-              <h1 className=" absolute w-full text-white text-6xl sm:text-8xl font-bold max-h-[80%] h-full ">
-                Title
+              <h1 className=" absolute w-full text-white text-6xl sm:text-6xl font-bold max-h-[80%] h-full ">
+                {video?.title}
+                {video?.name}
               </h1>
             </div>
             <div className="flex gap-2 flex-row h-[20%] absolute w-full bottom-0  items-center">
@@ -47,6 +104,7 @@ const VideoShowModal = ({ video }) => {
             </div>
           </div>
         </div>
+        <div className="w-full h-[70%] bg-gradient-to-t from-[#181818] absolute bottom-0 "></div>
       </div>
       <div className="flex flex-col gap-2 w-full h-[40%] p-4">
         <div className="relative">
@@ -57,12 +115,7 @@ const VideoShowModal = ({ video }) => {
               <span className={spanStyle}>duration</span>
               <span className={spanStyle}>episodes</span>
             </div>
-            <p className="sm:text-2xl font-poppins mt-2">
-              Lorem, ipsum dolor sit amet consectetur adipisicing elit. Nesciunt
-              natus porro tempora molestiae vel. Quia necessitatibus eum velit
-              libero, aliquam possimus, laudantium quae, id fugiat et cupiditate
-              minus a vitae?
-            </p>
+            <p className="sm:text-xlfont-poppins mt-2">{video?.overview}</p>
           </div>
           <div className="absolute right-0 top-0 max-w-[40%]">
             <div className="flex">

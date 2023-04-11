@@ -11,15 +11,24 @@ import VideoShowModal from "../components/VideoShowModal";
 const browsePage = () => {
   const profile = useSelector((state) => state.auth.profile);
   const showVideoModal = useSelector((state) => state.videoModal.showCard);
-  const showModal = useSelector((state) => state.videoModal.showVideoModal);
+  const [isModalShown, setIsModalShown] = useState(false);
 
+  const handleModalShown = () => {
+    setIsModalShown(!isModalShown);
+  };
   return (
     <>
       <div
-        className={`absolute top-0 left-0 w-full  bg-none z-30 flex justify-center items-center `}
+        className={` top-0 left-0 w-full z-30  flex justify-center items-center  ${
+          isModalShown
+            ? "bg-[rgb(0,0,0,.9)] h-[100vh] fixed  "
+            : "absolute bg-none"
+        }`}
       >
-        {showVideoModal && <VideoHoverCard />}
-        {showModal && <VideoShowModal />}
+        {showVideoModal && (
+          <VideoHoverCard handleModalShown={handleModalShown} />
+        )}
+        {/* {showModal && <VideoShowModal />} */}
       </div>
 
       <div className="w-full h-full flex justify-center flex-col relative">

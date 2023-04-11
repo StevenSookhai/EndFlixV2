@@ -40,7 +40,7 @@ const MovieCard = ({
     const nearRightEdge = ScreenWidth - element.right < 100;
 
     const nearLeftEdge = element.left < 100;
-    console.log(nearLeftEdge);
+
     const pos = {
       x: element.left,
       y: element.top,
