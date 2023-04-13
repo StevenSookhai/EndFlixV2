@@ -21,14 +21,13 @@ const browsePage = () => {
       <div
         className={` top-0 left-0 w-full z-30  flex justify-center items-center  ${
           isModalShown
-            ? "bg-[rgb(0,0,0,.9)] h-[100vh] fixed  "
+            ? "bg-[rgb(0,0,0,.9)] h-[100vh] fixed"
             : "absolute bg-none"
         }`}
       >
         {showVideoModal && (
           <VideoHoverCard handleModalShown={handleModalShown} />
         )}
-        {/* {showModal && <VideoShowModal />} */}
       </div>
 
       <div className="w-full h-full flex justify-center flex-col relative">
@@ -41,6 +40,7 @@ const browsePage = () => {
           />
           <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.Animations} />
           <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.upcoming} />
+          {/* <MovieRow genre="My List" MovieEndpoints={[]} /> */}
           <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.top_rated} />
           <MovieRow
             genre="Action"

@@ -6,8 +6,6 @@ import { useDispatch } from "react-redux";
 import { videoModalActions } from "../store/videoModal";
 import { useRef, useState, useEffect } from "react";
 import { MovieApiKeys } from "../../src/util/keys";
-// import dotenv from "dotenv";
-// dotenv.config();
 
 const VideoShowModal = ({
   video,
@@ -16,9 +14,9 @@ const VideoShowModal = ({
   videoCurrentTime,
 }) => {
   const dispatch = useDispatch();
-  const [isVideoPlaying, setIsVideoPlaying] = useState(true);
+  const [isVideoPlaying, setIsVideoPlaying] = useState(false); // turn this to true to play the video
   const videoRef = useRef(null);
-  const listOneStyle = "text-sm md:text-lg font-poppins truncate ";
+  const listOneStyle = "text-sm md:text-md font-poppins truncate ";
   const listTwoStyle = "sm:text-lg font-poppins truncate";
   const spanStyle = "sm:text-xl font-poppins";
   // const apiKey = process.env.REACT_APP_TMDBAPIKEY;
@@ -30,19 +28,19 @@ const VideoShowModal = ({
       const res = await fetch(
         `https://api.themoviedb.org/3/movie/${video?.id}/videos?api_key=057e037396b3e44f631f913549e9891d&language=en-US`
       );
-      console.log(video.id);
-      console.log(MovieApiKeys);
+      // console.log(video.id);
+      // console.log(MovieApiKeys);
       const data = await res.json();
-      console.log(data);
+      // console.log(data);
       // setVideo(data);
     };
     getVideo();
-    videoRef.current.currentTime = videoCurrentTime;
+    // videoRef.current.currentTime = videoCurrentTime; // this to play the video from the time it was paused
   }, []);
   const handleCloseModal = ({ handleHideModal }) => {
     dispatch(videoModalActions.hideModal());
   };
-  console.log(video);
+  // console.log(video);
 
   const handleVideoEnded = () => {
     setIsVideoPlaying(false);
@@ -51,7 +49,7 @@ const VideoShowModal = ({
   return (
     <div
       ref={forwaredRef}
-      className="fixed left-auto xs:w-[90vw] md:w-[90vh] max-w-[1200px] bg-[#181818] md:min-w-[850px] top-10 mb-[2rem] h-[100vw] rounded-lg z-50 "
+      className="fixed left-auto xs:w-[90vw] md:w-[85vh] max-w-[1200px] bg-[#181818] md:min-w-[850px] top-10 mb-[2rem] h-[60vh] sm:h-[80vh] md:h-[100vh] rounded-lg z-50 "
     >
       <div className="relative">
         <div className="h-[60%] w-full rounded-lg relative">
@@ -76,7 +74,6 @@ const VideoShowModal = ({
                 className="object-cover rounded-t-md w-full h-full "
                 onEnded={handleVideoEnded}
                 autoPlay
-                // loop
                 muted
                 src="https://endflix-seeds.s3.amazonaws.com/HathAway.mp4"
               />
@@ -86,7 +83,7 @@ const VideoShowModal = ({
         <div className="absolute w-[40%] left-[3rem] h-[40%] top-[50%] flex flex-col z-10 ">
           <div className="w-full h-full relative">
             <div>
-              <h1 className=" absolute w-full text-white text-6xl sm:text-6xl font-bold max-h-[80%] h-full ">
+              <h1 className="w-full text-white text-1xl sm:text-5xl md:text-6xl font-bold max-h-[60%] h-full overflow-hidden ">
                 {video?.title}
                 {video?.name}
               </h1>
@@ -118,9 +115,9 @@ const VideoShowModal = ({
             <p className="sm:text-xlfont-poppins mt-2">{video?.overview}</p>
           </div>
           <div className="absolute right-0 top-0 max-w-[40%]">
-            <div className="flex">
+            <div className="flex md:text-md ">
               Cast:&nbsp;
-              <ul className="flex sm:flex-row flex-col gap-1 mb-5 overflow-hidden">
+              <ul className="flex sm:flex-row flex-col gap-1 mb-5 overflow-hidden items-center mt-1">
                 <li className={`${listOneStyle}`}>Song Joong-ki</li>
                 <li className={listOneStyle}>Jeon Yeo-been</li>
                 <li className={listOneStyle}>OK Taec-yeon</li>
