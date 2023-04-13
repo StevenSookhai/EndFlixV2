@@ -49,6 +49,5 @@ def update_list(id):
                 db.session.commit()
                 return {'list': li.to_dict()}, 201
         
-
     except Exception as error:
         return {'error': f'List not updated ${error}'}, 400
