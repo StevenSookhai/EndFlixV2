@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import SplashPage from "./pages/splash/splashPage.jsx";
 import AuthPage from "./pages/authPage";
 import ViewPage from "./pages/viewPage";
 import ProfilesPage from "./pages/profilesPage";
 import BrowsePage from "./pages/browsePage";
+import MyListPage from "./pages/MyListPage";
 import ProtectedRoute from "./util/ProtectedRoute.jsx";
 import { useSelector } from "react-redux";
 
@@ -86,6 +87,15 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <ProfilesPage />
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route
+            exact
+            path="/mylist"
+            element={
+              <ProtectedRoute>
+                <MyListPage />
               </ProtectedRoute>
             }
           ></Route>

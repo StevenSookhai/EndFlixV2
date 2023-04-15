@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
 
@@ -18,19 +19,21 @@ const NavBar = () => {
           Home
         </span>
         <span className="font-poppins text-[#e5e5e5] h-full text-[14px]">
-          Protfolio
+          <Link to="https://stevensookhai.github.io/">Protfolio</Link>
         </span>
         <span className="font-poppins text-[#e5e5e5] h-full text-[14px]">
-          Github
+          <Link to="https://github.com/StevenSookhai">Github</Link>
         </span>
         <span className="font-poppins text-[#e5e5e5] h-full text-[14px]">
-          LinkedIn
+          <Link to="https://www.linkedin.com/in/steven-sookhai-37192a22a/">
+            LinkedIn
+          </Link>
         </span>
         <span className="font-poppins text-[#e5e5e5] h-full text-[14px]">
           AngelList
         </span>
         <span className="font-poppins text-[#e5e5e5] h-full text-[14px]">
-          My List
+          <Link to="/mylist">My List</Link>
         </span>
       </div>
       <div className="absolute rounded-sm right-[3vw] max-right-[3vw] flex justify-center items-center gap-10 z-20">
