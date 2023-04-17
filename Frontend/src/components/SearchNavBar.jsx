@@ -11,39 +11,19 @@ import { authActions } from "../store/authSlice";
 import { AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 
-const SearchNavBar = ({ searchQuery }) => {
+const SearchNavBar = ({ searchQuery, updateSearchTerm }) => {
   const [showMenu, setShowMenu] = useState(false);
-  const [showSearch, setShowSearch] = useState(false);
-  const [searchTerm, setSearchTerm] = useState("");
-  const user = useSelector((state) => state.auth.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const searchRef = useRef();
   const buttonRef = useRef();
   const location = useLocation();
   const currentUrl = location.pathname;
   const doesSearchExist = location.state?.searchTerm;
-  // console.log({ searchTerm: doesSearchExist });
 
   useEffect(() => {
-    if (doesSearchExist) {
-      setSearchTerm(doesSearchExist);
-    }
     searchRef.current.focus();
   }, []);
-
-//   useEffect(() => {
-//     if (searchTerm && location.pathname !== "/search") {
-//       // navigate(`/search?query=${searchTerm}`);
-//       navigate(`/search?query=${searchTerm}`, {
-//         state: { searchTerm },
-//         handleSearch: handleSearch,
-//       });
-//     } else if (searchTerm === "" && location.pathname === "/search") {
-//       // navigate(-1);
-//     }
-//   }, [searchTerm]);
 
   const handleLogout = async () => {
     try {
@@ -64,8 +44,8 @@ const SearchNavBar = ({ searchQuery }) => {
 
   const handleClickOutside = (event) => {
     if (searchRef.current && !searchRef.current.contains(event.target)) {
-      setSearchTerm("");
-      setShowSearch(false);
+   
+   
     }
   };
 
@@ -74,23 +54,9 @@ const SearchNavBar = ({ searchQuery }) => {
   };
 
   const closeSearch = () => {
-    setSearchTerm("");
-    setShowSearch(false);
+    
+ 
     navigate(-1);
-  };
-  const handleSearch = (e) => {
-    // console.log(e.target.value);
-    setSearchTerm(e.target.value);
-    console.log(searchTerm);
-    // if (searchTerm && location.pathname !== "/search") {
-    //   // navigate(`/search?query=${searchTerm}`);
-    //   navigate(`/search?query=${searchTerm}`, {
-    //     state: { searchTerm },
-    //     handleSearch: handleSearch,
-    //   });
-    // } else if (searchTerm === "" && location.pathname === "/search") {
-    //   navigate(-1);
-    // }
   };
 
   return (
@@ -143,11 +109,11 @@ const SearchNavBar = ({ searchQuery }) => {
 
           <div>
             <input
-              onChange={handleSearch}
+              onChange={updateSearchTerm}
               ref={searchRef}
               className={`bg-black text-white transition-all ease-in-out duration-500 h-[30px]  border-1 border-white pl-8 items-center w-[200px] opacity-100`}
               type="text"
-              value={searchTerm}
+              value={searchQuery}
               placeholder="Movie Titles"
             />
           </div>
