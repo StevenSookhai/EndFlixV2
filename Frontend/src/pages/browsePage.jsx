@@ -1,7 +1,7 @@
 import React from "react";
 import HeroVideo from "../components/HeroVideo";
 import { useSelector } from "react-redux";
-import Navbar from "../components/NavBar.jsx";
+import Navbar from "../components/navbar.jsx";
 import MovieRow from "../components/MovieRow";
 import { useEffect, useState } from "react";
 import { MovieEndpoints } from "../util/keys.js";

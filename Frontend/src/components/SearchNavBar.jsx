@@ -9,8 +9,9 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { authActions } from "../store/authSlice";
 import { AiOutlineSearch } from "react-icons/ai";
+import { AiOutlineClose } from "react-icons/ai";
 
-const NavBar = () => {
+const SearchNavBar = ({ searchQuery }) => {
   const [showMenu, setShowMenu] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -24,34 +25,25 @@ const NavBar = () => {
   const currentUrl = location.pathname;
   const doesSearchExist = location.state?.searchTerm;
   // console.log({ searchTerm: doesSearchExist });
+
   useEffect(() => {
     if (doesSearchExist) {
-      // setShowSearch(true);
-      // setSearchTerm(doesSearchExist);
+      setSearchTerm(doesSearchExist);
     }
-    if (showSearch) {
-      searchRef.current.focus();
-      document.addEventListener("click", handleClickOutside);
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-    console.log("searchTerm", searchTerm);
-    if (searchTerm && location.pathname !== "/search") {
-      // navigate(`/search?query=${searchTerm}`);
-      // navigate(`/search?query=${searchTerm}`, {
-      //   state: { searchTerm },
-      //   handleSearch: handleSearch,
-      // });
-      navigate(`/search`, {
-        state: { searchTerm },
-        handleSearch: handleSearch,
-      });
-    } else if (searchTerm === "" && location.pathname === "/search") {
-      // navigate(-1);
-    }
-    return () => {
-      document.removeEventListener("click", handleClickOutside);
-    };
-  }, [searchTerm]);
+    searchRef.current.focus();
+  }, []);
+
+//   useEffect(() => {
+//     if (searchTerm && location.pathname !== "/search") {
+//       // navigate(`/search?query=${searchTerm}`);
+//       navigate(`/search?query=${searchTerm}`, {
+//         state: { searchTerm },
+//         handleSearch: handleSearch,
+//       });
+//     } else if (searchTerm === "" && location.pathname === "/search") {
+//       // navigate(-1);
+//     }
+//   }, [searchTerm]);
 
   const handleLogout = async () => {
     try {
@@ -78,10 +70,14 @@ const NavBar = () => {
   };
 
   const handleSearchButton = () => {
-    document.addEventListener("mousedown", handleClickOutside);
     setShowSearch(true);
   };
 
+  const closeSearch = () => {
+    setSearchTerm("");
+    setShowSearch(false);
+    navigate(-1);
+  };
   const handleSearch = (e) => {
     // console.log(e.target.value);
     setSearchTerm(e.target.value);
@@ -134,22 +130,22 @@ const NavBar = () => {
           onClick={handleSearchButton}
           className="text-white flex items-center justify-center gap-1 relative"
         >
+          <div className={`absolute left-0`} ref={buttonRef}>
+            <AiOutlineSearch color={"white"} size={24} />
+          </div>
           <div
-            className={`${
-              showSearch ? "absolute left-0 z-10" : "cursor-pointer"
-            }`}
+            onClick={closeSearch}
+            className={`absolute right-0 ml-3 cursor-pointer`}
             ref={buttonRef}
           >
-            <AiOutlineSearch color={"white"} size={24} />
+            <AiOutlineClose color={"white"} size={24} />
           </div>
 
           <div>
             <input
               onChange={handleSearch}
               ref={searchRef}
-              className={`bg-black text-white transition-all ease-in-out duration-500 h-[30px]  border-1 border-white pl-8 items-center ${
-                showSearch ? "w-[200px] opacity-100" : "w-0 opacity-0"
-              }`}
+              className={`bg-black text-white transition-all ease-in-out duration-500 h-[30px]  border-1 border-white pl-8 items-center w-[200px] opacity-100`}
               type="text"
               value={searchTerm}
               placeholder="Movie Titles"
@@ -180,4 +176,4 @@ const NavBar = () => {
   );
 };
 
-export default NavBar;
+export default SearchNavBar;

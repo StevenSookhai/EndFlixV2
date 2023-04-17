@@ -59,10 +59,10 @@ const VideoShowModal = ({
           >
             <AiOutlineClose size={18} color={"white"} />
           </div>
-          <div className="w-full h-[100%] rounded-lg">
+          <div className="w-[99.9%] h-[100%] rounded-lg overflow-hidden">
             {!isVideoPlaying && (
               <img
-                className="object-cover rounded-t-lg w-full  "
+                className="object-cover rounded-t-lg w-full overflow-hidden "
                 // src={img}
                 src={`https://image.tmdb.org/t/p/w500/${video?.backdrop_path}`}
                 alt=""

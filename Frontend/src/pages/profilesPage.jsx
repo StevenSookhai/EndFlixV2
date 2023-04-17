@@ -38,24 +38,8 @@ const ProfilesPage = () => {
     getProfiles();
   }, []);
 
-  const handleLogout = async () => {
-    try {
-      const response = await fetch("http://localhost:5000/api/auth/logout", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
-      const data = await response.json();
-      if (data.message === "User logged out") {
-        dispatch(authActions.logout());
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  const handleManage = () => { // Well update these into one function later on to handle both manage and add profile
+  const handleManage = () => {
+    // Well update these into one function later on to handle both manage and add profile
     setManage(!manageProfile);
   };
 
@@ -93,14 +77,6 @@ const ProfilesPage = () => {
               onClick={handleManage}
             >
               Manage Profiles
-            </button>
-          </div>
-          <div className="mt-[2em] pr-[1.5em] pl-[1.5em]  border-gray-500 border-solid border-[1px] cursor-pointer hover:border-white flex justify-center items-center h-[30px] sm:h-[40px]">
-            <button
-              className="xs:text-[1em] sm:text-[1.2em] text-gray-500 hover:text-white"
-              onClick={handleLogout}
-            >
-              Log Out{" "}
             </button>
           </div>
         </div>
