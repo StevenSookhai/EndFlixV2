@@ -87,9 +87,9 @@ const VideoHoverCard = ({ handleModalShown }) => {
           videoPos.nearLeftEdge ? "hover:translate-x-[1.3rem]" : "translate-x-0"
         }`}
         >
-          <div className="bg-black relative cursor-pointer h-full  z-30 ">
+          <div className="bg-black relative cursor-pointer   z-30 ">
             <div className="absolute w-full h-full z-30 ">
-              <div className="relative w-full overflow-hidden z-30 ">
+              <div className="relative w-full overflow-hidden z-30  ">
                 {/* <img
                   className="object-cover rounded-t-md w-full h-full  z-30"
                   src={`https://image.tmdb.org/t/p/w500/${video?.backdrop_path}`}
@@ -108,7 +108,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
                   />
                 </div>
                 <div
-                  className={`absolute top-0 left-0 right-0 bottom-0 rounded-t-md overflow-hidden ease-in-out ${
+                  className={`absolute top-0 left-0 right-0 bottom-0 rounded-t-md overflow-hidden ease-in-out  ${
                     scaleCard ? "opacity-100" : "opacity-0"
                   }`}
                   style={{ transition: "opacity .7s " }}

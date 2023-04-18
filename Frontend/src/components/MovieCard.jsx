@@ -61,7 +61,7 @@ const MovieCard = ({
       onMouseEnter={handleHover}
       onMouseLeave={handleLeave}
       ref={cardRef}
-      className={` relative  sm:w-[calc(100%/4)] md:w-[calc(100%/5)] xl:md:w-[calc(100%/6)] xs:md:w-[calc(100%/3)] w-[calc(100%/3)] p-[.25rem] rounded-md  cursor-pointer  flex-shrink-0  ${
+      className={` relative  sm:w-[calc(100%/4)] md:w-[calc(100%/5)] xl:md:w-[calc(100%/6)] xs:md:w-[calc(100%/3)] w-[calc(100%/3)] p-[.25rem] rounded-md  cursor-pointer  flex-shrink-0   ${
         showVideoModal ? "pointer-events-none" : "pointer-events-auto"
       }`}
     >

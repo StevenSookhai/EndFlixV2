@@ -1,12 +1,7 @@
 import React from "react";
 import { useState, useEffect, useRef } from "react";
-import {
-  Link,
-  useNavigate,
-  useNavigation,
-  useLocation,
-} from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { authActions } from "../store/authSlice";
 import { AiOutlineSearch } from "react-icons/ai";
 
@@ -14,42 +9,24 @@ const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
-  const user = useSelector((state) => state.auth.user);
+  const [isScrolled, setIsScrolled] = useState(false);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const searchRef = useRef();
-  const buttonRef = useRef();
   const location = useLocation();
-  const currentUrl = location.pathname;
-  const doesSearchExist = location.state?.searchTerm;
-  // console.log({ searchTerm: doesSearchExist });
+
   useEffect(() => {
-    if (doesSearchExist) {
-      // setShowSearch(true);
-      // setSearchTerm(doesSearchExist);
-    }
-    if (showSearch) {
-      searchRef.current.focus();
-      document.addEventListener("click", handleClickOutside);
-      document.removeEventListener("mousedown", handleClickOutside);
-    }
-    console.log("searchTerm", searchTerm);
+    window.addEventListener("scroll", handleScroll);
     if (searchTerm && location.pathname !== "/search") {
-      // navigate(`/search?query=${searchTerm}`);
-      // navigate(`/search?query=${searchTerm}`, {
-      //   state: { searchTerm },
-      //   handleSearch: handleSearch,
-      // });
       navigate(`/search`, {
         state: { searchTerm },
         handleSearch: handleSearch,
       });
-    } else if (searchTerm === "" && location.pathname === "/search") {
-      // navigate(-1);
     }
     return () => {
       document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [searchTerm]);
 
@@ -83,22 +60,22 @@ const NavBar = () => {
   };
 
   const handleSearch = (e) => {
-    // console.log(e.target.value);
     setSearchTerm(e.target.value);
-    console.log(searchTerm);
-    // if (searchTerm && location.pathname !== "/search") {
-    //   // navigate(`/search?query=${searchTerm}`);
-    //   navigate(`/search?query=${searchTerm}`, {
-    //     state: { searchTerm },
-    //     handleSearch: handleSearch,
-    //   });
-    // } else if (searchTerm === "" && location.pathname === "/search") {
-    //   navigate(-1);
-    // }
+  };
+
+  const handleScroll = () => {
+    // Calculate scroll position and update state based on a threshold
+    const scrollY = window.scrollY;
+    const threshold = 100; // Change this value to adjust the scroll threshold
+    setIsScrolled(scrollY > threshold);
   };
 
   return (
-    <div className="fixed top-0 z-20 w-full h-[50px] sm:h-[70px] flex justify-start items-center bg-gradient-to-b from-black">
+    <div
+      className={`fixed top-0 z-20 w-full h-[50px] sm:h-[70px] flex justify-start items-center bg-gradient-to-b from-black transition-color ease-in-out duration-1000 ${
+        isScrolled ? "bg-black" : "bg-transparent"
+      }`}
+    >
       <div className="ml-[3vw] mr-[2vw]">
         <svg className="w-[110px] h-[28px]">
           <path
@@ -138,7 +115,6 @@ const NavBar = () => {
             className={`${
               showSearch ? "absolute left-0 z-10" : "cursor-pointer"
             }`}
-            ref={buttonRef}
           >
             <AiOutlineSearch color={"white"} size={24} />
           </div>
@@ -165,12 +141,15 @@ const NavBar = () => {
         {showMenu && (
           <div
             onMouseLeave={() => setShowMenu(false)}
-            className="h-[400px] w-[200px] absolute border bg-[rgb(0,0,0,.9)] top-14 right-[.1vw] flex-col items-center   z-20"
+            className="h-[200px] w-[150px] absolute border bg-[rgb(0,0,0,.9)] top-14 right-[.1vw] flex flex-col items-center   z-20"
           >
-            <div className="cursor-pointer" onClick={handleLogout}>
+            <div
+              className="cursor-pointer  w-full text-center font-poppins font-semibold p-3 "
+              onClick={handleLogout}
+            >
               Log out
             </div>
-            <div>
+            <div className="cursor-pointer  w-full text-center font-poppins font-semibold p-3">
               <Link to="/profiles">Profiles</Link>
             </div>
           </div>
