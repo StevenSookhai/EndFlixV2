@@ -3,7 +3,7 @@ import MovieCard from "./MovieCard";
 import { useEffect, useState, useRef } from "react";
 import { AiOutlineLeft, AiOutlineRight } from "react-icons/ai";
 
-const MovieRow = ({ genre, MovieEndpoints }) => {
+const MovieRow = ({ genre, MovieEndpoints, tag }) => {
   const rowRef = useRef(null);
   const sliderRef = useRef(null);
   const [movies, setMovies] = useState([]);
@@ -68,13 +68,7 @@ const MovieRow = ({ genre, MovieEndpoints }) => {
         <div ref={rowRef} id={"slider"} className="overflow-x-scroll ">
           <div ref={sliderRef} className="flex w-[96%] ">
             {movies.map((movie) => (
-              <MovieCard
-                key={movie.id}
-                movie={movie}
-                containerLeft={sliderRef.current.getBoundingClientRect().left}
-                containerScrollLeft={scrollLeft}
-                getScrollLeft={getScrollLeft}
-              />
+              <MovieCard key={movie.id} movie={movie} tag={tag} />
             ))}
           </div>
         </div>

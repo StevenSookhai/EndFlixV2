@@ -41,7 +41,7 @@ const browsePage = () => {
           <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.Animations} />
           <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.upcoming} />
           {/* <MovieRow genre="My List" MovieEndpoints={[]} /> */}
-          <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.top_rated} />
+          <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.top_rated} tag="tv" />
           <MovieRow
             genre="Action"
             MovieEndpoints={MovieEndpoints.now_playing}

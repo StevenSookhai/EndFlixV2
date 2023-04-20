@@ -3,12 +3,7 @@ import { useState, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { videoModalActions } from "../store/videoModal";
 
-const MovieCard = ({
-  movie,
-  containerLeft,
-  containerScrollLeft,
-  getScrollLeft,
-}) => {
+const MovieCard = ({ movie, tag }) => {
   const [isHovered, setIsHovered] = useState(false);
   const cardRef = useRef(null);
   const dispatch = useDispatch();
@@ -48,6 +43,7 @@ const MovieCard = ({
       width: element.width,
       nearRightEdge: nearRightEdge,
       nearLeftEdge: nearLeftEdge,
+      tag: tag,
     };
     dispatch(videoModalActions.showCard({ movie: movie, pos: pos }));
   };

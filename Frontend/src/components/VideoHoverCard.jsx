@@ -9,6 +9,9 @@ import { BsChevronCompactDown } from "react-icons/bs";
 import { useEffect, useState, useRef } from "react";
 import { CSSTransition } from "react-transition-group";
 import VideoShowModal from "./VideoShowModal";
+import { MovieGenres } from "../util/constants";
+import ReactPlayer from "react-player";
+import { MovieApiKeys } from "../util/keys";
 
 const VideoHoverCard = ({ handleModalShown }) => {
   const video = useSelector((state) => state.videoModal.video);
@@ -23,9 +26,27 @@ const VideoHoverCard = ({ handleModalShown }) => {
   const [videoTop, setVideoTop] = useState(videoPos.y);
   const [nearRightEdge, setNearRightEdge] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
+  const [videos, setVideos] = useState([]);
   useEffect(() => {
-    setScaleCard(true);
+    console.log(video);
+
+    const fetchVideos = async () => {
+      if (videoPos.tag === "tv") {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/tv/${video.id}/videos?api_key=${MovieApiKeys}&language=en-US`
+        );
+        const data = await res.json();
+        setVideos(data.results);
+      } else {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/movie/${video.id}/videos?api_key=${MovieApiKeys}&language=en-US`
+        );
+        const data = await res.json();
+        setVideos(data.results);
+      }
+    };
+    fetchVideos();
+    // setScaleCard(true);
     setWindowYOffset(window.pageYOffset);
     setVideoTop(videoPos.y);
     setNearRightEdge(videoPos.nearRightEdge);
@@ -67,6 +88,10 @@ const VideoHoverCard = ({ handleModalShown }) => {
     dispatch(videoModalActions.hideModal());
   };
 
+  const handleBuffer = () => {
+    setScaleCard(true);
+  };
+
   return (
     <>
       {!showModal && (
@@ -80,7 +105,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
           }}
           className={` w-[${
             videoPos.width
-          }px] z-30 absolute hover:scale-125  transition transform delay-100  ease-in-out duration-200 hover:-translate-y-[5rem] scale-100 ${
+          }px] z-30 absolute hover:scale-125  transition transform delay-100  ease-in-out duration-200 hover:-translate-y-[5rem] scale-100   ${
             nearRightEdge ? "hover:-translate-x-[1.3rem]" : "translate-x-0"
           }
         ${
@@ -100,7 +125,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
                   style={{ transition: "opacity 0.7s ease" }}
                 >
                   <img
-                    className={`object-cover rounded-t-md w-full h-full ${
+                    className={`object-cover rounded-t-md w-full h-full transition-all duration-1000 ease-in-out  ${
                       scaleCard ? "opacity-0" : "opacity-100"
                     }`}
                     src={`https://image.tmdb.org/t/p/w500/${video?.backdrop_path}`}
@@ -113,14 +138,32 @@ const VideoHoverCard = ({ handleModalShown }) => {
                   }`}
                   style={{ transition: "opacity .7s " }}
                 >
-                  <video
+                  {/* <video
                     ref={videoRef}
                     className="object-cover w-full h-full"
                     autoPlay
                     loop
                     muted
                     src="https://endflix-seeds.s3.amazonaws.com/HathAway.mp4"
-                  />
+                  /> */}
+                  <div className="object-cover w-full h-full">
+                    <ReactPlayer
+                      url={
+                        "https://www.youtube.com/watch?v=PdnaR-jyMPo&ab_channel=ShingekiNoANIME"
+                      }
+                      width={"100%"}
+                      height={"100%"}
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                      muted={false}
+                      playing={true}
+                      onBufferEnd={handleBuffer}
+                      loop={true}
+                    />
+                  </div>
                 </div>
               </div>
               <div className=" z-30 bg-zinc-900 rounded-b-md mb-3  ">
@@ -141,18 +184,40 @@ const VideoHoverCard = ({ handleModalShown }) => {
                     <BsChevronCompactDown size={18} color={"white"} />
                   </div>
                 </div>
-                <div className="top-5 mt-6 sm:ml-5 ml-2">
-                  <ul className="flex sm:gap-3 gap-1 flex-wrap sm:flex-row items-center content-start ">
-                    <li className="text-xs sm:text-base">Rating</li>
-                    <li className="text-xs sm:text-base">Episodes</li>
-                    <li className="text-xs sm:text-base">match?</li>
+                <div className="top-5 mt-6 sm:ml-5 ml-2 pb-2">
+                  <ul className="flex sm:gap-3 gap-1 flex-wrap sm:flex-row items-center content-start bg-gradient-to-br from-yellow-500 to-purple-700 text-transparent bg-clip-text ">
+                    <li className="text-xs  text-[1rem] font-bold font-poppins p-[.2px]">
+                      {video?.name ? video.name : video.title}
+                    </li>
+                    <li className="text-xs sm:text-sm md:text-sm font-semibold font-poppins bg-gradient-to-br from-red-500 to-purple-600 text-transparent bg-clip-text">
+                      Rating {video?.vote_average}
+                    </li>
+                    <li className="text-xs sm:text-sm md:text-sm font-semibold font-poppins text-green-500">
+                      Year{" "}
+                      {video?.first_air_date
+                        ? video.first_air_date.slice(0, 4)
+                        : video.release_date.slice(0, 4)}
+                    </li>
                   </ul>
                 </div>
-                <div className="top-5 mt-1 pb-2 rounded-b-md sm:ml-5 ml-2">
-                  <ul className="flex sm:gap-3 gap-1 flex-wrap sm:flex-row items-center content-start">
-                    <li className="text-xs sm:text-base"> genre1</li>
+                <div className="top-5 mt-1 pb-2 rounded-b-md sm:ml-5 ml-2 p-[.2px]">
+                  <ul className="flex sm:gap-3 gap-1 flex-wrap sm:flex-row items-center content-start ">
+                    {/* <li className="text-xs sm:text-base"> genre1</li>
                     <li className="text-xs sm:text-base">&#x2022; genre2</li>
-                    <li className="text-xs sm:text-base">&#x2022; genre3</li>
+                    <li className="text-xs sm:text-base">&#x2022; genre3</li> */}
+                    {video?.genre_ids.slice(0, 3).map((genre, index) => {
+                      return (
+                        <li
+                          key={genre}
+                          className="text-[.9em] font-semibold font-poppins bg-gradient-to-br from-red-500 to-purple-600 text-transparent bg-clip-text"
+                        >
+                          {index > 0 && (
+                            <span className="text-[#646464]">&#x2022;</span>
+                          )}
+                          {MovieGenres[genre]}
+                        </li>
+                      );
+                    })}
                   </ul>
                 </div>
               </div>
