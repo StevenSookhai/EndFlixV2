@@ -72,7 +72,6 @@ const VideoHoverCard = ({ handleModalShown }) => {
   const handleShowModal = () => {
     const timeOutId = setTimeout(() => {
       const videoCurrentTime = videoRef.current.getCurrentTime();
-      // console.log(videoCurrentTime);
       setVideoCurrentTime(videoCurrentTime);
       setShowModal(true);
       handleModalShown();
