@@ -1,17 +1,28 @@
 import React from "react";
 import HeroVideo from "../components/HeroVideo";
-import { useSelector } from "react-redux";
+
 import Navbar from "../components/navbar.jsx";
 import MovieRow from "../components/MovieRow";
 import { useEffect, useState } from "react";
 import { MovieEndpoints } from "../util/keys.js";
 import VideoHoverCard from "../components/VideoHoverCard.jsx";
 import VideoShowModal from "../components/VideoShowModal";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../store/authSlice";
 
 const browsePage = () => {
   const profile = useSelector((state) => state.auth.profile);
+  const heroVideo = useSelector((state) => state.auth.heroVideo);
   const showVideoModal = useSelector((state) => state.videoModal.showCard);
   const [isModalShown, setIsModalShown] = useState(false);
+
+  // useEffect(() => {
+  //   if (heroVideo) {
+  //     return;
+  //   } else {
+
+  //   }
+  // }, [heroVideo]);
 
   const handleModalShown = () => {
     setIsModalShown(!isModalShown);
@@ -41,7 +52,11 @@ const browsePage = () => {
           <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.Animations} />
           <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.upcoming} />
           {/* <MovieRow genre="My List" MovieEndpoints={[]} /> */}
-          <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.top_rated} tag="tv" />
+          <MovieRow
+            genre="Action"
+            MovieEndpoints={MovieEndpoints.top_rated}
+            tag="tv"
+          />
           <MovieRow
             genre="Action"
             MovieEndpoints={MovieEndpoints.now_playing}

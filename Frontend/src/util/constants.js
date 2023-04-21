@@ -36,4 +36,20 @@ export const MovieGenres = {
   37: "Western",
 };
 
- 
+export const MovieUrls = [
+  "https://endflix-seeds.s3.amazonaws.com/shangchi2.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/Batman.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/SNWH.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/HathAway.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/VLTBC.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/Acana.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/MugenTrain.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/AOTmp4.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/SpiritedAway.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/Howls.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/VE.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/PrincessMono.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/Vincenzo.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/SquidGame.mp4",
+  "https://endflix-seeds.s3.amazonaws.com/WYWS.mp4",
+];

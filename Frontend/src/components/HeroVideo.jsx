@@ -1,13 +1,24 @@
 import React from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { MovieEndpoints } from "../util/keys";
 import { FaPlay } from "react-icons/fa";
 import { GrCircleInformation } from "react-icons/gr";
 import { MdOutlineReplay } from "react-icons/md";
+import { MovieUrls } from "../util/constants";
+import ReactPlayer from "react-player";
+import { useSelector } from "react-redux";
+import { CSSTransition } from "react-transition-group";
+
+import { VscUnmute } from "react-icons/vsc";
+import { IoVolumeMuteOutline } from "react-icons/io5";
 
 const HeroVideo = ({ video }) => {
   const [movies, setMovies] = useState([]);
-  const randomMovie = movies[Math.floor(Math.random() * movies.length)];
+  const randomMovie = MovieUrls[Math.floor(Math.random() * MovieUrls.length)];
+  const showVideoModal = useSelector((state) => state.videoModal.showCard);
+  const [isMuted, setIsMuted] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(true);
+  const videoRef = useRef(null);
 
   const img =
     "https://occ-0-3266-444.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABfRI824w4jsVd7kOlnfHwXPVEctZsKwGau1Woe2i8AHf5hD0w1eJntsonedM7rltdy44hXQHKtdE_0w7rX9iVJLkIJrrXQPxXWPG.webp?r=8d0";
@@ -22,20 +33,74 @@ const HeroVideo = ({ video }) => {
     fetchVideos();
   }, []);
 
+  const handleMute = () => {
+    setIsMuted(!isMuted);
+  };
+
+  const handlePlay = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleReplay = () => {
+    console.log(videoRef);
+    setIsPlaying(true);
+    setIsMuted(isMuted);
+    videoRef.current.seekTo(0);
+    videoRef.current.play();
+  };
+
   return (
     <div className="w-full ">
       <div className="relative">
-        <img
-          className="w-full object-cover"
-          // src={`https://image.tmdb.org/t/p/original/${randomMovie?.backdrop_path}`}
-          src={img}
-          alt="Hero Video"
-        />
+        {!isPlaying && (
+          <img
+            className="w-full object-cover"
+            // src={`https://image.tmdb.org/t/p/original/${randomMovie?.backdrop_path}`}
+            src={img}
+            alt="Hero Video"
+          />
+        )}
+        {isPlaying && (
+          <div className="player-wrapper pointer-events-none">
+            <ReactPlayer
+              className="react-player"
+              ref={videoRef}
+              // url="https://www.youtube.com/watch?v=ZRtdQ81jPUQ&ab_channel=Ayase%2FYOASOBI"
+              // url={randomMovie}
+              url="https://endflix-seeds.s3.amazonaws.com/HathAway.mp4"
+              controls={false}
+              playing={showVideoModal ? false : true}
+              muted={isMuted ? true : false}
+              loop={false}
+              width="100%"
+              height="100%"
+              onEnded={handlePlay}
+            />
+          </div>
+        )}
         <div className="w-full h-[20%] bg-gradient-to-t from-[#141414] absolute   top-[80.1%]"></div>
-        <div className="border absolute top-[60%] right-[10%] rounded-full sm:w-[50px] sm:h-[50px] w-[25px] h-[25px] justify-center items-center flex -rotate-180 scale-y-[-1] ">
-          <button>
+        <div
+          onClick={handleMute}
+          className="border absolute top-[60%] right-[10%] rounded-full sm:w-[50px] sm:h-[50px] w-[25px] h-[25px] justify-center items-center flex -rotate-180 scale-y-[-1] cursor-pointer "
+        >
+          {isPlaying && (
+            <div>
+              <div className=" rotate-180">{!isMuted && <VscUnmute />}</div>
+              <div className=" rotate-180">
+                {isMuted && <IoVolumeMuteOutline />}
+              </div>
+            </div>
+          )}
+
+          {!isPlaying && (
+            <div onClick={handleReplay}>
+              <MdOutlineReplay size={25} />
+            </div>
+          )}
+
+          {/* <button>
             <MdOutlineReplay size={25} />
-          </button>
+          </button> */}
         </div>
       </div>
 

@@ -6,6 +6,7 @@ import { useDispatch } from "react-redux";
 import { videoModalActions } from "../store/videoModal";
 import { useRef, useState, useEffect } from "react";
 import { MovieApiKeys } from "../../src/util/keys";
+import ReactPlayer from "react-player";
 
 const VideoShowModal = ({
   video,
@@ -35,12 +36,19 @@ const VideoShowModal = ({
       // setVideo(data);
     };
     getVideo();
+    handleBuffer();
     // videoRef.current.currentTime = videoCurrentTime; // this to play the video from the time it was paused
+    console.log(videoCurrentTime);
+    videoRef.current?.seekTo(parseFloat(videoCurrentTime));
   }, []);
   const handleCloseModal = ({ handleHideModal }) => {
     dispatch(videoModalActions.hideModal());
   };
   // console.log(video);
+
+  const handleBuffer = () => {
+    setIsVideoPlaying(true);
+  };
 
   const handleVideoEnded = () => {
     setIsVideoPlaying(false);
@@ -49,10 +57,10 @@ const VideoShowModal = ({
   return (
     <div
       ref={forwaredRef}
-      className="fixed left-auto xs:w-[90vw] md:w-[85vh] max-w-[1200px] bg-[#181818] md:min-w-[850px] top-10 mb-[2rem] h-[60vh] sm:h-[80vh] md:h-[100vh] rounded-lg z-50 "
+      className="fixed left-auto xs:w-[90vw] md:w-[85vh] max-w-[1200px] bg-[#181818] md:min-w-[850px] top-10 mb-[2rem] h-[60vh] sm:h-[80vh] md:h-[100vh] rounded-lg z-50   "
     >
-      <div className="relative">
-        <div className="h-[60%] w-full rounded-lg relative">
+      <div className="relative h-[20vh] sm:h-[40vh] md:h-[48vh] min-h-[500px] ">
+        <div className="h-full w-full rounded-lg relative">
           <div
             onClick={() => handleHideModal()}
             className=" absolute sm:right-6 right-2 sm:top-5 xs:top-3 sm:w-[35px] w-[20px] bg-[#181818] sm:h-[35px] h-[20px] rounded-full flex justify-center items-center   hover:cursor-pointer z-50"
@@ -69,18 +77,29 @@ const VideoShowModal = ({
               />
             )}
             {isVideoPlaying && (
-              <video
-                ref={videoRef}
-                className="object-cover rounded-t-md w-full h-full "
-                onEnded={handleVideoEnded}
-                autoPlay
-                muted
-                src="https://endflix-seeds.s3.amazonaws.com/HathAway.mp4"
-              />
+              <div className="w-full h-full">
+                <ReactPlayer
+                  url={
+                    "https://www.youtube.com/watch?v=PdnaR-jyMPo&ab_channel=ShingekiNoANIME"
+                  }
+                  width={"100%"}
+                  height={"100%"}
+                  style={{
+                    objectFit: "cover",
+                  }}
+                  muted={true}
+                  playing={true}
+                  onBufferEnd={handleBuffer}
+                  loop={false}
+                  onEnded={handleVideoEnded}
+                  startTime={videoCurrentTime}
+                  ref={videoRef}
+                />
+              </div>
             )}
           </div>
         </div>
-        <div className="absolute w-[40%] left-[3rem] h-[40%] top-[50%] flex flex-col z-10 ">
+        <div className="absolute w-[40%] left-[3rem] h-[40%] top-[45%] flex flex-col z-10  ">
           <div className="w-full h-full relative">
             <div>
               <h1 className="w-full text-white text-1xl sm:text-5xl md:text-6xl font-bold max-h-[60%] h-full overflow-hidden ">
@@ -101,9 +120,9 @@ const VideoShowModal = ({
             </div>
           </div>
         </div>
-        <div className="w-full h-[70%] bg-gradient-to-t from-[#181818] absolute bottom-0 "></div>
+        <div className="w-full h-[70%] bg-gradient-to-t from-[#181818] absolute bottom-0  "></div>
       </div>
-      <div className="flex flex-col gap-2 w-full h-[40%] p-4">
+      <div className="flex flex-col gap-2 w-full h-[40%]  p-4">
         <div className="relative">
           <div className="max-w-[60%]">
             <div className="flex gap-1">

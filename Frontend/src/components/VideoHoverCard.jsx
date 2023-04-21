@@ -71,7 +71,8 @@ const VideoHoverCard = ({ handleModalShown }) => {
 
   const handleShowModal = () => {
     const timeOutId = setTimeout(() => {
-      const videoCurrentTime = videoRef.current.currentTime;
+      const videoCurrentTime = videoRef.current.getCurrentTime();
+      // console.log(videoCurrentTime);
       setVideoCurrentTime(videoCurrentTime);
       setShowModal(true);
       handleModalShown();
@@ -162,10 +163,12 @@ const VideoHoverCard = ({ handleModalShown }) => {
                       playing={true}
                       onBufferEnd={handleBuffer}
                       loop={true}
+                      ref={videoRef}
                     />
                   </div>
                 </div>
               </div>
+
               <div className=" z-30 bg-zinc-900 rounded-b-md mb-3  ">
                 <div className="  flex  gap-2   sm:ml-5 ml-2 relative top-3 min-h-[2rem]">
                   <div className="sm:w-[30px] w-[20px] sm:h-[30px] h-[20px] bg-white rounded-full flex justify-center items-center hover:bg-[rgb(200,200,200,.9)]">

@@ -7,6 +7,7 @@ const initialState = {
   isAuthenticated: false,
   profile: null,
   list: null,
+  heroVideo: null,
 };
 
 const authSlice = createSlice({
@@ -23,6 +24,7 @@ const authSlice = createSlice({
       state.token = null;
       state.profile = null;
       state.list = null;
+      state.heroVideo = null;
     },
     setProfile(state, action) {
       state.profile = action.payload;
@@ -30,7 +32,9 @@ const authSlice = createSlice({
     setList(state, action) {
       state.list = action.payload;
     },
-    authenticate(state, action) {},
+    setHeroVideo(state, action) {
+      state.heroVideo = action.payload;
+    },
   },
 });
 
