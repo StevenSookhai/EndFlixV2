@@ -19,9 +19,29 @@ const ProfileCard = ({
 
   const handleNavigate = () => {
     dispatch(authActions.setProfile(profile));
+    getList();
+
     navigate("/browse");
   };
 
+  const getList = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/lists/`, {
+        method: "POST",
+        body: JSON.stringify({
+          profile_id: profile.id,
+        }),
+
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      const data = await response.json();
+      dispatch(authActions.setList(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
   const handleEdit = () => {
     handleToggleEdit(profile);
     // setEdit(!edit);

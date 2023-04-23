@@ -10,6 +10,7 @@ import ReactPlayer from "react-player";
 
 const VideoShowModal = ({
   video,
+  videos,
   handleHideModal,
   forwaredRef,
   videoCurrentTime,
@@ -39,6 +40,8 @@ const VideoShowModal = ({
     handleBuffer();
     // videoRef.current.currentTime = videoCurrentTime; // this to play the video from the time it was paused
     console.log(videoCurrentTime);
+    console.log(video);
+    console.log(videos);
     videoRef.current?.seekTo(parseFloat(videoCurrentTime));
   }, []);
   const handleCloseModal = ({ handleHideModal }) => {
@@ -77,11 +80,10 @@ const VideoShowModal = ({
               />
             )}
             {isVideoPlaying && (
-              <div className="w-full h-full">
+              <div className="w-full h-full player-wrapper">
                 <ReactPlayer
-                  url={
-                    "https://www.youtube.com/watch?v=PdnaR-jyMPo&ab_channel=ShingekiNoANIME"
-                  }
+                  className="react-player"
+                  url={`https://www.youtube.com/watch?v=${videos?.key}`}
                   width={"100%"}
                   height={"100%"}
                   style={{
@@ -126,15 +128,28 @@ const VideoShowModal = ({
         <div className="relative">
           <div className="max-w-[60%]">
             <div className="flex gap-1">
-              <span className={spanStyle}>rating</span>
-              <span className={spanStyle}>year</span>
-              <span className={spanStyle}>duration</span>
-              <span className={spanStyle}>episodes</span>
+              <span className={spanStyle}>
+                Rating {parseFloat(video?.vote_average.toFixed(1))}
+              </span>
+              <span className={spanStyle}>
+                Year{" "}
+                {video && video.first_air_date
+                  ? video?.first_air_date?.slice(0, 4)
+                  : video?.release_date?.slice(0, 4)}
+              </span>
+              {video.runtime && (
+                <span className={spanStyle}>duration {video.runtime}</span>
+              )}
+              {video.number_of_episodes && (
+                <span className={spanStyle}>
+                  episodes {video.number_of_episodes}
+                </span>
+              )}
             </div>
             <p className="sm:text-xlfont-poppins mt-2">{video?.overview}</p>
           </div>
           <div className="absolute right-0 top-0 max-w-[40%]">
-            <div className="flex md:text-md ">
+            {/* <div className="flex md:text-md ">
               Cast:&nbsp;
               <ul className="flex sm:flex-row flex-col gap-1 mb-5 overflow-hidden items-center mt-1">
                 <li className={`${listOneStyle}`}>Song Joong-ki</li>
@@ -142,14 +157,17 @@ const VideoShowModal = ({
                 <li className={listOneStyle}>OK Taec-yeon</li>
                 <li className={listOneStyle}>more</li>
               </ul>
-            </div>
+            </div> */}
             <div className="flex ">
               Genres:&nbsp;
               <ul className="flex sm:flex-row flex-col gap-1 overflow-hidden ">
-                <li className={listTwoStyle}>genre</li>
-                <li className={listTwoStyle}>genre</li>
-                <li className={listTwoStyle}>genre</li>
-                <li className={listTwoStyle}>genre</li>
+                {video.genres.slice(0, 3).map((genre, index) => {
+                  return (
+                    <li key={genre.id} className={`${listTwoStyle}`}>
+                      {genre.name}
+                    </li>
+                  );
+                })}
               </ul>
             </div>
           </div>

@@ -42,6 +42,7 @@ const SearchPage = () => {
   const handleModalShown = () => {
     setIsModalShown(!isModalShown);
   };
+  console.log(vidoes);
   return (
     <div>
       <SearchNavBar
@@ -65,17 +66,14 @@ const SearchPage = () => {
           <h1 className="text-2xl font-poppins mb-[5%] ">{searchTerm}</h1>
           <div>
             <ul>
-              {/* {vidoes.map((video) => (
-                <li key={video._id}>
-                  <p>{video.title}</p>
-                  <p>{video.name}</p>
-                </li>
-              ))} */}
-
               <div className="flex flex-wrap mb-4">
-                {vidoes.map((movie) => (
-                  <MovieCard key={movie.id} movie={movie} />
-                ))}
+                {vidoes.map((movie) => {
+                  if (movie) {
+                    return (
+                      <MovieCard key={movie.id} movie={movie} tag={"search"} />
+                    );
+                  }
+                })}
               </div>
             </ul>
           </div>

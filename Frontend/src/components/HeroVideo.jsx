@@ -79,9 +79,9 @@ const HeroVideo = ({ video }) => {
             <ReactPlayer
               className="react-player"
               ref={videoRef}
-              // url="https://www.youtube.com/watch?v=ZRtdQ81jPUQ&ab_channel=Ayase%2FYOASOBI"
+              url="https://www.youtube.com/watch?v=ZRtdQ81jPUQ&ab_channel=Ayase%2FYOASOBI"
               // url={randomMovie}
-              url="https://endflix-seeds.s3.amazonaws.com/HathAway.mp4"
+              // url="https://endflix-seeds.s3.amazonaws.com/HathAway.mp4"
               controls={false}
               playing={showVideoModal ? false : true}
               muted={isMuted ? true : false}
@@ -92,7 +92,7 @@ const HeroVideo = ({ video }) => {
             />
           </div>
 
-          <div className="w-full h-[20%] bg-gradient-to-t from-[#141414] absolute z-10 top-[80.1%]"></div>
+          <div className="w-full h-[40%] bg-gradient-to-t from-[#141414] absolute z-10 bottom-0"></div>
           <div
             onClick={isPlaying ? handleMute : handleReplay}
             className="border absolute top-[60%] right-[10%] rounded-full sm:w-[50px] sm:h-[50px] w-[25px] h-[25px] justify-center items-center flex -rotate-180 scale-y-[-1] cursor-pointer z-10 "
@@ -127,16 +127,6 @@ const HeroVideo = ({ video }) => {
               outlaw — an edgerunner.{" "}
             </div>
             <div className="flex w-full mt-5 space-x-3">
-              {/* <button className="mr-[10px] bg-white text-black text-center md:w-[10rem] sm:w-[8rem] sm:h-[3rem] w-[5.5rem] h-[2.2rem] rounded-md font-bold flex justify-center items-center  cursor-pointer hover:bg-gray-200">
-              <span className="md:text-[1.2rem] sm:text-[1rem] xs:text-[.5rem] font-bold">
-                Play
-              </span>
-            </button>
-            <button className="bg-[rgb(109,109,110,.7)] text-black text-center  md:w-[12rem] sm:w-[10rem] sm:h-[3rem] w-[7rem] h-[2.2rem]  rounded-md font-bold flex justify-center items-center  cursor-pointer hover:bg-[rgb(109,109,110,.5)]">
-              <span className="md:text-[1.2rem] sm:text-[1rem] xs:text-[.5rem] font-bold text-white">
-                More Info
-              </span>
-            </button> */}
               <button className="bannerButton bg-white text-black ">
                 <FaPlay className="h-4 w-4 text-black md:h-7 md:w-7" />
                 Play

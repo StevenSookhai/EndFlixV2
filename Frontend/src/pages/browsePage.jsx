@@ -12,6 +12,7 @@ import { authActions } from "../store/authSlice";
 
 const browsePage = () => {
   const profile = useSelector((state) => state.auth.profile);
+  const list = useSelector((state) => state.auth.list);
   const heroVideo = useSelector((state) => state.auth.heroVideo);
   const showVideoModal = useSelector((state) => state.videoModal.showCard);
   const [isModalShown, setIsModalShown] = useState(false);
@@ -48,26 +49,53 @@ const browsePage = () => {
           <MovieRow
             genre="Action"
             MovieEndpoints={MovieEndpoints.NetFlixOriginals}
+            tag={"tv"}
           />
-          <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.Animations} />
-          <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.upcoming} />
-          {/* <MovieRow genre="My List" MovieEndpoints={[]} /> */}
+          <MovieRow
+            genre="Action"
+            MovieEndpoints={MovieEndpoints.Animations}
+            tag={"tv"}
+          />
+          <MovieRow
+            genre="Action"
+            MovieEndpoints={MovieEndpoints.upcoming}
+            tag={"movie"}
+          />
+
           <MovieRow
             genre="Action"
             MovieEndpoints={MovieEndpoints.top_rated}
-            tag="tv"
+            tag={"tv"}
           />
           <MovieRow
             genre="Action"
             MovieEndpoints={MovieEndpoints.now_playing}
+            tag={"movie"}
           />
-          <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.popular} />
-          <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.Animations} />
-          <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.upcoming} />
-          <MovieRow genre="Action" MovieEndpoints={MovieEndpoints.top_rated} />
+          <MovieRow
+            genre="Action"
+            MovieEndpoints={MovieEndpoints.popular}
+            tag={"tv"}
+          />
+          <MovieRow
+            genre="Action"
+            MovieEndpoints={MovieEndpoints.Animations}
+            tag={"tv"}
+          />
+          <MovieRow
+            genre="Action"
+            MovieEndpoints={MovieEndpoints.upcoming}
+            tag={"movie"}
+          />
+          <MovieRow
+            genre="Action"
+            MovieEndpoints={MovieEndpoints.top_rated}
+            tag={"tv"}
+          />
           <MovieRow
             genre="Action"
             MovieEndpoints={MovieEndpoints.now_playing}
+            tag={"movie"}
           />
         </div>
       </div>

@@ -13,7 +13,7 @@ const MovieCard = ({ movie, tag }) => {
     if (isHovered) {
       const timeoutId = setTimeout(() => {
         handlePosition();
-      }, 200);
+      }, 500);
       return () => clearTimeout(timeoutId);
     }
   }, [isHovered]);

@@ -1,26 +1,43 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import MovieCard from "../components/MovieCard";
-import { MovieEndpoints } from "../util/keys.js";
 import { useState, useEffect } from "react";
 import VideoHoverCard from "../components/VideoHoverCard.jsx";
 import NavBar from "../components/navbar";
+import { MovieApiKeys } from "../util/keys.js";
 const MyListPage = () => {
   const profile = useSelector((state) => state.auth.profile);
+  const list = useSelector((state) => state.auth.list);
   const [movies, setMovies] = useState([]);
   const showVideoModal = useSelector((state) => state.videoModal.showCard);
   const [isModalShown, setIsModalShown] = useState(false);
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const response = await fetch(MovieEndpoints.Animations);
-      const data = await response.json();
-      setMovies(data.results);
+      const res = [];
+      for (let videoIs of Object.keys(list.videos)) {
+        if (list.videos[videoIs] === "tv") {
+          const response = await fetch(
+            `https://api.themoviedb.org/3/tv/${videoIs}?api_key=${MovieApiKeys}&language=en-US`
+          );
+          if (response.ok) {
+            const data = await response.json();
+            res.push(data);
+          }
+        } else {
+          const response = await fetch(
+            `https://api.themoviedb.org/3/movie/${videoIs}?api_key=${MovieApiKeys}&language=en-US`
+          );
+          const data = await response.json();
+          res.push(data);
+        }
+      }
+      setMovies(res);
     };
 
     fetchVideos();
-  }, []);
-
+  }, [list]);
+  console.log(movies);
   const handleModalShown = () => {
     setIsModalShown(!isModalShown);
   };
@@ -44,7 +61,12 @@ const MyListPage = () => {
         <div>
           <div className="flex flex-wrap mb-4">
             {movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} />
+              <MovieCard
+                key={movie.id}
+                movie={movie}
+                tag={movie.number_of_episodes
+                  ? "tv" : "movies"}
+              />
             ))}
           </div>
         </div>
@@ -54,34 +76,3 @@ const MyListPage = () => {
 };
 
 export default MyListPage;
-
-// import React from "react";
-// import { useSelector } from "react-redux";
-// import MovieCard from "../components/MovieCard";
-// import { MovieEndpoints } from "../util/keys.js";
-// import { useState, useEffect } from "react";
-// const MyListPage = () => {
-//   const profile = useSelector((state) => state.auth.profile);
-//   const [movies, setMovies] = useState([]);
-
-//   useEffect(() => {
-//     const fetchVideos = async () => {
-//       const response = await fetch(MovieEndpoints.Animations);
-//       const data = await response.json();
-//       setMovies(data.results);
-//     };
-
-//     fetchVideos();
-//   }, []);
-
-//   return (
-//     <div className="grid grid-cols-6 gap-2">
-//       <h1 className="text-6xl font-bold underline m-0">My List</h1>
-//       {movies.map((movie) => (
-//         <MovieCard key={movie.id} movie={movie} />
-//       ))}
-//     </div>
-//   );
-// };
-
-// export default MyListPage;
