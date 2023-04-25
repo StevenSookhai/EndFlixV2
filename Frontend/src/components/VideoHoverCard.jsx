@@ -67,43 +67,48 @@ const VideoHoverCard = ({ handleModalShown }) => {
         const result = data.results.filter(
           (video) => video.type !== "Behind the Scenes"
         );
-        console.log(result);
+        // console.log(result);
         setVideos(result[Math.floor(Math.random() * result.length)]);
-      } else if (videoPos.tag === "search") {
-        const resquest = await fetch(
-          `https://api.themoviedb.org/3/movie/${video.id}?api_key=${MovieApiKeys}&language=en-US`
-        );
-        const response = await resquest.json();
-
-        if (response.ok) {
-          setVideoObject(response);
-          const res = await fetch(
-            `https://api.themoviedb.org/3/movie/${video.id}/videos?api_key=${MovieApiKeys}&language=en-US`
-          );
-          const data = await res.json();
-          const result = data.results.filter(
-            (video) => video.type !== "Behind the Scenes"
-          );
-          console.log(result);
-          setVideos(result[Math.floor(Math.random() * result.length)]);
-        } else {
-          const resquest = await fetch(
-            `https://api.themoviedb.org/3/tv/${video.id}?api_key=${MovieApiKeys}&language=en-US`
-          );
-          const response = await resquest.json();
-          setVideoObject(response);
-          const res = await fetch(
-            `https://api.themoviedb.org/3/tv/${video.id}/videos?api_key=${MovieApiKeys}&language=en-US`
-          );
-          const data = await res.json();
-
-          setVideos(
-            data.results[Math.floor(Math.random() * data.results.length)]
-          );
-        }
       }
+      // } else if (videoPos.tag === "search") {
+      //   const resquest = await fetch(
+      //     `https://api.themoviedb.org/3/movie/${video.id}?api_key=${MovieApiKeys}&language=en-US`
+      //   );
+      //   const response = await resquest.json();
+
+      //   if (response.ok) {
+      //     console.log(response);
+      //     setVideoObject(response);
+      //     const res = await fetch(
+      //       `https://api.themoviedb.org/3/movie/${video.id}/videos?api_key=${MovieApiKeys}&language=en-US`
+      //     );
+      //     const data = await res.json();
+      //     const result = data.results.filter(
+      //       (video) => video.type !== "Behind the Scenes"
+      //     );
+
+      //     setVideos(result[Math.floor(Math.random() * result.length)]);
+      //   } else {
+      //     const resquest = await fetch(
+      //       `https://api.themoviedb.org/3/tv/${video.id}?api_key=${MovieApiKeys}&language=en-US`
+      //     );
+      //     const response = await resquest.json();
+      //     setVideoObject(response);
+      //     const res = await fetch(
+      //       `https://api.themoviedb.org/3/tv/${video.id}/videos?api_key=${MovieApiKeys}&language=en-US`
+      //     );
+      //     const data = await res.json();
+
+      //     setVideos(
+      //       data.results[Math.floor(Math.random() * data.results.length)]
+      //     );
+      //   }
+      // }
     };
-    setIsInList(checkIfInList());
+    if (list) {
+      setIsInList(checkIfInList());
+    }
+
     fetchVideos();
     setWindowYOffset(window.pageYOffset);
     setVideoTop(videoPos.y);
@@ -160,6 +165,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
   };
 
   const checkIfInList = () => {
+    // console.log(list.videos);
     const result = Object.keys(list.videos).includes(video.id.toString());
     return result;
   };
@@ -174,7 +180,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
             "Content-Type": "application/json",
           },
           body: JSON.stringify({
-            video_id: video.id,
+            video_id: videoObject.id,
             tag: videoPos.tag,
           }),
         }
@@ -188,7 +194,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
       console.log(error);
     }
   };
-
+  // console.log(videoObject);
   return (
     <>
       {!showModal && (
@@ -202,7 +208,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
           }}
           className={` w-[${
             videoPos.width
-          }px] z-30 absolute hover:scale-125  transition transform delay-100  ease-in-out duration-200 hover:-translate-y-[5rem] scale-100  ${
+          }px] z-30 absolute hover:scale-150  transition transform delay-100  ease-in-out duration-200 hover:-translate-y-[5rem] scale-100  ${
             nearRightEdge ? "hover:-translate-x-[1.3rem]" : "translate-x-0"
           }
         ${
@@ -313,7 +319,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
                       {video?.name ? video.name : video.title}
                     </li>
                     <li className="text-[.8em] font-semibold font-poppins bg-gradient-to-br from-red-500 to-purple-600 text-transparent bg-clip-text">
-                      Rating {video?.vote_average}
+                      Rating {parseFloat(video?.vote_average.toFixed(1))}
                     </li>
                     <li className="text-[.8em] font-semibold font-poppins text-green-500">
                       Year{" "}
@@ -384,7 +390,12 @@ const VideoHoverCard = ({ handleModalShown }) => {
           forwaredRef={modalRef}
           video={videoObject}
           videos={videos}
+          handleAddToList={handleAddToList}
           videoCurrentTime={videoCurrentTime}
+          isInList={isInList}
+          isMuted={isMuted}
+          handleMute={handleMute}
+          tag={videoObject?.number_of_episodes ? "tv" : "movie"}
         />
       </CSSTransition>
     </>

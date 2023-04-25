@@ -11,7 +11,7 @@ const MyListPage = () => {
   const [movies, setMovies] = useState([]);
   const showVideoModal = useSelector((state) => state.videoModal.showCard);
   const [isModalShown, setIsModalShown] = useState(false);
-
+  console.log(list.videos);
   useEffect(() => {
     const fetchVideos = async () => {
       const res = [];
@@ -28,19 +28,23 @@ const MyListPage = () => {
           const response = await fetch(
             `https://api.themoviedb.org/3/movie/${videoIs}?api_key=${MovieApiKeys}&language=en-US`
           );
-          const data = await response.json();
-          res.push(data);
+          if (response.ok) {
+            const data = await response.json();
+            res.push(data);
+          }
         }
       }
+      console.log(res);
       setMovies(res);
     };
 
     fetchVideos();
   }, [list]);
-  console.log(movies);
+
   const handleModalShown = () => {
     setIsModalShown(!isModalShown);
   };
+  console.log(movies);
   return (
     <>
       <NavBar />
@@ -64,8 +68,7 @@ const MyListPage = () => {
               <MovieCard
                 key={movie.id}
                 movie={movie}
-                tag={movie.number_of_episodes
-                  ? "tv" : "movies"}
+                tag={movie.number_of_episodes ? "tv" : "movie"}
               />
             ))}
           </div>

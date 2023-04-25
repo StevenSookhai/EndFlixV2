@@ -10,6 +10,7 @@ import SearchNavBar from "../components/SearchNavBar";
 import MovieCard from "../components/MovieCard";
 import VideoHoverCard from "../components/VideoHoverCard";
 import { useSelector } from "react-redux";
+import { MovieApiKeys } from "../util/keys";
 
 const SearchPage = () => {
   const location = useLocation();
@@ -21,13 +22,11 @@ const SearchPage = () => {
     const fetchVideos = async () => {
       try {
         const response = await fetch(
-          // `http://localhost:5000/api/videos/search/${searchTerm}`
-          `https://api.themoviedb.org/3/search/tv?api_key=057e037396b3e44f631f913549e9891d&query=${searchTerm}`
+          `https://api.themoviedb.org/3/search/multi?api_key=${MovieApiKeys}&query=${searchTerm}`
         );
         const data = await response.json();
-        // setVideos(data.videos);
+
         setVideos(data.results);
-        console.log(data);
       } catch (error) {
         console.log(error);
       }
@@ -42,7 +41,7 @@ const SearchPage = () => {
   const handleModalShown = () => {
     setIsModalShown(!isModalShown);
   };
-  console.log(vidoes);
+
   return (
     <div>
       <SearchNavBar
@@ -69,9 +68,15 @@ const SearchPage = () => {
               <div className="flex flex-wrap mb-4">
                 {vidoes.map((movie) => {
                   if (movie) {
-                    return (
-                      <MovieCard key={movie.id} movie={movie} tag={"search"} />
-                    );
+                    if (movie.backdrop_path) {
+                      return (
+                        <MovieCard
+                          key={movie.id}
+                          movie={movie}
+                          tag={movie.media_type}
+                        />
+                      );
+                    }
                   }
                 })}
               </div>

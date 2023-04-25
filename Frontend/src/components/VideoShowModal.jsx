@@ -2,11 +2,14 @@ import React from "react";
 import { AiOutlineClose } from "react-icons/ai";
 import { FaPlay } from "react-icons/fa";
 import { MdAdd } from "react-icons/md";
+import { BsCheck } from "react-icons/bs";
 import { useDispatch } from "react-redux";
 import { videoModalActions } from "../store/videoModal";
 import { useRef, useState, useEffect } from "react";
 import { MovieApiKeys } from "../../src/util/keys";
 import ReactPlayer from "react-player";
+import { VscUnmute } from "react-icons/vsc";
+import { IoVolumeMuteOutline } from "react-icons/io5";
 
 const VideoShowModal = ({
   video,
@@ -14,6 +17,11 @@ const VideoShowModal = ({
   handleHideModal,
   forwaredRef,
   videoCurrentTime,
+  handleAddToList,
+  isInList,
+  isMuted,
+  handleMute,
+  tag,
 }) => {
   const dispatch = useDispatch();
   const [isVideoPlaying, setIsVideoPlaying] = useState(false); // turn this to true to play the video
@@ -39,16 +47,13 @@ const VideoShowModal = ({
     getVideo();
     handleBuffer();
     // videoRef.current.currentTime = videoCurrentTime; // this to play the video from the time it was paused
-    console.log(videoCurrentTime);
-    console.log(video);
-    console.log(videos);
     videoRef.current?.seekTo(parseFloat(videoCurrentTime));
   }, []);
   const handleCloseModal = ({ handleHideModal }) => {
     dispatch(videoModalActions.hideModal());
   };
   // console.log(video);
-
+  // console.log(tag);
   const handleBuffer = () => {
     setIsVideoPlaying(true);
   };
@@ -57,6 +62,7 @@ const VideoShowModal = ({
     setIsVideoPlaying(false);
   };
 
+  console.log(videos);
   return (
     <div
       ref={forwaredRef}
@@ -70,36 +76,48 @@ const VideoShowModal = ({
           >
             <AiOutlineClose size={18} color={"white"} />
           </div>
-          <div className="w-[99.9%] h-[100%] rounded-lg overflow-hidden">
-            {!isVideoPlaying && (
+          {videos ? (
+            <div className="w-[99.9%] h-[100%] rounded-lg overflow-hidden pointer-events-none">
+              {!isVideoPlaying && (
+                <img
+                  className="object-cover rounded-t-lg w-full overflow-hidden "
+                  // src={img}
+                  src={`https://image.tmdb.org/t/p/w500/${video?.backdrop_path}`}
+                  alt=""
+                />
+              )}
+
+              {isVideoPlaying && (
+                <div className="w-full h-full player-wrapper">
+                  <ReactPlayer
+                    className="react-player"
+                    url={`https://www.youtube.com/watch?v=${videos?.key}`}
+                    width={"100%"}
+                    height={"100%"}
+                    style={{
+                      objectFit: "cover",
+                    }}
+                    muted={isMuted ? true : false}
+                    playing={true}
+                    onBufferEnd={handleBuffer}
+                    loop={false}
+                    onEnded={handleVideoEnded}
+                    startTime={videoCurrentTime}
+                    ref={videoRef}
+                  />
+                </div>
+              )}
+            </div>
+          ) : (
+            <div className="w-[99.9%] h-[100%] rounded-lg overflow-hidden pointer-events-none">
               <img
                 className="object-cover rounded-t-lg w-full overflow-hidden "
                 // src={img}
                 src={`https://image.tmdb.org/t/p/w500/${video?.backdrop_path}`}
                 alt=""
               />
-            )}
-            {isVideoPlaying && (
-              <div className="w-full h-full player-wrapper">
-                <ReactPlayer
-                  className="react-player"
-                  url={`https://www.youtube.com/watch?v=${videos?.key}`}
-                  width={"100%"}
-                  height={"100%"}
-                  style={{
-                    objectFit: "cover",
-                  }}
-                  muted={true}
-                  playing={true}
-                  onBufferEnd={handleBuffer}
-                  loop={false}
-                  onEnded={handleVideoEnded}
-                  startTime={videoCurrentTime}
-                  ref={videoRef}
-                />
-              </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
         <div className="absolute w-[40%] left-[3rem] h-[40%] top-[45%] flex flex-col z-10  ">
           <div className="w-full h-full relative">
@@ -117,12 +135,52 @@ const VideoShowModal = ({
                 </button>
               </div>
               <div className=" sm:w-[50px] w-[30px] bg-zinc-900 sm:h-[50px] h-[30px] rounded-full flex justify-center items-center border-[2px] border-[rgb(187,187,187)] hover:border-white hover:cursor-pointer">
-                <MdAdd size={30} color={"white"} />
+                {!isInList && (
+                  <div>
+                    <MdAdd
+                      onClick={() => handleAddToList(true)}
+                      size={25}
+                      color={"white"}
+                    />
+                  </div>
+                )}
+                {isInList && (
+                  <div>
+                    <BsCheck
+                      onClick={() => handleAddToList(false)}
+                      size={25}
+                      color={"white"}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           </div>
         </div>
         <div className="w-full h-[70%] bg-gradient-to-t from-[#181818] absolute bottom-0  "></div>
+        <div
+          onClick={handleMute}
+          className="border absolute  bottom-24 sm:right-[10%] right-2 bg-zinc-900 rounded-full sm:w-[40px] w-[30px]  sm:h-[40px] h-[30px]  justify-center items-center flex -rotate-180 scale-y-[-1] cursor-pointer z-50"
+        >
+          <div className=" rotate-180  flex justify-center items-center  ">
+            {!isMuted && (
+              <VscUnmute
+                color="white"
+                size={25}
+                style={{ fontWeight: "bold" }}
+              />
+            )}
+          </div>
+          <div className=" rotate-180  flex justify-center items-center">
+            {isMuted && (
+              <IoVolumeMuteOutline
+                size={25}
+                color="white"
+                style={{ fontWeight: "bold" }}
+              />
+            )}
+          </div>
+        </div>
       </div>
       <div className="flex flex-col gap-2 w-full h-[40%]  p-4">
         <div className="relative">
@@ -132,7 +190,6 @@ const VideoShowModal = ({
                 Rating {parseFloat(video?.vote_average.toFixed(1))}
               </span>
               <span className={spanStyle}>
-                Year{" "}
                 {video && video.first_air_date
                   ? video?.first_air_date?.slice(0, 4)
                   : video?.release_date?.slice(0, 4)}
@@ -142,7 +199,7 @@ const VideoShowModal = ({
               )}
               {video.number_of_episodes && (
                 <span className={spanStyle}>
-                  episodes {video.number_of_episodes}
+                  {video.number_of_episodes} Episodes
                 </span>
               )}
             </div>
