@@ -10,6 +10,8 @@ import { MovieApiKeys } from "../../src/util/keys";
 import ReactPlayer from "react-player";
 import { VscUnmute } from "react-icons/vsc";
 import { IoVolumeMuteOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
+import { MdOutlineHighQuality } from "react-icons/md";
 
 const VideoShowModal = ({
   video,
@@ -25,7 +27,11 @@ const VideoShowModal = ({
 }) => {
   const dispatch = useDispatch();
   const [isVideoPlaying, setIsVideoPlaying] = useState(false); // turn this to true to play the video
+  const [casts, setCasts] = useState([]);
+  const [contentRating, setContentRating] = useState("");
+  const [bgImage, setBgImage] = useState([]);
   const videoRef = useRef(null);
+  const navigate = useNavigate();
   const listOneStyle = "text-sm md:text-md font-poppins truncate ";
   const listTwoStyle = "sm:text-lg font-poppins truncate";
   const spanStyle = "sm:text-xl font-poppins";
@@ -34,17 +40,57 @@ const VideoShowModal = ({
     "https://occ-0-3266-444.1.nflxso.net/dnm/api/v6/E8vDc_W8CLv7-yMQu8KMEC7Rrr8/AAAABUeuoA1khfzqaYFyd0_HVrA_ePvgLNPDH12DEwsA3nFCAH4bNbTH4Uh0RODjAZDN25_4Bqal2Vk3ub2IGBhYnyg3LtLIDlkL44rL.webp?r=db0";
 
   useEffect(() => {
-    const getVideo = async () => {
-      const res = await fetch(
-        `https://api.themoviedb.org/3/movie/${video?.id}/videos?api_key=057e037396b3e44f631f913549e9891d&language=en-US`
-      );
-      // console.log(video.id);
-      // console.log(MovieApiKeys);
-      const data = await res.json();
-      // console.log(data);
-      // setVideo(data);
+    const getCast = async () => {
+      if (tag === "movie") {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/movie/${video.id}/credits?api_key=${MovieApiKeys}&language=en-US`
+        );
+        const data = await response.json();
+        setCasts(data.cast);
+
+        const response2 = await fetch(
+          `https://image.tmdb.org/t/p/original${video.backdrop_path}`
+        );
+        const data2 = await response2;
+        console.log(data2.url);
+
+        const image = data2.url;
+        setBgImage(image);
+
+        const response3 = await fetch(
+          `https://api.themoviedb.org/3/movie/${video.id}/content_ratings?api_key=${MovieApiKeys}&language=en-US`
+        );
+        const data3 = await response3.json();
+        // const rating = data3.results[0].release_dates[0].certification;
+        const res = data3.results.filter((item) => item.iso_3166_1 === "US");
+        setContentRating(res[0]);
+      } else {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/tv/${video.id}/credits?api_key=${MovieApiKeys}&language=en-US`
+        );
+        const data = await response.json();
+        setCasts(data.cast);
+
+        const response2 = await fetch(
+          `https://image.tmdb.org/t/p/original${video?.backdrop_path}`
+        );
+        const data2 = await response2;
+        console.log(data2.url);
+
+        const image = data2.url;
+        setBgImage(image);
+
+        const response3 = await fetch(
+          `https://api.themoviedb.org/3/tv/${video.id}/content_ratings?api_key=${MovieApiKeys}&language=en-US`
+        );
+        const data3 = await response3.json();
+        // const rating = data3.results[0].release_dates[0].certification;
+
+        const res = data3.results.filter((item) => item.iso_3166_1 === "US");
+        setContentRating(res[0]);
+      }
     };
-    getVideo();
+    getCast();
     handleBuffer();
     // videoRef.current.currentTime = videoCurrentTime; // this to play the video from the time it was paused
     videoRef.current?.seekTo(parseFloat(videoCurrentTime));
@@ -52,8 +98,7 @@ const VideoShowModal = ({
   const handleCloseModal = ({ handleHideModal }) => {
     dispatch(videoModalActions.hideModal());
   };
-  // console.log(video);
-  // console.log(tag);
+
   const handleBuffer = () => {
     setIsVideoPlaying(true);
   };
@@ -61,8 +106,11 @@ const VideoShowModal = ({
   const handleVideoEnded = () => {
     setIsVideoPlaying(false);
   };
-
-  console.log(videos);
+  const handlePlayVideo = () => {
+    navigate(`/watch/${video.id}`, { state: { tag } });
+    handleHideModal();
+  };
+  console.log(contentRating);
   return (
     <div
       ref={forwaredRef}
@@ -81,8 +129,8 @@ const VideoShowModal = ({
               {!isVideoPlaying && (
                 <img
                   className="object-cover rounded-t-lg w-full overflow-hidden "
-                  // src={img}
-                  src={`https://image.tmdb.org/t/p/w500/${video?.backdrop_path}`}
+                  src={bgImage}
+                  // src={`https://image.tmdb.org/t/p/w500/${video?.backdrop_path}`}
                   alt=""
                 />
               )}
@@ -122,13 +170,13 @@ const VideoShowModal = ({
         <div className="absolute w-[40%] left-[3rem] h-[40%] top-[45%] flex flex-col z-10  ">
           <div className="w-full h-full relative">
             <div>
-              <h1 className="w-full text-white text-1xl sm:text-5xl md:text-6xl font-bold max-h-[60%] h-full overflow-hidden ">
+              <h1 className="w-full text-white text-2xl sm:text-4xl md:5xl  font-bold max-h-[60%] h-full overflow-hidden font-poppins  ">
                 {video?.title}
                 {video?.name}
               </h1>
             </div>
             <div className="flex gap-2 flex-row h-[20%] absolute w-full bottom-0  items-center">
-              <div className="">
+              <div onClick={handlePlayVideo} className="">
                 <button className="bannerButton bg-white text-black ">
                   <FaPlay className="h-4 w-4 text-black md:h-7 md:w-7" />
                   Play
@@ -183,13 +231,21 @@ const VideoShowModal = ({
         </div>
       </div>
       <div className="flex flex-col gap-2 w-full h-[40%]  p-4">
-        <div className="relative">
-          <div className="max-w-[60%]">
+        <div className="relative h-[100%]  ">
+          <div className="max-w-[56%] h-full ">
             <div className="flex gap-1">
-              <span className={spanStyle}>
+              {/* <span className={spanStyle}>
                 Rating {parseFloat(video?.vote_average.toFixed(1))}
+              </span> */}
+              <span
+                className={`${spanStyle} outline outline-2 text-white font-semibold bg-black pl-1 pr-1`}
+              >
+                {contentRating?.rating ? contentRating.rating : "TV-MA"}
               </span>
-              <span className={spanStyle}>
+              <br />
+              <span
+                className={`${spanStyle}  text-green-500 font-poppins font-semibold`}
+              >
                 {video && video.first_air_date
                   ? video?.first_air_date?.slice(0, 4)
                   : video?.release_date?.slice(0, 4)}
@@ -202,25 +258,45 @@ const VideoShowModal = ({
                   {video.number_of_episodes} Episodes
                 </span>
               )}
+              <div className="flex items-center justify-center  text-center">
+                <MdOutlineHighQuality size={30} />
+              </div>
             </div>
-            <p className="sm:text-xlfont-poppins mt-2">{video?.overview}</p>
+            <div className="flex h-full">
+              <p className="sm:text-xl font-poppins mt-2 flex-grow-1  h-full w-full">
+                {video?.overview}
+              </p>
+            </div>
           </div>
-          <div className="absolute right-0 top-0 max-w-[40%]">
-            {/* <div className="flex md:text-md ">
-              Cast:&nbsp;
-              <ul className="flex sm:flex-row flex-col gap-1 mb-5 overflow-hidden items-center mt-1">
-                <li className={`${listOneStyle}`}>Song Joong-ki</li>
+          <div className="absolute right-6 md:right-10 top-0 max-w-[40%] ">
+            <div className="flex md:text-md text-gray-500 font-poppins  justify-center items-center ">
+              <ul className="flex md:flex-row flex-col gap-1 mb-5 overflow-hidden justify-center items-center mt-1">
+                {/* <li className={`${listOneStyle}`}>Song Joong-ki</li>
                 <li className={listOneStyle}>Jeon Yeo-been</li>
                 <li className={listOneStyle}>OK Taec-yeon</li>
-                <li className={listOneStyle}>more</li>
+                <li className={listOneStyle}>more</li> */}
+                Cast:&nbsp;
+                {casts.slice(0, 3).map((cast, index) => {
+                  return (
+                    <li
+                      key={cast.id}
+                      className={`${listOneStyle} text-white font-bold`}
+                    >
+                      {cast.name}
+                    </li>
+                  );
+                })}
               </ul>
-            </div> */}
-            <div className="flex ">
-              Genres:&nbsp;
-              <ul className="flex sm:flex-row flex-col gap-1 overflow-hidden ">
+            </div>
+            <div className="flex md:text-md text-gray-500 font-poppins  justify-center items-center">
+              <ul className="flex md:flex-row flex-col gap-1 mb-5 overflow-hidden justify-center items-center mt-1">
+                Genres:&nbsp;
                 {video.genres.slice(0, 3).map((genre, index) => {
                   return (
-                    <li key={genre.id} className={`${listTwoStyle}`}>
+                    <li
+                      key={genre.id}
+                      className={`${listOneStyle} text-white font-bold`}
+                    >
                       {genre.name}
                     </li>
                   );

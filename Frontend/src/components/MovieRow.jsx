@@ -67,9 +67,10 @@ const MovieRow = ({ genre, MovieEndpoints, tag }) => {
         </div>
         <div ref={rowRef} id={"slider"} className="overflow-x-scroll ">
           <div ref={sliderRef} className="flex w-[96%] ">
-            {movies.map((movie) => (
-              <MovieCard key={movie.id} movie={movie} tag={tag} />
-            ))}
+            {movies.map((movie) => {
+              if (movie.backdrop_path)
+                return <MovieCard key={movie.id} movie={movie} tag={tag} />;
+            })}
           </div>
         </div>
         <div

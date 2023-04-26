@@ -84,8 +84,12 @@ const NavBar = () => {
           ></path>
         </svg>
       </div>
-      <div className="flex justify-center items-center gap-8 flex-row xs:hidden sm:flex">
-        <span className="font-poppins font-bold text-[#e5e5e5] h-full text-[14px]">
+      <div className="flex justify-center items-center gap-8 flex-col sm:flex-row xs:hidden sm:flex">
+        <span
+          className={`font-poppins ${
+            location.pathname === "/browse" ? "font-bold" : ""
+          } text-[#e5e5e5] h-full text-[14px]`}
+        >
           <Link to="/browse">Home</Link>
         </span>
         <span className="font-poppins text-[#e5e5e5] h-full text-[14px]">
@@ -102,7 +106,11 @@ const NavBar = () => {
         <span className="font-poppins text-[#e5e5e5] h-full text-[14px]">
           AngelList
         </span>
-        <span className="font-poppins text-[#e5e5e5] h-full text-[14px]">
+        <span
+          className={`font-poppins ${
+            location.pathname === "/mylist" ? "font-bold" : ""
+          } text-[#e5e5e5] h-full text-[14px]`}
+        >
           <Link to="/mylist">My List</Link>
         </span>
       </div>

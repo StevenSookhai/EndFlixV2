@@ -14,8 +14,8 @@ import { MovieApiKeys } from "../util/keys";
 import { VscUnmute } from "react-icons/vsc";
 import { IoVolumeMuteOutline } from "react-icons/io5";
 import { authActions } from "../store/authSlice";
-
 import { BsCheck } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
 
 const VideoHoverCard = ({ handleModalShown }) => {
   const video = useSelector((state) => state.videoModal.video);
@@ -24,10 +24,6 @@ const VideoHoverCard = ({ handleModalShown }) => {
   const profile = useSelector((state) => state.auth.profile);
   const [videoCurrentTime, setVideoCurrentTime] = useState(0);
   const [videoObject, setVideoObject] = useState(null);
-  const modalRef = useRef(null);
-  const videoRef = useRef(null);
-
-  const dispatch = useDispatch();
   const [scaleCard, setScaleCard] = useState(false);
   const [windowYOffset, setWindowYOffset] = useState(window.pageYOffset);
   const [videoTop, setVideoTop] = useState(videoPos.y);
@@ -37,6 +33,11 @@ const VideoHoverCard = ({ handleModalShown }) => {
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
   const [isInList, setIsInList] = useState(false);
+  const [playVideo, setPlayVideo] = useState(false);
+  const modalRef = useRef(null);
+  const videoRef = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchVideos = async () => {
@@ -67,43 +68,8 @@ const VideoHoverCard = ({ handleModalShown }) => {
         const result = data.results.filter(
           (video) => video.type !== "Behind the Scenes"
         );
-        // console.log(result);
         setVideos(result[Math.floor(Math.random() * result.length)]);
       }
-      // } else if (videoPos.tag === "search") {
-      //   const resquest = await fetch(
-      //     `https://api.themoviedb.org/3/movie/${video.id}?api_key=${MovieApiKeys}&language=en-US`
-      //   );
-      //   const response = await resquest.json();
-
-      //   if (response.ok) {
-      //     console.log(response);
-      //     setVideoObject(response);
-      //     const res = await fetch(
-      //       `https://api.themoviedb.org/3/movie/${video.id}/videos?api_key=${MovieApiKeys}&language=en-US`
-      //     );
-      //     const data = await res.json();
-      //     const result = data.results.filter(
-      //       (video) => video.type !== "Behind the Scenes"
-      //     );
-
-      //     setVideos(result[Math.floor(Math.random() * result.length)]);
-      //   } else {
-      //     const resquest = await fetch(
-      //       `https://api.themoviedb.org/3/tv/${video.id}?api_key=${MovieApiKeys}&language=en-US`
-      //     );
-      //     const response = await resquest.json();
-      //     setVideoObject(response);
-      //     const res = await fetch(
-      //       `https://api.themoviedb.org/3/tv/${video.id}/videos?api_key=${MovieApiKeys}&language=en-US`
-      //     );
-      //     const data = await res.json();
-
-      //     setVideos(
-      //       data.results[Math.floor(Math.random() * data.results.length)]
-      //     );
-      //   }
-      // }
     };
     if (list) {
       setIsInList(checkIfInList());
@@ -165,9 +131,13 @@ const VideoHoverCard = ({ handleModalShown }) => {
   };
 
   const checkIfInList = () => {
-    // console.log(list.videos);
     const result = Object.keys(list.videos).includes(video.id.toString());
     return result;
+  };
+
+  const handlePlayVideo = () => {
+    navigate(`/watch/${videoObject.id}`, { state: { tag: videoPos.tag } });
+    handleHideModal();
   };
 
   const handleAddAndDeleteFromList = async (flag) => {
@@ -194,7 +164,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
       console.log(error);
     }
   };
-  // console.log(videoObject);
+
   return (
     <>
       {!showModal && (
@@ -215,7 +185,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
           videoPos.nearLeftEdge ? "hover:translate-x-[1.3rem]" : "translate-x-0"
         }`}
         >
-          <div className="bg-black relative cursor-pointer   z-30 ">
+          <div className="bg-black relative cursor-pointer  z-30 ">
             <div className="absolute w-full h-full z-30 ">
               <div className="relative w-full overflow-hidden z-30  ">
                 <div
@@ -280,7 +250,10 @@ const VideoHoverCard = ({ handleModalShown }) => {
 
               <div className=" z-30 bg-zinc-900 rounded-b-md mb-3  ">
                 <div className="  flex  gap-2   sm:ml-5 ml-2 relative top-3 min-h-[2rem]">
-                  <div className="sm:w-[30px] w-[20px] sm:h-[30px] h-[20px] bg-white rounded-full flex justify-center items-center hover:bg-[rgb(200,200,200,.9)]">
+                  <div
+                    onClick={handlePlayVideo}
+                    className="sm:w-[30px] w-[20px] sm:h-[30px] h-[20px] bg-white rounded-full flex justify-center items-center hover:bg-[rgb(200,200,200,.9)]"
+                  >
                     <GrPlayFill size={15} />
                   </div>
                   <div className="sm:w-[30px] w-[20px] bg-zinc-900 sm:h-[30px] h-[20px] rounded-full flex justify-center items-center border-[1px] border-[rgb(100,100,100)] hover:border-white">
@@ -318,7 +291,8 @@ const VideoHoverCard = ({ handleModalShown }) => {
                     <li className="text-xs  sm:text-[1.2rem] font-bold font-poppins p-[.2px]">
                       {video?.name ? video.name : video.title}
                     </li>
-                    <li className="text-[.8em] font-semibold font-poppins bg-gradient-to-br from-red-500 to-purple-600 text-transparent bg-clip-text">
+                    {/* <li className="text-[.8em] font-semibold font-poppins bg-gradient-to-br from-red-500 to-purple-600 text-transparent bg-clip-text"> */}
+                    <li className="text-[.8em] font-semibold font-poppins text-white">
                       Rating {parseFloat(video?.vote_average.toFixed(1))}
                     </li>
                     <li className="text-[.8em] font-semibold font-poppins text-green-500">
@@ -336,10 +310,14 @@ const VideoHoverCard = ({ handleModalShown }) => {
                         return (
                           <li
                             key={genre.id}
-                            className="text-[.8em] font-semibold font-poppins bg-gradient-to-br from-red-500 to-purple-600 text-transparent bg-clip-text"
+                            className="text-[.8em] font-semibold font-poppins text-white"
                           >
+                            {/* <li
+                            key={genre.id}
+                            className="text-[.8em] font-semibold font-poppins bg-gradient-to-br from-red-500 to-purple-600 text-transparent bg-clip-text"
+                          > */}
                             {index > 0 && (
-                              <span className="text-[#646464]">&#x2022;</span>
+                              <span className="text-[#646464]">&#x2022; </span>
                             )}
                             {MovieGenres[genre.id]}
                           </li>

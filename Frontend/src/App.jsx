@@ -7,6 +7,7 @@ import ProfilesPage from "./pages/profilesPage";
 import BrowsePage from "./pages/browsePage";
 import MyListPage from "./pages/MyListPage";
 import SearchPage from "./pages/SearchPage";
+import VideoViewPage from "./pages/VideoViewPage";
 import ProtectedRoute from "./util/ProtectedRoute.jsx";
 import { useSelector } from "react-redux";
 
@@ -106,6 +107,15 @@ const App = () => {
             element={
               <ProtectedRoute>
                 <SearchPage />
+              </ProtectedRoute>
+            }
+          ></Route>
+          <Route
+            exact
+            path="/watch/:videoId"
+            element={
+              <ProtectedRoute>
+                <VideoViewPage />
               </ProtectedRoute>
             }
           ></Route>
