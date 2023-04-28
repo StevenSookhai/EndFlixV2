@@ -55,8 +55,8 @@ const MovieRow = ({ genre, MovieEndpoints, tag }) => {
 
   return (
     <>
-      <div className="ml-[4%] relative group mr-1">
-        <p className="text-white text-md md:text-xl lg:text-2xl font-semibold">
+      <div className="ml-[4%] relative group mr-1 ">
+        <p className="text-white text-md md:text-xl lg:text-2xl font-semibold  font-poppins">
           Title
         </p>
         <div
@@ -66,7 +66,7 @@ const MovieRow = ({ genre, MovieEndpoints, tag }) => {
           <AiOutlineLeft size={30} />
         </div>
         <div ref={rowRef} id={"slider"} className="overflow-x-scroll ">
-          <div ref={sliderRef} className="flex w-[96%] ">
+          <div ref={sliderRef} className="flex w-[96%]  ">
             {movies.map((movie) => {
               if (movie.backdrop_path)
                 return <MovieCard key={movie.id} movie={movie} tag={tag} />;

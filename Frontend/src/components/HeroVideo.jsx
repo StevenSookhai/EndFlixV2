@@ -6,36 +6,66 @@ import { GrCircleInformation } from "react-icons/gr";
 import { MdOutlineReplay } from "react-icons/md";
 import { MovieUrls } from "../util/constants";
 import ReactPlayer from "react-player";
-import { useSelector } from "react-redux";
 import { CSSTransition } from "react-transition-group";
 import VideoShowModal from "./VideoShowModal";
+import { MovieApiKeys } from "../util/keys";
+import { useDispatch, useSelector } from "react-redux";
+import { authActions } from "../store/authSlice";
 
 import { VscUnmute } from "react-icons/vsc";
 import { IoVolumeMuteOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom";
 
 const HeroVideo = ({ video }) => {
-  const [movies, setMovies] = useState([]);
+  const [movie, setMovie] = useState({});
+  const [tmdbVideo, setTmdbVideo] = useState({});
+
   const randomMovie = MovieUrls[Math.floor(Math.random() * MovieUrls.length)];
+  const list = useSelector((state) => state.auth.list);
+  const profile = useSelector((state) => state.auth.profile);
+  const heroVideo = useSelector((state) => state.auth.heroVideo);
   const showVideoModal = useSelector((state) => state.videoModal.showCard);
   const [videoCurrentTime, setVideoCurrentTime] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
   const [isPlaying, setIsPlaying] = useState(true);
+  const [isInList, setIsInList] = useState(false);
   const videoRef = useRef(null);
   const modalRef = useRef(null);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const img =
     "https://occ-0-3266-444.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABfRI824w4jsVd7kOlnfHwXPVEctZsKwGau1Woe2i8AHf5hD0w1eJntsonedM7rltdy44hXQHKtdE_0w7rX9iVJLkIJrrXQPxXWPG.webp?r=8d0";
 
   useEffect(() => {
     const fetchVideos = async () => {
-      const response = await fetch(MovieEndpoints.top_rated);
-      const data = await response.json();
-      setMovies(data.results);
+      if (video.tag === "tv") {
+        const resquest = await fetch(
+          `https://api.themoviedb.org/3/tv/${video.tmdb_id}?api_key=${MovieApiKeys}&language=en-US`
+        );
+        const response = await resquest.json();
+        setTmdbVideo(response);
+      } else if (video.tag === "movie") {
+        const resquest = await fetch(
+          `https://api.themoviedb.org/3/movie/${video.tmdb_id}?api_key=${MovieApiKeys}&language=en-US`
+        );
+        const response = await resquest.json();
+        setTmdbVideo(response);
+      }
     };
 
     fetchVideos();
+    setIsInList(checkIfInList());
+
+    document.documentElement.style.setProperty("--modal-origin-x", " 25vw  ");
+    document.documentElement.style.setProperty("--modal-origin-y", " 25vh ");
   }, []);
+
+  useEffect(() => {
+    document.documentElement.style.setProperty("--modal-origin-x", " 25vw  ");
+    document.documentElement.style.setProperty("--modal-origin-y", " 25vh ");
+  }, [showModal]);
 
   const handleMute = () => {
     setIsMuted(!isMuted);
@@ -57,6 +87,46 @@ const HeroVideo = ({ video }) => {
     setShowModal(!showModal);
   };
 
+  const handleAddToList = (flag) => {
+    handleAddAndDeleteFromList(flag);
+    setIsInList(!isInList);
+  };
+
+  const checkIfInList = () => {
+    const result = Object.keys(list.videos).includes(tmdbVideo.id?.toString());
+    return result;
+  };
+
+  const handlePlayVideo = () => {
+    navigate(`/watch/${tmdbVideo.id}`, { state: { tag: video.tag } });
+    // handleHideModal();
+  };
+
+  const handleAddAndDeleteFromList = async (flag) => {
+    try {
+      const response = await fetch(
+        `http://localhost:5000/api/lists/${profile.id}`,
+        {
+          method: flag ? "PATCH" : "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            video_id: tmdbVideo.id,
+            tag: video.tag,
+          }),
+        }
+      );
+      const data = await response.json();
+      if (!response.ok) {
+        throw new Error(data.message || "Something went wrong!");
+      }
+      dispatch(authActions.setList(data));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <>
       <div className="w-full h-[80%] ">
@@ -65,8 +135,7 @@ const HeroVideo = ({ video }) => {
             className={` w-full object-cover absolute top-0 bottom-0 z-10 transition-all ${
               isPlaying ? "opacity-0" : "opacity-100"
             }`}
-            // src={`https://image.tmdb.org/t/p/original/${randomMovie?.backdrop_path}`}
-            src={img}
+            src={video?.video_backdrop}
             alt="Hero Video"
           />
 
@@ -79,11 +148,9 @@ const HeroVideo = ({ video }) => {
             <ReactPlayer
               className="react-player"
               ref={videoRef}
-              url="https://www.youtube.com/watch?v=ZRtdQ81jPUQ&ab_channel=Ayase%2FYOASOBI"
-              // url={randomMovie}
-              // url="https://endflix-seeds.s3.amazonaws.com/HathAway.mp4"
+              url={video?.video_url}
               controls={false}
-              playing={showVideoModal ? false : true}
+              playing={showVideoModal && isPlaying && !showModal ? false : true}
               muted={isMuted ? true : false}
               loop={false}
               width="100%"
@@ -116,22 +183,22 @@ const HeroVideo = ({ video }) => {
 
         <div className="flex flex-col justify-end absolute left-[4%] w-[36%] z-10 top-[11vw]">
           <div className="flex flex-col justify-center items-center">
-            <img
-              className=""
-              src="https://occ-0-3266-444.1.nflxso.net/dnm/api/v6/LmEnxtiAuzezXBjYXPuDgfZ4zZQ/AAAABTP5VzM83PLOTW5IVg8Vfi_njim26XJlnCSlPvZxhTJpzbo8E0KL6BfKWRhFZWeWI9aTxrKVhhuGEd3Xc0V5we0aV3mP9Be6yq_Kz9STJyH9wGeJDx3nya7dhlUp3uPy8pzyvZko4qLWOneRTFwZFFFCqn9bTkcPZvlpvfQUaJKIBO-cyWrX-A.webp?r=af5"
-            ></img>
+            <img className="" src={video?.tite_url}></img>
             <div className="text-white text-[1.2vw] font-poppins font-normal  max-w-[50vw] w-full leading-normal mt-[1vw]">
-              {" "}
-              In a dystopia riddled with corruption and cybernetic implants, a
-              talented but reckless street kid strives to become a mercenary
-              outlaw — an edgerunner.{" "}
+              {tmdbVideo?.overview}
             </div>
-            <div className="flex w-full mt-5 space-x-3">
-              <button className="bannerButton bg-white text-black ">
+            <div className="flex w-full mt-5 space-x-3 ">
+              <button
+                onClick={handlePlayVideo}
+                className="bannerButton bg-white text-black "
+              >
                 <FaPlay className="h-4 w-4 text-black md:h-7 md:w-7" />
                 Play
               </button>
-              <button className="bannerButton bg-[rgb(109,109,110,.7)] text-white ">
+              <button
+                onClick={handleHideModal}
+                className="bannerButton bg-[rgb(109,109,110,.7)] text-white "
+              >
                 <GrCircleInformation className="  h-5 w-5 fill md:h-8 md:w-8" />
                 More Info
               </button>
@@ -139,6 +206,7 @@ const HeroVideo = ({ video }) => {
           </div>
         </div>
       </div>
+
       <CSSTransition
         mountOnEnter
         unmountOnExit
@@ -150,8 +218,14 @@ const HeroVideo = ({ video }) => {
         <VideoShowModal
           handleHideModal={handleHideModal}
           forwaredRef={modalRef}
-          video={video}
+          video={tmdbVideo}
+          videos={video.video_url}
           videoCurrentTime={videoCurrentTime}
+          isMuted={isMuted}
+          handleAddToList={handleAddToList}
+          isInList={isInList}
+          tag={video.tag}
+          handleMute={handleMute}
         />
       </CSSTransition>
     </>

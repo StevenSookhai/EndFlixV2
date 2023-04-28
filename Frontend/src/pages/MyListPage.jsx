@@ -11,7 +11,7 @@ const MyListPage = () => {
   const [movies, setMovies] = useState([]);
   const showVideoModal = useSelector((state) => state.videoModal.showCard);
   const [isModalShown, setIsModalShown] = useState(false);
-  console.log(list.videos);
+  // console.log(list.videos);
   useEffect(() => {
     const fetchVideos = async () => {
       const res = [];
@@ -45,6 +45,7 @@ const MyListPage = () => {
     setIsModalShown(!isModalShown);
   };
   console.log(movies);
+  console.log(list);
   return (
     <>
       <NavBar />

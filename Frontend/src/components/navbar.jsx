@@ -2,7 +2,7 @@ import React from "react";
 import { useState, useEffect, useRef } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { authActions } from "../store/authSlice";
+import authSlice, { authActions } from "../store/authSlice";
 import { AiOutlineSearch } from "react-icons/ai";
 
 const NavBar = () => {
@@ -68,6 +68,11 @@ const NavBar = () => {
     const scrollY = window.scrollY;
     const threshold = 100; // Change this value to adjust the scroll threshold
     setIsScrolled(scrollY > threshold);
+  };
+
+  const handleBackToProfiles = () => {
+    navigate("/profiles");
+    dispatch(authActions.removeHeroVideo());
   };
 
   return (
@@ -157,8 +162,11 @@ const NavBar = () => {
             >
               Log out
             </div>
-            <div className="cursor-pointer  w-full text-center font-poppins font-semibold p-3">
-              <Link to="/profiles">Profiles</Link>
+            <div
+              onClick={handleBackToProfiles}
+              className="cursor-pointer  w-full text-center font-poppins font-semibold p-3"
+            >
+              Profiles
             </div>
           </div>
         )}

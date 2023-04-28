@@ -10,12 +10,12 @@ def create_list():
         if request.method == 'GET':
             list_item = List.query.filter(
                 List.profile_id == request.json['profile_id']).first()
-            return {'list': list_item.to_dict()}, 201
+            return list_item.to_dict(), 201
         else:
             if List.query.filter(List.profile_id == request.json['profile_id']).first():
                 list_item = List.query.filter(
                     List.profile_id == request.json['profile_id']).first()
-                return {'list': list_item.to_dict()}, 201
+                return list_item.to_dict(), 201
             else:
                 list_item = List(
                     profile_id=request.json['profile_id'],
@@ -23,7 +23,7 @@ def create_list():
                 )
                 db.session.add(list_item)
                 db.session.commit()
-                return {'list': list_item.to_dict()}, 201
+                return list_item.to_dict(), 201
     except Exception as error:
         return {'error': f'List not created {error}'}, 400
 
@@ -41,7 +41,7 @@ def update_list(id):
                         new_object[key] = value
                 list.videos = new_object
                 db.session.commit()
-                return {'list': list.to_dict()}, 201
+                return list.to_dict(), 201
             else:
                 return {'error': 'Video not found'}, 400
         else:
@@ -54,7 +54,7 @@ def update_list(id):
                     new_object[key] = value
                 li.videos = new_object
                 db.session.commit()
-                return {'list': li.to_dict()}, 201
+                return li.to_dict(), 201
 
     except Exception as error:
         return {'error': f'List not updated ${error}'}, 400

@@ -16,6 +16,8 @@
 
 body {
   background: #141414;
+  overflow-x: hidden;
+  overflow-y: scroll;
 }
 .modalScrollBar {
   direction: rtl;
@@ -83,7 +85,7 @@ body {
   opacity: 1;
   transform-origin: var(--modal-origin-x) var(--modal-origin-y);
   transform: translateX(0);
-  transition: opacity 300ms, transform 500ms;
+  transition: opacity 400ms, transform 500ms;
 }
 
 .fade-slide-exit {
@@ -94,7 +96,7 @@ body {
   opacity: 0;
   transform-origin: var(--modal-origin-x) var(--modal-origin-y);
   transform: scale(0);
-  transition: opacity 300ms, transform 500ms;
+  transition: opacity 200ms, transform 500ms;
 }
 
 @keyframes openModal {

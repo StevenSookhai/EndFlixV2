@@ -159,12 +159,13 @@ const VideoHoverCard = ({ handleModalShown }) => {
       if (!response.ok) {
         throw new Error(data.message || "Something went wrong!");
       }
-      dispatch(authActions.setList(data.list));
+      dispatch(authActions.setList(data));
     } catch (error) {
       console.log(error);
     }
   };
 
+  console.log(list);
   return (
     <>
       {!showModal && (
@@ -178,8 +179,8 @@ const VideoHoverCard = ({ handleModalShown }) => {
           }}
           className={` w-[${
             videoPos.width
-          }px] z-30 absolute hover:scale-150  transition transform delay-100  ease-in-out duration-200 hover:-translate-y-[5rem] scale-100  ${
-            nearRightEdge ? "hover:-translate-x-[1.3rem]" : "translate-x-0"
+          }px] z-30 absolute hover:scale-125  transition transform delay-100  ease-in-out duration-200 hover:-translate-y-[5rem] scale-100  ${
+            nearRightEdge ? " hover:-translate-x-[1.3rem] sm:hover:-translate-x-[32px] md:hover:-translate-x-[41px] xl:hover:-translate-x-[40px]" : "translate-x-0"
           }
         ${
           videoPos.nearLeftEdge ? "hover:translate-x-[1.3rem]" : "translate-x-0"
@@ -248,7 +249,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
                 </div>
               </div>
 
-              <div className=" z-30 bg-zinc-900 rounded-b-md mb-3  ">
+              <div className=" z-30 bg-zinc-900 rounded-b-md mb-3 pr-1  ">
                 <div className="  flex  gap-2   sm:ml-5 ml-2 relative top-3 min-h-[2rem]">
                   <div
                     onClick={handlePlayVideo}
@@ -303,7 +304,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
                     </li>
                   </ul>
                 </div>
-                <div className="top-5 mt-1 pb-2 rounded-b-md sm:ml-5 ml-2 p-[.2px]">
+                <div className="top-5 mt-1 pb-8 rounded-b-md sm:ml-5 ml-2 p-[.2px]">
                   {videoObject ? (
                     <ul className="flex sm:gap-3 gap-1 flex-wrap sm:flex-row items-center content-start ">
                       {videoObject.genres.slice(0, 3).map((genre, index) => {

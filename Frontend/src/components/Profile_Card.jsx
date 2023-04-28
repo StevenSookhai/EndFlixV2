@@ -14,12 +14,14 @@ const ProfileCard = ({
   handleToggleEdit,
 }) => {
   const [edit, setEdit] = React.useState(false);
+  const [hero, setHero] = useState({});
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const handleNavigate = () => {
+  const handleNavigate = async () => {
     dispatch(authActions.setProfile(profile));
-    getList();
+    await getList();
+    await getHeroVideo();
 
     navigate("/browse");
   };
@@ -42,6 +44,20 @@ const ProfileCard = ({
       console.log(error);
     }
   };
+
+  const getHeroVideo = async () => {
+    try {
+      const response = await fetch(`http://localhost:5000/api/videos/`);
+      const data = await response.json();
+      console.log(data.videos);
+      const video = data.videos[Math.floor(Math.random() * data.videos.length)];
+      console.log(video);
+      dispatch(authActions.setHeroVideo(video));
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   const handleEdit = () => {
     handleToggleEdit(profile);
     // setEdit(!edit);

@@ -25,7 +25,6 @@ const MovieCard = ({ movie, tag }) => {
 
   const handlePosition = () => {
     if (showVideoModal) {
-      console.log("returning");
       return;
     }
     const element = cardRef.current.getBoundingClientRect();

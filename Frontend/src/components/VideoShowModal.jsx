@@ -84,7 +84,6 @@ const VideoShowModal = ({
           `https://api.themoviedb.org/3/tv/${video.id}/content_ratings?api_key=${MovieApiKeys}&language=en-US`
         );
         const data3 = await response3.json();
-        // const rating = data3.results[0].release_dates[0].certification;
 
         const res = data3.results.filter((item) => item.iso_3166_1 === "US");
         setContentRating(res[0]);
@@ -110,13 +109,13 @@ const VideoShowModal = ({
     navigate(`/watch/${video.id}`, { state: { tag } });
     handleHideModal();
   };
-  console.log(contentRating);
+
   return (
     <div
       ref={forwaredRef}
-      className="fixed left-auto xs:w-[90vw] md:w-[85vh] max-w-[1200px] bg-[#181818] md:min-w-[850px] top-10 mb-[2rem] h-[60vh] sm:h-[80vh] md:h-[100vh] rounded-lg z-50   "
+      className="absolute mx-auto inset-x-0 xs:w-[90vw] md:w-[85vh] max-w-[1200px] bg-[#181818] md:min-w-[850px] top-10 mb-[2rem] h-[90vh] sm:h-[95vh] md:h-[1400px] rounded-lg z-50   "
     >
-      <div className="relative h-[20vh] sm:h-[40vh] md:h-[48vh] min-h-[500px] ">
+      <div className="relative h-[10vh] sm:h-[40vh] md:h-[48vh] min-h-[400px] rounded-md ">
         <div className="h-full w-full rounded-lg relative">
           <div
             onClick={() => handleHideModal()}
@@ -130,7 +129,6 @@ const VideoShowModal = ({
                 <img
                   className="object-cover rounded-t-lg w-full overflow-hidden "
                   src={bgImage}
-                  // src={`https://image.tmdb.org/t/p/w500/${video?.backdrop_path}`}
                   alt=""
                 />
               )}
@@ -139,7 +137,11 @@ const VideoShowModal = ({
                 <div className="w-full h-full player-wrapper">
                   <ReactPlayer
                     className="react-player"
-                    url={`https://www.youtube.com/watch?v=${videos?.key}`}
+                    url={
+                      videos.key
+                        ? `https://www.youtube.com/watch?v=${videos?.key}`
+                        : videos
+                    }
                     width={"100%"}
                     height={"100%"}
                     style={{
@@ -167,14 +169,14 @@ const VideoShowModal = ({
             </div>
           )}
         </div>
-        <div className="absolute w-[40%] left-[3rem] h-[40%] top-[45%] flex flex-col z-10  ">
+        <div className="absolute w-[40%] left-[3rem] h-[40%] top-[35%] sm:top-[45%] flex flex-col z-10  ">
           <div className="w-full h-full relative">
-            <div>
-              <h1 className="w-full text-white text-2xl sm:text-4xl md:5xl  font-bold max-h-[60%] h-full overflow-hidden font-poppins  ">
+            {/* <div className="flex w-full h-full border ">
+              <h1 className="  text-white text-[2rem] flex-shrink-1  font-bold max-h-[60%]   overflow-hidden font-poppins  ">
                 {video?.title}
                 {video?.name}
               </h1>
-            </div>
+            </div> */}
             <div className="flex gap-2 flex-row h-[20%] absolute w-full bottom-0  items-center">
               <div onClick={handlePlayVideo} className="">
                 <button className="bannerButton bg-white text-black ">
@@ -230,10 +232,20 @@ const VideoShowModal = ({
           </div>
         </div>
       </div>
-      <div className="flex flex-col gap-2 w-full h-[40%]  p-4">
+      <div className="flex flex-col gap-2 w-full h-[40%] p-4">
         <div className="relative h-[100%]  ">
           <div className="max-w-[56%] h-full ">
-            <div className="flex gap-1">
+            <div>
+              {" "}
+              <p
+                className=" text-[1.8rem] font-bold
+                overflow-hidden font-poppins mb-5  tems-center content-start bg-gradient-to-br from-yellow-500 to-purple-700 text-transparent bg-clip-text "
+              >
+                {video?.title}
+                {video?.name}
+              </p>
+            </div>
+            <div className="flex gap-1 ">
               {/* <span className={spanStyle}>
                 Rating {parseFloat(video?.vote_average.toFixed(1))}
               </span> */}
@@ -268,13 +280,9 @@ const VideoShowModal = ({
               </p>
             </div>
           </div>
-          <div className="absolute right-6 md:right-10 top-0 max-w-[40%] ">
+          <div className="absolute right-6 md:right-10 top-0 max-w-[40%] flex flex-col justify-start items-start ">
             <div className="flex md:text-md text-gray-500 font-poppins  justify-center items-center ">
               <ul className="flex md:flex-row flex-col gap-1 mb-5 overflow-hidden justify-center items-center mt-1">
-                {/* <li className={`${listOneStyle}`}>Song Joong-ki</li>
-                <li className={listOneStyle}>Jeon Yeo-been</li>
-                <li className={listOneStyle}>OK Taec-yeon</li>
-                <li className={listOneStyle}>more</li> */}
                 Cast:&nbsp;
                 {casts.slice(0, 3).map((cast, index) => {
                   return (

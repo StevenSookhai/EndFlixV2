@@ -8,15 +8,17 @@ from .trending import seed_trending, undo_trending
 
 
 seed_commands = AppGroup('seed')
+
+
 @seed_commands.command('all')
 def seed():
     seed_users()
     seed_videos()
     seed_profiles()
-    seed_list()
-    seed_video_likes()
-    seed_trending()
-    
+    # seed_list()
+    # seed_video_likes()
+    # seed_trending()
+
 
 @seed_commands.command('undo')
 def undo():
@@ -26,5 +28,3 @@ def undo():
     undo_video_likes()
     undo_trending()
     undo_profiles()
-
-    
