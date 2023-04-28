@@ -24,5 +24,6 @@ dist-ssr
 *.sw?
 
 ./src/util/keys.js
-Backend/.flaskenv
-Frontend/src/util/keys.js
+./Backend/.flaskenv
+./Frontend/src/util/keys.js
+./Frontend/.env
