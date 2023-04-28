@@ -25,3 +25,4 @@ class SignUpForm(FlaskForm):
     password = PasswordField('password', validators=[
                              DataRequired(), Length(min=6)])
     submit = SubmitField('SignUP')
+ 
