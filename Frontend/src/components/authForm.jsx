@@ -5,14 +5,21 @@ import { authActions } from "../store/authSlice";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
-const AuthForm = () => {
+const AuthForm = ({ possibleEmail }) => {
+  console.log(possibleEmail);
   const [toggle, setToggle] = useState(true); // true = sign in, false = sign up
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState(possibleEmail);
   const [password, setPassword] = useState("");
+  const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state) => state.auth.user);
 
+  useEffect(() => {
+    if (possibleEmail) {
+      setEmail(possibleEmail);
+    }
+  }, []);
 
   const handleSignIn = async (e) => {
     e.preventDefault();
@@ -42,7 +49,7 @@ const AuthForm = () => {
     } else if (response.status < 500) {
       const data = await response.json();
       if (data.errors) {
-        console.log(data.errors);
+        setErrors(data.errors);
       }
     } else {
       console.log("An error occurred. Please try again.");
@@ -56,7 +63,7 @@ const AuthForm = () => {
           {toggle ? "Sign In" : "Sign Up"}
         </h2>
 
-        <form className="flex flex-col items-center justify-center z-10 sm:w-[314px] sm:h-[317px] w-full mt-[20px] sm:mt-0">
+        <form className="flex flex-col items-center justify-center z-10 sm:w-[314px] sm:h-[400px] w-full mt-[20px] sm:mt-0 ">
           <div className="relative mt-5 w-full">
             <input
               onChange={(e) => {
@@ -65,6 +72,7 @@ const AuthForm = () => {
               type="text"
               className="bg-[rgb(51,51,51)] w-full h-[50px] py-2 pl-3 pr-10 rounded-sm focus:bg-[rgb(80,80,80)] "
               placeholder="Email"
+              value={email}
             />
             {/* <label
               htmlFor="input-field"
@@ -78,9 +86,10 @@ const AuthForm = () => {
               onChange={(e) => {
                 setPassword(e.target.value);
               }}
-              type="text"
+              type="password"
               className=" bg-[rgb(51,51,51)] w-full h-[50px] py-2 pl-3 pr-10 rounded-sm focus:bg-[rgb(80,80,80)]"
               placeholder="Password"
+
             />
             {/* <label
               htmlFor="input-field"
@@ -88,23 +97,33 @@ const AuthForm = () => {
             >
               Password
             </label> */}
+            <ul className=" mt-3">
+              {Object.keys(errors).map((error, idx) => (
+                <li
+                  key={idx}
+                  className="text-[#e87c03] font-poppins font-semibold"
+                >
+                  {errors[error]}
+                </li>
+              ))}
+            </ul>
           </div>
           <button
             onClick={handleSignIn}
-            className="mt-12 bg-[#E50914] w-full h-[50px] rounded-sm font-poppins text-white text-lg font-bold"
+            className="mt-12 bg-[#E50914] w-full min-h-[50px] rounded-sm font-poppins text-white text-lg font-bold"
             type="submit"
           >
             {toggle ? "Sign In" : "Sign Up"}
           </button>
           <button
-            className="mt-6 bg-[#E50914] w-full h-[50px] rounded-sm font-poppins text-white text-lg font-bold"
+            className="mt-6 bg-[#E50914] w-full min-h-[50px] rounded-sm font-poppins text-white text-lg font-bold"
             type="submit"
           >
             Demo
           </button>
         </form>
       </div>
-      <div className="flex flex-row mt-2">
+      <div className={`flex flex-row mt-2 ${errors ? "mt-14" : ""}`}>
         <p className="text-[#737373] text-center mr-1">New to Endflix? </p>
         <button className="font-bold" onClick={() => setToggle(!toggle)}>
           {toggle ? "Sign up now" : "Sign In"}

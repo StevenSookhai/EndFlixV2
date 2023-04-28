@@ -5,7 +5,19 @@ import Section1 from "./section1";
 import Section2 from "./section2";
 import Section3 from "./section3";
 import Section4 from "./section4";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+
 const splashPage = () => {
+  const navigate = useNavigate();
+  const [emailInput, setEmailInput] = useState("");
+
+  const handleEmailInput = (event) => {
+    setEmailInput(event.target.value);
+  };
+  const handleGetStarted = () => {
+    navigate("/login", { state: { emailInput: emailInput } });
+  };
   const backgroundImage =
     "https://assets.nflxext.com/ffe/siteui/vlv3/a43711df-c428-4f88-8bb3-b2ac5f20608f/dd2786e8-9d8a-4c59-a1fc-0f85cf5efda4/US-en-20230227-popsignuptwoweeks-perspective_alpha_website_large.jpg";
   return (
@@ -51,10 +63,14 @@ const splashPage = () => {
             </p>
             <div className="flex xs:flex-col sm:flex-row justify-center items-center">
               <input
+                onChange={handleEmailInput}
                 placeholder="Email Address"
                 className="bg-white w-[500px] h-[150px] xs:w-[400px] xs:h-[50px] sm:w-[400px] sm:h-[50px] md:w-[500px] md:h-[70px] mt-5 text-black font-poppins text-lg px-5 rounded-sm"
               ></input>
-              <button className="bg-[#E50914] h-[150px] xs:w-[200px] xs:h-[50px] sm:w-[200px] sm:h-[50px] md:w-[200px] md:h-[70px] mt-5 text-white font-poppins text-lg px-5 rounded-sm ">
+              <button
+                onClick={handleGetStarted}
+                className="bg-[#E50914] h-[150px] xs:w-[200px] xs:h-[50px] sm:w-[200px] sm:h-[50px] md:w-[200px] md:h-[70px] mt-5 text-white font-poppins text-lg px-5 rounded-sm "
+              >
                 Get Started
               </button>
             </div>
@@ -70,8 +86,15 @@ const splashPage = () => {
       <Section4 />
       {/* section5 Social Links*/}
       <div
-        className={`${layout.section} bg-black w-full h-[250px] max-w-full border-5 `}
-      ></div>
+        className={`${layout.section} bg-black w-full h-[250px] max-w-full border-5 text-center text-white border-b-8 border-[rgb(52,52,52)] font-poppins`}
+      >
+        Disclaimer: This website is not affiliated with or endorsed by Netflix
+        Inc. It is a clone created solely for the purpose of showcasing
+        technical skills. All images, videos, and logos used on this website
+        belong to their rightful owners and are used solely for educational and
+        non-commercial purposes. I do not claim any ownership or copyright over
+        these materials.{" "}
+      </div>
     </div>
   );
 };

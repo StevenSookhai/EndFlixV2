@@ -33,11 +33,11 @@ const ManageProfiles = ({ profiles, handleManageProfile, getProfiles }) => {
               ))}
             </ul>
           </div>
-          <div className="mt-[2em] pr-[1.5em] pl-[1.5em]  border-gray-500 border-solid border-[1px] cursor-pointer hover:border-white flex justify-center items-center h-[30px] sm:h-[40px]">
-            <button
-              className="xs:text-[1em] sm:text-[1.2em] text-gray-500 hover:text-white"
-              onClick={handleManageProfile}
-            >
+          <div
+            onClick={handleManageProfile}
+            className="mt-[2em] pr-[1.5em] pl-[1.5em] group  border-gray-500 border-solid border-[1px] cursor-pointer hover:border-white flex justify-center items-center h-[30px] sm:h-[40px]"
+          >
+            <button className="xs:text-[1em] sm:text-[1.2em] text-gray-500 group-hover:text-white">
               Done
             </button>
           </div>

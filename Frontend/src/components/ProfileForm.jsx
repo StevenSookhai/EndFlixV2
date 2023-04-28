@@ -57,6 +57,8 @@ const ProfileForm = ({
             body: JSON.stringify({
               name: profileName,
               user_id: user.id,
+              image_url:
+                profileImages[Math.floor(Math.random() * profileImages.length)],
             }),
             credentials: "include",
           });
@@ -84,6 +86,7 @@ const ProfileForm = ({
           credentials: "include",
         }
       );
+      console.log(response);
       if (response.ok) {
         getProfiles();
         handleToggleEdit(null);
@@ -104,7 +107,7 @@ const ProfileForm = ({
         <div className="mr-[30px]">
           <img
             className="min-w-[84px] min-h-[84px] max-w-[300px] max-h-[300px] w-[15vw] border-[3px] border-transparent rounded-md"
-            src={add ? tempImage : image}
+            src={profile?.image_url ? profile.image_url : tempImage}
             alt=""
           />
         </div>

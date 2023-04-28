@@ -8,7 +8,7 @@ const MovieRow = ({ genre, MovieEndpoints, tag }) => {
   const sliderRef = useRef(null);
   const [movies, setMovies] = useState([]);
   const [scrollLeft, setScrollLeft] = useState(0);
-
+  const [isLoading, setIsLoading] = useState(false);
   const getScrollLeft = () => {
     if (rowRef.current) {
       const { scrollLeft, clientWidth } = rowRef.current;
@@ -20,10 +20,12 @@ const MovieRow = ({ genre, MovieEndpoints, tag }) => {
     "https://occ-0-3266-444.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABfRI824w4jsVd7kOlnfHwXPVEctZsKwGau1Woe2i8AHf5hD0w1eJntsonedM7rltdy44hXQHKtdE_0w7rX9iVJLkIJrrXQPxXWPG.webp?r=8d0";
 
   useEffect(() => {
+    setIsLoading(true);
     const fetchVideos = async () => {
       const response = await fetch(MovieEndpoints);
       const data = await response.json();
       setMovies(data.results);
+      setIsLoading(false);
     };
 
     fetchVideos();
@@ -69,7 +71,14 @@ const MovieRow = ({ genre, MovieEndpoints, tag }) => {
           <div ref={sliderRef} className="flex w-[96%]  ">
             {movies.map((movie) => {
               if (movie.backdrop_path)
-                return <MovieCard key={movie.id} movie={movie} tag={tag} />;
+                return (
+                  <MovieCard
+                    key={movie.id}
+                    movie={movie}
+                    tag={tag}
+                    loading={isLoading}
+                  />
+                );
             })}
           </div>
         </div>

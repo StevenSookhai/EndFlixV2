@@ -1,7 +1,11 @@
 import React from "react";
 import AuthForm from "../components/authForm";
-
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
+import { layout } from "../style";
 const AuthPage = () => {
+  const location = useLocation();
+  console.log(location.state?.emailInput);
   const backgroundImage =
     "https://assets.nflxext.com/ffe/siteui/vlv3/5523db5a-e2b2-497f-a88b-61f175c3dbad/28ef60c5-74bc-46ba-b4e4-84c6e431eef6/US-en-20230306-popsignuptwoweeks-perspective_alpha_website_medium.jpg";
   return (
@@ -25,7 +29,21 @@ const AuthPage = () => {
         />
       </div>
       <div className="absolute sm:h-[80%] h-[100%] w-full flex justify-center sm:mt-[100px]">
-        <AuthForm />
+        <AuthForm
+          possibleEmail={
+            location.state?.emailInput ? location.state?.emailInput : ""
+          }
+        />
+      </div>
+      <div
+        className={`${layout.section} absolute bottom-0  w-full h-[250px] max-w-full border-5 text-center text-white border-b-8 border-t-8 border-[rgb(52,52,52)] bg-[rgb(0,0,0,0.75)]  font-poppins z-20`}
+      >
+        Disclaimer: This website is not affiliated with or endorsed by Netflix
+        Inc. It is a clone created solely for the purpose of showcasing
+        technical skills. All images, videos, and logos used on this website
+        belong to their rightful owners and are used solely for educational and
+        non-commercial purposes. I do not claim any ownership or copyright over
+        these materials.{" "}
       </div>
     </div>
   );

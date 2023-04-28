@@ -4,12 +4,14 @@ import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import authSlice, { authActions } from "../store/authSlice";
 import { AiOutlineSearch } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
 const NavBar = () => {
   const [showMenu, setShowMenu] = useState(false);
   const [showSearch, setShowSearch] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [isScrolled, setIsScrolled] = useState(false);
+  const profile = useSelector((state) => state.auth.profile);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const searchRef = useRef();
@@ -148,7 +150,8 @@ const NavBar = () => {
         <img
           onMouseEnter={() => setShowMenu(true)}
           className="w-[40px] h-[40px] rounded-md cursor-pointer"
-          src="http://occ-0-3266-444.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQd4d531rYr0QnH2lEC7omicvIWxQTw1_rx-kENeMVr5DuRh51NtzpJa8GXfVivy7C207tpMW4R7NUMXAJOrt8dZHNszpECL4nre.png?r=8d7"
+          // src="http://occ-0-3266-444.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQd4d531rYr0QnH2lEC7omicvIWxQTw1_rx-kENeMVr5DuRh51NtzpJa8GXfVivy7C207tpMW4R7NUMXAJOrt8dZHNszpECL4nre.png?r=8d7"
+          src={profile.image_url}
           alt=""
         />
         {showMenu && (
