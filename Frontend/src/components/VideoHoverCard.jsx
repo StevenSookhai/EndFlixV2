@@ -278,9 +278,9 @@ const VideoHoverCard = ({ handleModalShown }) => {
                       </div>
                     )}
                   </div>
-                  <div className="sm:w-[30px] w-[20px] bg-zinc-900 sm:h-[30px] h-[20px] rounded-full flex justify-center items-center border-[1px] border-[rgb(100,100,100)] hover:border-white">
+                  {/* <div className="sm:w-[30px] w-[20px] bg-zinc-900 sm:h-[30px] h-[20px] rounded-full flex justify-center items-center border-[1px] border-[rgb(100,100,100)] hover:border-white">
                     <AiOutlineLike size={18} color={"white"} />
-                  </div>
+                  </div> */}
                   <div
                     onClick={handleShowModal}
                     className=" absolute sm:right-6 right-2 sm:w-[30px] w-[20px] bg-zinc-900 sm:h-[30px] h-[20px] rounded-full flex justify-center items-center border-[1px] border-[rgb(100,100,100)] hover:border-white"
