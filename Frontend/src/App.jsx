@@ -14,7 +14,7 @@ import { useSelector } from "react-redux";
 const App = () => {
   const [videos, setVideos] = useState([]);
   const user = useSelector((state) => state.auth.user);
-  // console.log("User: ", user);
+
   useEffect(() => {
     const authenticate = async () => {
       const response = await fetch("http://localhost:5000/api/auth/", {
@@ -27,48 +27,16 @@ const App = () => {
       if (response.ok) {
         const data = await response.json();
         if (data.errors) {
-          console.log(data.errors);
           return false;
         }
-        state.user = data.user;
-        state.isAuthenticated = true;
+
         return true;
       }
     };
     authenticate();
   }, []);
 
-  useEffect(() => {
-    const fetchVideos = async () => {
-      try {
-        const response = await fetch("http://localhost:5000/api/videos");
-        const data = await response.json();
-        setVideos(data.videos);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    fetchVideos();
-    console.log(videos);
-  }, []);
-
   return (
-    // <div>
-    //   <h1 className="text-6xl font-bold underline m-0">Video List</h1>
-    //   <div className="flex flex-col justify-center items-center">
-    //     {videos.map((video) => (
-    //       <div
-    //         className="flex flex-col justify-center items-center"
-    //         key={video._id}
-    //       >
-    //         <h2 className="font-bold">{video.title}</h2>
-    //         <p className="max-w-[1000px] px-[10px] my-[10px]">
-    //           {video.description}
-    //         </p>
-    //       </div>
-    //     ))}
-    //   </div>
-    // </div>
     <>
       <BrowserRouter>
         <Routes>

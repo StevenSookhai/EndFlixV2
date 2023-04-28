@@ -165,7 +165,6 @@ const VideoHoverCard = ({ handleModalShown }) => {
     }
   };
 
-  console.log(list);
   return (
     <>
       {!showModal && (
@@ -180,7 +179,9 @@ const VideoHoverCard = ({ handleModalShown }) => {
           className={` w-[${
             videoPos.width
           }px] z-30 absolute hover:scale-125  transition transform delay-100  ease-in-out duration-200 hover:-translate-y-[5rem] scale-100  ${
-            nearRightEdge ? " hover:-translate-x-[1.3rem] sm:hover:-translate-x-[32px] md:hover:-translate-x-[41px] xl:hover:-translate-x-[40px]" : "translate-x-0"
+            nearRightEdge
+              ? " hover:-translate-x-[1.3rem] sm:hover:-translate-x-[32px] md:hover:-translate-x-[41px] xl:hover:-translate-x-[40px]"
+              : "translate-x-0"
           }
         ${
           videoPos.nearLeftEdge ? "hover:translate-x-[1.3rem]" : "translate-x-0"

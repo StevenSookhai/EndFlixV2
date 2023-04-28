@@ -22,37 +22,37 @@ const AuthForm = ({ possibleEmail }) => {
   }, []);
 
   const handleSignIn = async (e) => {
-    e.preventDefault();
-    const url = toggle
-      ? "http://localhost:5000/api/auth/login"
-      : "http://localhost:5000/api/auth/signup";
+    try {
+      e.preventDefault();
 
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        email: email,
-        password: password,
-      }),
-      credentials: "include", // This is required to send the cookie
-    });
-    console.log(response);
+      const url = toggle
+        ? "http://localhost:5000/api/auth/login"
+        : "http://localhost:5000/api/auth/signup";
 
-    if (response.ok) {
-      const data = await response.json();
-      dispatch(authActions.login(data.user));
-      console.log(data.user);
-      console.log("User: ", user);
-      navigate("/profiles");
-    } else if (response.status < 500) {
-      const data = await response.json();
-      if (data.errors) {
-        setErrors(data.errors);
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+        credentials: "include", // This is required to send the cookie
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+
+        dispatch(authActions.login(data.user));
+
+        if (data.user) navigate("/profiles");
+        else if (data.errors) {
+          setErrors(data.errors);
+        }
       }
-    } else {
-      console.log("An error occurred. Please try again.");
+    } catch (error) {
+      console.error("An error occurred: ", error);
     }
   };
 
@@ -89,7 +89,6 @@ const AuthForm = ({ possibleEmail }) => {
               type="password"
               className=" bg-[rgb(51,51,51)] w-full h-[50px] py-2 pl-3 pr-10 rounded-sm focus:bg-[rgb(80,80,80)]"
               placeholder="Password"
-
             />
             {/* <label
               htmlFor="input-field"

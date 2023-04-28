@@ -16,7 +16,7 @@ import { VscUnmute } from "react-icons/vsc";
 import { IoVolumeMuteOutline } from "react-icons/io5";
 import { useNavigate } from "react-router-dom";
 
-const HeroVideo = ({ video }) => {
+const HeroVideo = ({ video, handleModalShown }) => {
   const [movie, setMovie] = useState({});
   const [tmdbVideo, setTmdbVideo] = useState({});
 
@@ -76,7 +76,6 @@ const HeroVideo = ({ video }) => {
   };
 
   const handleReplay = () => {
-    console.log(videoRef);
     setIsPlaying(true);
     setIsMuted(isMuted);
     videoRef.current.seekTo(0);
@@ -85,6 +84,7 @@ const HeroVideo = ({ video }) => {
 
   const handleHideModal = () => {
     setShowModal(!showModal);
+    handleModalShown();
   };
 
   const handleAddToList = (flag) => {
@@ -99,7 +99,6 @@ const HeroVideo = ({ video }) => {
 
   const handlePlayVideo = () => {
     navigate(`/watch/${tmdbVideo.id}`, { state: { tag: video.tag } });
-    // handleHideModal();
   };
 
   const handleAddAndDeleteFromList = async (flag) => {

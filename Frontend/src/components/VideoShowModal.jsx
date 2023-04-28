@@ -75,7 +75,6 @@ const VideoShowModal = ({
           `https://image.tmdb.org/t/p/original${video?.backdrop_path}`
         );
         const data2 = await response2;
-        console.log(data2.url);
 
         const image = data2.url;
         setBgImage(image);
@@ -92,7 +91,7 @@ const VideoShowModal = ({
     getCast();
     handleBuffer();
     // videoRef.current.currentTime = videoCurrentTime; // this to play the video from the time it was paused
-    videoRef.current?.seekTo(parseFloat(videoCurrentTime));
+    // videoRef.current?.seekTo(parseFloat(videoCurrentTime));
   }, []);
   const handleCloseModal = ({ handleHideModal }) => {
     dispatch(videoModalActions.hideModal());

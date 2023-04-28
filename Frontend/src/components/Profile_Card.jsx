@@ -49,9 +49,9 @@ const ProfileCard = ({
     try {
       const response = await fetch(`http://localhost:5000/api/videos/`);
       const data = await response.json();
-      console.log(data.videos);
+
       const video = data.videos[Math.floor(Math.random() * data.videos.length)];
-      console.log(video);
+
       dispatch(authActions.setHeroVideo(video));
     } catch (error) {
       console.log(error);

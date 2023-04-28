@@ -33,7 +33,7 @@ const authSlice = createSlice({
       state.list = action.payload;
     },
     setHeroVideo(state, action) {
-      console.log(action.payload);
+     
       state.heroVideo = action.payload;
     },
     removeHeroVideo(state) {

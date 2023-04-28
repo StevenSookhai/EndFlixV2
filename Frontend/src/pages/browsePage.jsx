@@ -16,7 +16,7 @@ const browsePage = () => {
   const heroVideo = useSelector((state) => state.auth.heroVideo);
   const showVideoModal = useSelector((state) => state.videoModal.showCard);
   const [isModalShown, setIsModalShown] = useState(false);
-  console.log(showVideoModal);
+
   const handleModalShown = () => {
     setIsModalShown(!isModalShown);
   };
@@ -36,7 +36,7 @@ const browsePage = () => {
 
       <div className="w-full h-full flex justify-center flex-col relative">
         <Navbar />
-        <HeroVideo video={heroVideo} />
+        <HeroVideo video={heroVideo} handleModalShown={handleModalShown} />
         <div className=" w-full z-10  top-[78%] absolute space-y-4 ">
           <MovieRow
             genre="Action"
