@@ -1,5 +1,5 @@
 import React from "react";
-import AuthForm from "../components/authForm";
+import AuthForm from "../components/AuthForm";
 import { useLocation } from "react-router-dom";
 import { useState } from "react";
 import { layout } from "../style";

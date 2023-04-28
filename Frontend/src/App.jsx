@@ -1,20 +1,15 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
-import SplashPage from "./pages/splash/splashPage.jsx";
-import AuthPage from "./pages/authPage";
-import ViewPage from "./pages/viewPage";
-import ProfilesPage from "./pages/profilesPage";
-import BrowsePage from "./pages/browsePage";
+import SplashPage from "./pages/splash/SplashPage.jsx";
+import AuthPage from "./pages/AuthPage.jsx";
+import ProfilesPage from "./pages/ProfilesPage.jsx";
+import BrowsePage from "./pages/BrowsePage.jsx";
 import MyListPage from "./pages/MyListPage";
 import SearchPage from "./pages/SearchPage";
 import VideoViewPage from "./pages/VideoViewPage";
 import ProtectedRoute from "./util/ProtectedRoute.jsx";
-import { useSelector } from "react-redux";
 
 const App = () => {
-  const [videos, setVideos] = useState([]);
-  const user = useSelector((state) => state.auth.user);
-
   useEffect(() => {
     const authenticate = async () => {
       const response = await fetch("http://localhost:5000/api/auth/", {

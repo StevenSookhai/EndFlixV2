@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import MovieCard from "../components/MovieCard";
 import { useState, useEffect } from "react";
 import VideoHoverCard from "../components/VideoHoverCard.jsx";
-import NavBar from "../components/navbar";
+import NavBar from "../components/NavBar";
 import { MovieApiKeys } from "../util/keys.js";
 const MyListPage = () => {
   const profile = useSelector((state) => state.auth.profile);
