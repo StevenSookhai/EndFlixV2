@@ -25,5 +25,4 @@ dist-ssr
 
  
 Backend/.flaskenv
-Frontend/src/util/keys.js
 Frontend/.env
