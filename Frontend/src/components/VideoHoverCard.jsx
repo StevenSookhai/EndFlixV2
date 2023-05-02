@@ -101,7 +101,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
   const handleShowModal = () => {
     const timeOutId = setTimeout(() => {
       const videoCurrentTime = videoRef.current.getCurrentTime();
-      setVideoCurrentTime(videoCurrentTime);
+      setVideoCurrentTime(null); // reset video time, need to work on this
       setShowModal(true);
       handleModalShown();
       document.body.classList.add("overflow-hidden");

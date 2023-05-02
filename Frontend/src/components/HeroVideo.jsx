@@ -11,6 +11,7 @@ import VideoShowModal from "./VideoShowModal";
 import { MovieApiKeys } from "../util/keys";
 import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "../store/authSlice";
+import { videoModalActions } from "../store/videoModal";
 
 import { VscUnmute } from "react-icons/vsc";
 import { IoVolumeMuteOutline } from "react-icons/io5";
@@ -24,7 +25,10 @@ const HeroVideo = ({ video, handleModalShown }) => {
   const list = useSelector((state) => state.auth.list);
   const profile = useSelector((state) => state.auth.profile);
   const heroVideo = useSelector((state) => state.auth.heroVideo);
-  const showVideoModal = useSelector((state) => state.videoModal.showCard);
+  const showVideoModal = useSelector(
+    (state) => state.videoModal.showVideoModal
+  );
+  const showCard = useSelector((state) => state.videoModal.showCard);
   const [videoCurrentTime, setVideoCurrentTime] = useState(0);
   const [showModal, setShowModal] = useState(false);
   const [isMuted, setIsMuted] = useState(true);
@@ -82,9 +86,17 @@ const HeroVideo = ({ video, handleModalShown }) => {
     videoRef.current.play();
   };
 
-  const handleHideModal = () => {
-    setShowModal(!showModal);
+  const handleShowModal = () => {
+    setShowModal(true);
     handleModalShown();
+    dispatch(videoModalActions.showModal());
+    document.body.classList.add("overflow-hidden");
+  };
+  const handleHideModal = () => {
+    setShowModal(false);
+    handleModalShown();
+    document.body.classList.remove("overflow-hidden");
+    dispatch(videoModalActions.hideModal());
   };
 
   const handleAddToList = (flag) => {
@@ -149,7 +161,7 @@ const HeroVideo = ({ video, handleModalShown }) => {
               ref={videoRef}
               url={video?.video_url}
               controls={false}
-              playing={showVideoModal && isPlaying && !showModal ? false : true}
+              playing={showVideoModal || showCard ? false : true}
               muted={isMuted ? true : false}
               loop={false}
               width="100%"
@@ -195,7 +207,7 @@ const HeroVideo = ({ video, handleModalShown }) => {
                 Play
               </button>
               <button
-                onClick={handleHideModal}
+                onClick={handleShowModal}
                 className="bannerButton bg-[rgb(109,109,110,.7)] text-white "
               >
                 <GrCircleInformation className="  h-5 w-5 fill md:h-8 md:w-8" />

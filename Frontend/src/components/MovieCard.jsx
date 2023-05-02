@@ -46,6 +46,7 @@ const MovieCard = ({ movie, tag, loading }) => {
       tag: tag,
     };
     dispatch(videoModalActions.showCard({ movie: movie, pos: pos }));
+    
   };
 
   const handleLeave = () => {

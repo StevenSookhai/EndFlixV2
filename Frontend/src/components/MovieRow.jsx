@@ -58,8 +58,8 @@ const MovieRow = ({ genre, MovieEndpoints, tag }) => {
   return (
     <>
       <div className="ml-[4%] relative group mr-1 ">
-        <p className="text-white text-md md:text-xl lg:text-2xl font-semibold  font-poppins">
-          Title
+        <p className="text-white text-md md:text-xl lg:text-2xl font-semibold ml-2  font-poppins">
+          {genre}
         </p>
         <div
           onClick={() => handleClick("left")}

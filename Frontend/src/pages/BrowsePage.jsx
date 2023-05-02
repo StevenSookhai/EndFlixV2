@@ -39,56 +39,82 @@ const browsePage = () => {
         <HeroVideo video={heroVideo} handleModalShown={handleModalShown} />
         <div className=" w-full z-10  top-[78%] absolute space-y-4 ">
           <MovieRow
-            genre="Action"
+            genre="Originals"
             MovieEndpoints={MovieEndpoints.NetFlixOriginals}
             tag={"tv"}
           />
           <MovieRow
-            genre="Action"
+            genre="K-Drama"
+            MovieEndpoints={MovieEndpoints.KDrama}
+            tag={"tv"}
+          />
+          <MovieRow
+            genre="Anime"
+            MovieEndpoints={MovieEndpoints.Anime}
+            tag={"tv"}
+          />
+          <MovieRow
+            genre="Animations"
             MovieEndpoints={MovieEndpoints.Animations}
             tag={"tv"}
           />
           <MovieRow
-            genre="Action"
+            genre="Upcoming"
             MovieEndpoints={MovieEndpoints.upcoming}
             tag={"movie"}
           />
 
           <MovieRow
-            genre="Action"
+            genre="Top Rated"
             MovieEndpoints={MovieEndpoints.top_rated}
             tag={"tv"}
           />
           <MovieRow
-            genre="Action"
+            genre="Now Playing"
             MovieEndpoints={MovieEndpoints.now_playing}
             tag={"movie"}
           />
           <MovieRow
-            genre="Action"
+            genre="Popular"
             MovieEndpoints={MovieEndpoints.popular}
             tag={"tv"}
           />
           <MovieRow
             genre="Action"
-            MovieEndpoints={MovieEndpoints.Animations}
+            MovieEndpoints={MovieEndpoints.Action}
             tag={"tv"}
           />
           <MovieRow
-            genre="Action"
-            MovieEndpoints={MovieEndpoints.upcoming}
-            tag={"movie"}
-          />
-          <MovieRow
-            genre="Action"
-            MovieEndpoints={MovieEndpoints.top_rated}
+            genre="Comedy"
+            MovieEndpoints={MovieEndpoints.Comedy}
             tag={"tv"}
           />
           <MovieRow
-            genre="Action"
-            MovieEndpoints={MovieEndpoints.now_playing}
-            tag={"movie"}
+            genre="Romance"
+            MovieEndpoints={MovieEndpoints.Romance}
+            tag={"tv"}
           />
+          <MovieRow
+            genre="Fantasy"
+            MovieEndpoints={MovieEndpoints.Fantasy}
+            tag={"tv"}
+          />
+          <MovieRow
+            genre="Mystery"
+            MovieEndpoints={MovieEndpoints.Mystery}
+            tag={"tv"}
+          />
+          <MovieRow
+            genre="Drama"
+            MovieEndpoints={MovieEndpoints.Drama}
+            tag={"tv"}
+          />
+          <MovieRow
+            genre="Crime"
+            MovieEndpoints={MovieEndpoints.Crime}
+            tag={"tv"}
+          />
+
           <div
             className={`flex md:flex-row flex-col items-center justify-center text-center before: w-full h-[250px]     border-5 border-b-8 border-[rgb(52,52,52)] text-white`}
           >
