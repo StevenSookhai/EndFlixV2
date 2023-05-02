@@ -397,14 +397,14 @@ def seed_videos():
         tag="movie"
     )
 
-    video8 = Video(
-        title="Oshi no Ko",
-        tmdb_id=203737,
-        video_backdrop="https://www.themoviedb.org/t/p/original/s76eYQi6hcAcOVYpVd9hofdyt11.jpg",
-        video_url="https://www.youtube.com/watch?v=ZRtdQ81jPUQ&ab_channel=Ayase%2FYOASOBI",
-        tite_url="https://endflix-seeds.s3.amazonaws.com/Oshi+no+KoT.png",
-        tag="tv"
-    )
+    # video8 = Video(
+    #     title="Oshi no Ko",
+    #     tmdb_id=203737,
+    #     video_backdrop="https://www.themoviedb.org/t/p/original/s76eYQi6hcAcOVYpVd9hofdyt11.jpg",
+    #     video_url="https://www.youtube.com/watch?v=ZRtdQ81jPUQ&ab_channel=Ayase%2FYOASOBI",
+    #     tite_url="https://endflix-seeds.s3.amazonaws.com/Oshi+no+KoT.png",
+    #     tag="tv"
+    # )
 
     video9 = Video(
         title="Hotel Del Luna",
@@ -431,7 +431,7 @@ def seed_videos():
     db.session.add(video5)
     db.session.add(video6)
     db.session.add(video7)
-    db.session.add(video8)
+    # db.session.add(video8)
     db.session.add(video9)
     db.session.add(video10)
 
