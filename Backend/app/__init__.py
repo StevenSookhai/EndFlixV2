@@ -17,7 +17,7 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 import os
 
 
-app = Flask(__name__, static_folder='../frontend/build', static_url_path='/')
+app = Flask(__name__, static_folder='Frontend/build', static_url_path='/')
 
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
@@ -71,7 +71,7 @@ def react_root(path):
         return app.send_static_file('public', 'favicon.ico')
     return app.send_static_file('index.html')
 
-# @app.errorhandler(404)
-# def not_found(e):
-#     return app.send_static_file('index.html')
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
 
