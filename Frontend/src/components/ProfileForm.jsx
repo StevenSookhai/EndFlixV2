@@ -86,7 +86,7 @@ const ProfileForm = ({
           credentials: "include",
         }
       );
-      console.log(response);
+
       if (response.ok) {
         getProfiles();
         handleToggleEdit(null);

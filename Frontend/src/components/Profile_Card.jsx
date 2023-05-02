@@ -41,7 +41,8 @@ const ProfileCard = ({
       const data = await response.json();
       dispatch(authActions.setList(data));
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      alert("Something went wrong! Please try again later.")
     }
   };
 
@@ -54,7 +55,8 @@ const ProfileCard = ({
 
       dispatch(authActions.setHeroVideo(video));
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      
     }
   };
 

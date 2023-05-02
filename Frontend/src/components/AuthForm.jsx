@@ -6,7 +6,6 @@ import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 
 const AuthForm = ({ possibleEmail }) => {
-  console.log(possibleEmail);
   const [toggle, setToggle] = useState(true); // true = sign in, false = sign up
   const [email, setEmail] = useState(possibleEmail);
   const [password, setPassword] = useState("");

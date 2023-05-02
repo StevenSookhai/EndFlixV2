@@ -134,7 +134,9 @@ const HeroVideo = ({ video, handleModalShown }) => {
       }
       dispatch(authActions.setList(data));
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      // Will handle later
+      alert("Something went wrong! Please try again later.")
     }
   };
 

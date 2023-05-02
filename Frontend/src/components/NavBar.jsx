@@ -45,7 +45,8 @@ const NavBar = () => {
         dispatch(authActions.logout());
       }
     } catch (error) {
-      console.log(error);
+      // console.log(error);
+      alert("Something went wrong! Please try again later.")
     }
   };
 

@@ -34,7 +34,7 @@ const MyListPage = () => {
           }
         }
       }
-      console.log(res);
+     
       setMovies(res);
     };
 
@@ -44,8 +44,7 @@ const MyListPage = () => {
   const handleModalShown = () => {
     setIsModalShown(!isModalShown);
   };
-  console.log(movies);
-  console.log(list);
+ 
   return (
     <>
       <NavBar />
