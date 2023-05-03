@@ -26,7 +26,7 @@ login.login_view = 'auth.unauthorized'
 def load_user(id):
     return User.query.get(int(id))
 # CORS(app, supports_credentials=True, resources={r'/*' : {'origins': ['http://localhost:5173', "https://endflixv2.onrender.com"]}})
-CORS(app)
+CORS(app, supports_credentials=True, resources={r'/*' : {'origins': '*'}})
 app.cli.add_command(seed_commands)
 app.config.from_object(Config)
  
