@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "heroku-postbuild": "cd ../Backend && npm install && npm run build"
   },
   "dependencies": {
     "@heroicons/react": "^1.0.6",
