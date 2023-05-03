@@ -21,7 +21,7 @@ app = Flask(__name__, static_folder='Fontend/dist', static_url_path='/')
 
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
-app.config["CORS_HEADERS"] = ["Content-Type", "X-CSRFToken", "Authorization"]
+# app.config["CORS_HEADERS"] = ["Content-Type", "X-CSRFToken", "Authorization"]
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
