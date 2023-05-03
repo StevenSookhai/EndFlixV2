@@ -35,7 +35,7 @@ const AuthForm = ({ possibleEmail }) => {
         : "https://endflix.onrender.com/api/auth/signup";
 
       const csrftoken = getCookie("csrf_token");
-
+      console.log("CSRF token:", csrftoken);
       const response = await fetch(url, {
         method: "POST",
         headers: {
