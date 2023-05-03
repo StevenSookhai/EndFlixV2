@@ -26,6 +26,7 @@ login.login_view = 'auth.unauthorized'
 def load_user(id):
     return User.query.get(int(id))
 # CORS(app, supports_credentials=True, resources={r'/*' : {'origins': ['http://localhost:5173', "https://endflixv2.onrender.com"]}})
+CORS(app, supports_credentials=True, resources={r'/*' : {'origins': '*'}})
 app.cli.add_command(seed_commands)
 app.config.from_object(Config)
  
@@ -39,14 +40,11 @@ app.register_blueprint(profile_routes, url_prefix='/api/profiles')
 
 db.init_app(app)
 Migrate(app, db)
-CORS(app, supports_credentials=True, resources={r'/*' : {'origins': '*'}})
-
 # CSRFProtect(app)
 
 
 
 @app.before_request
-@cross_origin(supports_credentials=True)
 def https_redirect():
     if os.environ.get('FLASK_ENV') == 'production':
         if request.headers.get('X-Forwarded-Proto') == 'http':
@@ -56,7 +54,6 @@ def https_redirect():
 
 
 @app.after_request
-@cross_origin(supports_credentials=True)
 def inject_csrf_token(response):
     response.set_cookie(
         'csrf_token',

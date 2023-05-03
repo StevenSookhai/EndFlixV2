@@ -14,14 +14,12 @@ def validation_errors_to_error_messages(validation_errors):
     return errorMessages
 
 @auth_routes.route('/')
-@cross_origin(supports_credentials=True)
 def authenticate():
     if current_user.is_authenticated:
         return current_user.to_dict()
     return {'errors': ['Unauthorized']}
 
 @auth_routes.route('/login', methods=['POST'])
-@cross_origin(supports_credentials=True)
 def login():
     form = LoginForm()
     form['csrf_token'].data = request.cookies['csrf_token']
@@ -33,12 +31,9 @@ def login():
 
 
 @auth_routes.route('/signup', methods=['POST'])
-@cross_origin(supports_credentials=True)
 def signup():
     form = SignUpForm() 
     form['csrf_token'].data = request.cookies['csrf_token']
-    print(form.data["email"])
-    print(form.data["password"])
     if form.validate_on_submit():
         user = User(
             email=form.data['email'],
