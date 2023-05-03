@@ -20,23 +20,27 @@ const AuthForm = ({ possibleEmail }) => {
     }
   }, []);
 
+  function getCookie(name) {
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop().split(";").shift();
+  }
+
   const handleSignIn = async (e) => {
     try {
       e.preventDefault();
 
-      // const url = toggle
-      //   ? "https://endflix.onrender.com/api/auth/login"
-      //   : "https://endflix.onrender.com/api/auth/signup";
-
       const url = toggle
-        ? "http://localhost:5000/api/auth/login"
-        : "http://localhost:5000/api/auth/signup";
+        ? "https://endflix.onrender.com/api/auth/login"
+        : "https://endflix.onrender.com/api/auth/signup";
+
+      const csrftoken = getCookie("csrftoken");
 
       const response = await fetch(url, {
         method: "POST",
         headers: {
-          // "Content-Type": "application/json",
           "Content-Type": "application/json",
+          "X-CSRFToken": csrftoken,
         },
         body: JSON.stringify({
           email: email,
@@ -47,7 +51,7 @@ const AuthForm = ({ possibleEmail }) => {
 
       if (response.ok) {
         const data = await response.json();
-
+        console.log(data);
         dispatch(authActions.login(data.user));
 
         if (data.user) navigate("/profiles");

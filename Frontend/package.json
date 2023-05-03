@@ -36,5 +36,5 @@
     "tailwindcss": "^3.2.7",
     "vite": "^4.1.0"
   },
-  "proxy": "https://endflix.onrender.com"
+  "proxy": "http://localhost:5000"
 }

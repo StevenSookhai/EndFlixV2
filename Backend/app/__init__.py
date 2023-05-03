@@ -17,7 +17,7 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 import os
 
 
-app = Flask(__name__, static_folder='Frontend/dist', static_url_path='/')
+app = Flask(__name__, static_folder='Fontend/dist', static_url_path='/')
 
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
@@ -26,9 +26,10 @@ login.login_view = 'auth.unauthorized'
 def load_user(id):
     return User.query.get(int(id))
 CORS(app, supports_credentials=True, resources={r'/*' : {'origins': ['http://localhost:5173']}})
+
 app.cli.add_command(seed_commands)
 app.config.from_object(Config)
- 
+# csrf = CSRFProtect(app)
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
 app.register_blueprint(video_routes, url_prefix='/api/videos')
 app.register_blueprint(user_routes, url_prefix='/api/users')
@@ -71,7 +72,7 @@ def react_root(path):
         return app.send_static_file('public', 'favicon.ico')
     return app.send_static_file('index.html')
 
-@app.errorhandler(404)
-def not_found(e):
-    return app.send_static_file('index.html')
+# @app.errorhandler(404)
+# def not_found(e):
+#     return app.send_static_file('index.html')
 
