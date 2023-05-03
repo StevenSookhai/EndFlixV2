@@ -18,7 +18,7 @@ const ProfilesPage = () => {
   const getProfiles = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/users/${user.id}`,
+        `https://endflix.onrender.com/api/users/${user.id}`,
         {
           method: "GET",
           headers: {

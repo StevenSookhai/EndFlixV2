@@ -12,7 +12,7 @@ import ProtectedRoute from "./util/ProtectedRoute.jsx";
 const App = () => {
   useEffect(() => {
     const authenticate = async () => {
-      const response = await fetch("http://localhost:5000/api/auth/", {
+      const response = await fetch("https://endflix.onrender.com/api/auth/", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

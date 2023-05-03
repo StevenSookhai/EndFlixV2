@@ -25,7 +25,7 @@ const ProfileForm = ({
       if (profileName !== profile.name) {
         try {
           const response = await fetch(
-            `http://localhost:5000/api/profiles/${profile.id}`,
+            `https://endflix.onrender.com/api/profiles/${profile.id}`,
             {
               method: "PATCH",
               headers: {
@@ -49,7 +49,7 @@ const ProfileForm = ({
     } else if (add) {
       if (profileName !== "") {
         try {
-          const response = await fetch(`http://localhost:5000/api/profiles/`, {
+          const response = await fetch(`https://endflix.onrender.com/api/profiles/`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -77,7 +77,7 @@ const ProfileForm = ({
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `http://localhost:5000/api/profiles/${profile.id}`,
+        `https://endflix.onrender.com/${profile.id}`,
         {
           method: "DELETE",
           headers: {

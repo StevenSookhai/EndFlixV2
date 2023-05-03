@@ -28,7 +28,7 @@ const ProfileCard = ({
 
   const getList = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/lists/`, {
+      const response = await fetch(`https://endflix.onrender.com/api/lists/`, {
         method: "POST",
         body: JSON.stringify({
           profile_id: profile.id,
@@ -48,7 +48,7 @@ const ProfileCard = ({
 
   const getHeroVideo = async () => {
     try {
-      const response = await fetch(`http://localhost:5000/api/videos/`);
+      const response = await fetch(`https://endflix.onrender.com/api/videos/`);
       const data = await response.json();
 
       const video = data.videos[Math.floor(Math.random() * data.videos.length)];
@@ -56,7 +56,7 @@ const ProfileCard = ({
       dispatch(authActions.setHeroVideo(video));
     } catch (error) {
       // console.log(error);
-      
+
     }
   };
 

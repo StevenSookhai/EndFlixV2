@@ -34,7 +34,7 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("http://localhost:5000/api/auth/logout", {
+      const response = await fetch("https://endflix.onrender.com/api/auth/logout", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
