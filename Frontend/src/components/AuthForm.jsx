@@ -33,9 +33,13 @@ const AuthForm = ({ possibleEmail }) => {
         headers: {
           "Content-Type": "application/json",
         },
+        // body: JSON.stringify({
+        //   email: email,
+        //   password: password,
+        // }),
         body: JSON.stringify({
-          email: email,
-          password: password,
+          email,
+          password,
         }),
         credentials: "include", // This is required to send the cookie
       });
