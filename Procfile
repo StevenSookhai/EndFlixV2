@@ -1,1 +1,1 @@
-web: cd Frontend && npm install && npm run build && npm run preview cd .. && gunicorn Backend.app:app
+web: cd Frontend && npm install && npm run build && npm run preview cd .. && cd Backend pipev install -r requirements.txt gunicorn Backend.app:app
