@@ -1,3 +1,0 @@
-flask db upgrade
-flask seed all
-web: gunicorn app:app
