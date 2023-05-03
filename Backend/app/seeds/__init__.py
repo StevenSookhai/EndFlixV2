@@ -5,6 +5,8 @@ from .videos import seed_videos, undo_videos
 from .list import seed_list, undo_list
 from .video_likes import seed_video_likes, undo_video_likes
 from .trending import seed_trending, undo_trending
+# from .models import db, User, Video, List, VideoLike, Trending 
+from ..models import db
 
 
 seed_commands = AppGroup('seed')
@@ -15,7 +17,7 @@ def seed():
     seed_users()
     seed_videos()
     seed_profiles()
-    # seed_list()
+    seed_list()
     # seed_video_likes()
     # seed_trending()
 
@@ -28,3 +30,9 @@ def undo():
     undo_video_likes()
     undo_trending()
     undo_profiles()
+
+@seed_commands.command('refresh')
+def reset_db():
+    db.drop_all()
+    db.create_all()
+    print("All tables have been dropped and recreated.")

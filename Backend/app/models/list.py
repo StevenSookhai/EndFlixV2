@@ -9,8 +9,7 @@ from datetime import datetime
 class List(db.Model):
     __tablename__ = 'lists'
     id = db.Column(db.Integer, primary_key=True)
-    profile_id = db.Column(db.Integer, db.ForeignKey(
-        add_prefix_for_prod('profiles.id')), nullable=False, unique=True)
+    profile_id = db.Column(db.Integer, db.ForeignKey("profiles.id"), nullable=False, unique=True)
     videos = db.Column(db.JSON, nullable=False, default=db.JSON)
     created_at = db.Column(db.DateTime, default=datetime.utcnow())
     updated_at = db.Column(db.DateTime, default=datetime.utcnow())
