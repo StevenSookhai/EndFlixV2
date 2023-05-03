@@ -12,7 +12,7 @@ from flask_migrate import Migrate
 from .seeds import seed_commands
 from flask_login import LoginManager
 from .models import User
-from flask_cors import CORS, cross_origin
+from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect, generate_csrf
 import os
 
@@ -25,8 +25,7 @@ login.login_view = 'auth.unauthorized'
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-# CORS(app, supports_credentials=True, resources={r'/*' : {'origins': ['http://localhost:5173', "https://endflixv2.onrender.com"]}})
-CORS(app, supports_credentials=True, resources={r'/*' : {'origins': '*'}})
+CORS(app, supports_credentials=True, resources={r'/*' : {'origins': ['http://localhost:5173']}})
 app.cli.add_command(seed_commands)
 app.config.from_object(Config)
  
@@ -65,13 +64,14 @@ def inject_csrf_token(response):
     return response
 
 
-# @app.route('/', defaults={'path': ''})
-# @app.route('/<path:path>')
-# def react_root(path):
-    
-#     return app.send_static_file('index.html')
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def react_root(path):
+    if path == 'favicon.ico':
+        return app.send_static_file('public', 'favicon.ico')
+    return app.send_static_file('index.html')
 
-# @app.errorhandler(404)
-# def not_found(e):
-#     return app.send_static_file('index.html')
+@app.errorhandler(404)
+def not_found(e):
+    return app.send_static_file('index.html')
 
