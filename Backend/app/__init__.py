@@ -46,6 +46,7 @@ CORS(app, supports_credentials=True, resources={r'/*' : {'origins': '*'}})
 
 
 @app.before_request
+@cross_origin(supports_credentials=True)
 def https_redirect():
     if os.environ.get('FLASK_ENV') == 'production':
         if request.headers.get('X-Forwarded-Proto') == 'http':
@@ -55,6 +56,7 @@ def https_redirect():
 
 
 @app.after_request
+@cross_origin(supports_credentials=True)
 def inject_csrf_token(response):
     response.set_cookie(
         'csrf_token',
