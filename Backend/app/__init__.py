@@ -21,7 +21,7 @@ app = Flask(__name__, static_folder='Fontend/dist', static_url_path='/')
 
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
-
+app.config["CORS_HEADERS"] = ["Content-Type", "X-CSRFToken", "Authorization"]
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -65,7 +65,7 @@ def inject_csrf_token(response):
         'csrf_token',
         generate_csrf(),
         secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
-        samesite="Lax" if os.environ.get(
+        samesite='Strict' if os.environ.get(
             'FLASK_ENV') == 'production' else None,
         httponly=True)
     return response
