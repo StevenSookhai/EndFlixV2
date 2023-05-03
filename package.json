@@ -1,0 +1,20 @@
+{
+  "name": "endflixv2",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "heroku-postbuild": "cd Frontend && npm install && npm run build",
+    "heroku-prebuild": "cd Frontend && npm install && npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/StevenSookhai/EndFlixV2.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/StevenSookhai/EndFlixV2/issues"
+  },
+  "homepage": "https://github.com/StevenSookhai/EndFlixV2#readme"
+}
