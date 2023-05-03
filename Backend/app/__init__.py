@@ -53,12 +53,11 @@ def https_redirect():
             return redirect(url, code=code)
 
 
-@app.after_request
 def inject_csrf_token(response):
     response.set_cookie(
         'csrf_token',
         generate_csrf(),
-        secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
+        secure=True, # Always set secure to true in production
         samesite='Strict' if os.environ.get(
             'FLASK_ENV') == 'production' else None,
         httponly=True)
