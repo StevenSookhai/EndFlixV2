@@ -31,7 +31,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter(User.email == form.data['email']).first()
         login_user(user)
-        # print(current_user)
+        print(current_user)
         return {'user': user.to_dict()}
     print(form.errors)
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401
@@ -49,6 +49,7 @@ def signup():
         )
         db.session.add(user)
         db.session.commit()
+        print(user)
         login_user(user)
         return {'user': user.to_dict()}
     return {'errors': validation_errors_to_error_messages(form.errors)}
