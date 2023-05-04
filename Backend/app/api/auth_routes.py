@@ -31,6 +31,7 @@ def login():
     if form.validate_on_submit():
         user = User.query.filter(User.email == form.data['email']).first()
         login_user(user)
+        session.modified = True
         print(current_user)
         print(current_user.is_authenticated)
         return {'user': user.to_dict()}
@@ -52,6 +53,7 @@ def signup():
         db.session.commit()
         print(user)
         login_user(user)
+        session.modified = True
         return {'user': user.to_dict()}
     return {'errors': validation_errors_to_error_messages(form.errors)}
 
