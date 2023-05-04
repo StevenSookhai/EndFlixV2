@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, session, request
 from app.models import db, Profile
-from flask_login import login_required
+from flask_login import login_required, current_user
 from sqlalchemy.exc import SQLAlchemyError
 from app.models import List
 
@@ -8,7 +8,7 @@ profile_routes = Blueprint('profiles', __name__)
 
 
 @profile_routes.route('/', methods=['POST'])
-# @login_required
+@login_required
 def create_profile():
     try:
         if request.method == 'POST':
@@ -27,6 +27,7 @@ def create_profile():
 @ profile_routes.route('/<int:id>', methods=['PATCH', 'GET'])
 @ login_required
 def update_profile(id):
+    print(current_user)
     try:
         if request.method == 'GET':
             profile = Profile.query.get(id)
@@ -44,7 +45,7 @@ def update_profile(id):
 
 
 @ profile_routes.route('/<int:id>', methods=['DELETE'])
-# @ login_required
+@ login_required
 def delete_profile(id):
     try:
         print('id', id)

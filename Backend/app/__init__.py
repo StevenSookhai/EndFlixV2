@@ -22,10 +22,14 @@ app = Flask(__name__, static_folder='Fontend/dist', static_url_path='/')
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
 
+
 @login.user_loader
 def load_user(id):
     return User.query.get(int(id))
-CORS(app, supports_credentials=True, resources={r'/*' : {'origins': ['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"]}})
+
+
+CORS(app, supports_credentials=True, resources={
+     r'/*': {'origins': ['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"]}})
 # CORS(auth_routes, supports_credentials=True, origins=['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"])
 # CORS(video_routes, supports_credentials=True, origins=['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"])
 # CORS(user_routes, supports_credentials=True, origins=['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"])
@@ -45,8 +49,8 @@ app.register_blueprint(profile_routes, url_prefix='/api/profiles')
 
 db.init_app(app)
 Migrate(app, db)
- 
- 
+
+
 @app.before_request
 def https_redirect():
     if os.environ.get('FLASK_ENV') == 'production':
@@ -64,10 +68,12 @@ def inject_csrf_token(response):
         'csrf_token',
         token,
         secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
-        samesite='Strict' if os.environ.get('FLASK_ENV') == 'production' else None,
+        samesite='Strict' if os.environ.get(
+            'FLASK_ENV') == 'production' else None,
         httponly=True)
     print(f"Set CSRF token in response: {response}")
     return response
+
 
 @app.route('/', defaults={'path': ''})
 @app.route('/<path:path>')
@@ -76,9 +82,11 @@ def react_root(path):
         return app.send_static_file('public', 'favicon.ico')
     return app.send_static_file('index.html')
 
+
 @app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
+
 
 @app.route("/api/auth/csrf-token", methods=["GET"])
 def csrf_token():

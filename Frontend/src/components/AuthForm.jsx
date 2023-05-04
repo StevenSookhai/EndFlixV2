@@ -4,8 +4,9 @@ import Cookies from "js-cookie";
 import { authActions } from "../store/authSlice";
 import { Navigate } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import LoadingSpinner from "./Loader";
 
-const AuthForm = ({ possibleEmail }) => {
+const AuthForm = ({ possibleEmail, handleLoading }) => {
   // console.log(possibleEmail);
   const [toggle, setToggle] = useState(true); // true = sign in, false = sign up
   const [email, setEmail] = useState(possibleEmail);
@@ -13,18 +14,19 @@ const AuthForm = ({ possibleEmail }) => {
   const [errors, setErrors] = useState({});
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isloading, setIsLoading] = useState(false);
   const user = useSelector((state) => state.auth.user);
 
   useEffect(() => {
     if (possibleEmail) {
       setEmail(possibleEmail);
     }
-    document.addEventListener("DOMContentLoaded", () => {
-      const csrfToken = getCsrfToken();
-      console.log("csrf_token:", csrfToken);
+    // document.addEventListener("DOMContentLoaded", () => {
+    //   const csrfToken = getCsrfToken();
+    //   console.log("csrf_token:", csrfToken);
 
-      // Rest of your code
-    });
+    //   // Rest of your code
+    // });
   }, []);
 
   function getCsrfToken() {
@@ -33,19 +35,49 @@ const AuthForm = ({ possibleEmail }) => {
     return match && match[1];
   }
 
-  const csrfToken = getCsrfToken();
-  console.log("csrf_token:", csrfToken);
+  const handleDemo = async (e) => {
+    e.preventDefault();
+    const url = "http://localhost:5000/api/auth/login";
+    // const url = "https://endflix.onrender.com/api/auth/demo";
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        email: "demo@demo.com",
+        password: "password",
+      }),
+      credentials: "include", // This is required to send the cookie
+    });
+    if (response.ok) {
+      // setIsLoading(true);
+      handleLoading();
+      const data = await response.json();
+      dispatch(authActions.login(data.user));
+
+      if (data.user) navigate("/profiles");
+      else if (data.errors) {
+        setErrors(data.errors);
+      }
+    } else if (response.status === 401) {
+      const data = await response.json();
+      console.log(data);
+      setErrors(data.errors);
+    }
+  };
 
   const handleSignIn = async (e) => {
+    console.log("handleSignIn");
     try {
       e.preventDefault();
 
-      // const url = toggle
-      //   ? "http://localhost:5000/api/auth/login"
-      //   : "http://localhost:5000/api/auth/signup";
       const url = toggle
-        ? "https://endflix.onrender.com/api/auth/login"
-        : "https://endflix.onrender.com/api/auth/signup";
+        ? "http://localhost:5000/api/auth/login"
+        : "http://localhost:5000/api/auth/signup";
+      // const url = toggle
+      //   ? "https://endflix.onrender.com/api/auth/login"
+      //   : "https://endflix.onrender.com/api/auth/signup";
 
       const response = await fetch(url, {
         method: "POST",
@@ -61,14 +93,19 @@ const AuthForm = ({ possibleEmail }) => {
       });
 
       if (response.ok) {
+        // setIsLoading(true);
+        handleLoading();
         const data = await response.json();
-
         dispatch(authActions.login(data.user));
 
         if (data.user) navigate("/profiles");
         else if (data.errors) {
           setErrors(data.errors);
         }
+      } else if (response.status === 401) {
+        const data = await response.json();
+        console.log(data);
+        setErrors(data.errors);
       }
     } catch (error) {
       console.error("An error occurred: ", error);
@@ -76,78 +113,84 @@ const AuthForm = ({ possibleEmail }) => {
   };
 
   return (
-    <div className="sm:min-h-[660px] sm:min-w-[450px] sm:max-h-[660px] sm:max-w-[450px] w-full h-[100%] bg-[rgb(0,0,0,0.75)] pt-[60px] pr-[68px] pb-[40px] pl-[68px] rounded-md">
-      <div className="flex flex-col items-center justify-center min-w-[314px] min-h-[317px]  ">
-        <h2 className="w-full h-[25px] text-left text-white font-bold text-4xl ">
-          {toggle ? "Sign In" : "Sign Up"}
-        </h2>
+    <>
+      {isloading && <LoadingSpinner />}
+      {!isloading && (
+        <div className="sm:min-h-[660px] sm:min-w-[450px] sm:max-h-[660px] sm:max-w-[450px] w-full h-[100%] borde bg-[rgb(0,0,0,0.75)] pt-[60px] pr-[68px] pb-[40px] pl-[68px] rounded-md">
+          <div className="flex flex-col items-center justify-center min-w-[314px] min-h-[317px]  ">
+            <h2 className="w-full h-[25px] text-left text-white font-bold text-4xl ">
+              {toggle ? "Sign In" : "Sign Up"}
+            </h2>
 
-        <form className="flex flex-col items-center justify-center z-10 sm:w-[314px] sm:h-[400px] w-full mt-[20px] sm:mt-0 ">
-          <div className="relative mt-5 w-full">
-            <input
-              onChange={(e) => {
-                setEmail(e.target.value);
-              }}
-              type="text"
-              className="bg-[rgb(51,51,51)] w-full h-[50px] py-2 pl-3 pr-10 rounded-sm focus:bg-[rgb(80,80,80)] "
-              placeholder="Email"
-              value={email}
-            />
-            {/* <label
+            <form className="flex flex-col items-center justify-center z-10 sm:w-[314px] sm:h-[400px] w-full mt-[20px] sm:mt-0 ">
+              <div className="relative mt-5 w-full">
+                <input
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
+                  type="text"
+                  className="bg-[rgb(51,51,51)] w-full h-[50px] py-2 pl-3 pr-10 rounded-sm focus:bg-[rgb(80,80,80)] "
+                  placeholder="Email"
+                  value={email}
+                />
+                {/* <label
               htmlFor="input-field"
               className="absolute left-0 top-3 text-gray-400 text-lg pl-4 transition-all duration-100 ease-in-out font-poppins"
             >
               Email
             </label> */}
-          </div>
-          <div className="relative mt-5 w-full">
-            <input
-              onChange={(e) => {
-                setPassword(e.target.value);
-              }}
-              type="password"
-              className=" bg-[rgb(51,51,51)] w-full h-[50px] py-2 pl-3 pr-10 rounded-sm focus:bg-[rgb(80,80,80)]"
-              placeholder="Password"
-            />
-            {/* <label
+              </div>
+              <div className="relative mt-5 w-full">
+                <input
+                  onChange={(e) => {
+                    setPassword(e.target.value);
+                  }}
+                  type="password"
+                  className=" bg-[rgb(51,51,51)] w-full h-[50px] py-2 pl-3 pr-10 rounded-sm focus:bg-[rgb(80,80,80)]"
+                  placeholder="Password"
+                />
+                {/* <label
               htmlFor="input-field"
               className="absolute left-0 top-3 focus:mb-4 text-gray-400 text-lg pl-2 transition-all duration-100 ease-in-out font-poppins"
             >
               Password
             </label> */}
-            <ul className=" mt-3">
-              {Object.keys(errors).map((error, idx) => (
-                <li
-                  key={idx}
-                  className="text-[#e87c03] font-poppins font-semibold"
-                >
-                  {errors[error]}
-                </li>
-              ))}
-            </ul>
+                <ul className=" mt-3">
+                  {Object.keys(errors).map((error, idx) => (
+                    <li
+                      key={idx}
+                      className="text-[#e87c03] font-poppins font-semibold"
+                    >
+                      {errors[error]}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <button
+                onClick={handleSignIn}
+                className="mt-12 bg-[#E50914] w-full min-h-[50px] rounded-sm font-poppins text-white text-lg font-bold"
+                type="submit"
+              >
+                {toggle ? "Sign In" : "Sign Up"}
+              </button>
+              <button
+                onClick={handleDemo}
+                className="mt-6 bg-[#E50914] w-full min-h-[50px] rounded-sm font-poppins text-white text-lg font-bold"
+                type="submit"
+              >
+                Demo
+              </button>
+            </form>
           </div>
-          <button
-            onClick={handleSignIn}
-            className="mt-12 bg-[#E50914] w-full min-h-[50px] rounded-sm font-poppins text-white text-lg font-bold"
-            type="submit"
-          >
-            {toggle ? "Sign In" : "Sign Up"}
-          </button>
-          <button
-            className="mt-6 bg-[#E50914] w-full min-h-[50px] rounded-sm font-poppins text-white text-lg font-bold"
-            type="submit"
-          >
-            Demo
-          </button>
-        </form>
-      </div>
-      <div className={`flex flex-row mt-2 ${errors ? "mt-14" : ""}`}>
-        <p className="text-[#737373] text-center mr-1">New to Endflix? </p>
-        <button className="font-bold" onClick={() => setToggle(!toggle)}>
-          {toggle ? "Sign up now" : "Sign In"}
-        </button>
-      </div>
-    </div>
+          <div className={`flex flex-row mt-2 ${errors ? "mt-14" : ""}`}>
+            <p className="text-[#737373] text-center mr-1">New to Endflix? </p>
+            <button className="font-bold" onClick={() => setToggle(!toggle)}>
+              {toggle ? "Sign up now" : "Sign In"}
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 

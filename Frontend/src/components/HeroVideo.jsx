@@ -136,7 +136,7 @@ const HeroVideo = ({ video, handleModalShown }) => {
     } catch (error) {
       // console.log(error);
       // Will handle later
-      alert("Something went wrong! Please try again later.")
+      alert("Something went wrong! Please try again later.");
     }
   };
 
@@ -220,27 +220,29 @@ const HeroVideo = ({ video, handleModalShown }) => {
         </div>
       </div>
 
-      <CSSTransition
-        mountOnEnter
-        unmountOnExit
-        in={showModal}
-        timeout={400}
-        classNames="fade-slide"
-        nodeRef={modalRef}
-      >
-        <VideoShowModal
-          handleHideModal={handleHideModal}
-          forwaredRef={modalRef}
-          video={tmdbVideo}
-          videos={video.video_url}
-          videoCurrentTime={videoCurrentTime}
-          isMuted={isMuted}
-          handleAddToList={handleAddToList}
-          isInList={isInList}
-          tag={video.tag}
-          handleMute={handleMute}
-        />
-      </CSSTransition>
+      <div className="absolute top-0">
+        <CSSTransition
+          mountOnEnter
+          unmountOnExit
+          in={showModal}
+          timeout={400}
+          classNames="fade-slide"
+          nodeRef={modalRef}
+        >
+          <VideoShowModal
+            handleHideModal={handleHideModal}
+            forwaredRef={modalRef}
+            video={tmdbVideo}
+            videos={video.video_url}
+            videoCurrentTime={videoCurrentTime}
+            isMuted={isMuted}
+            handleAddToList={handleAddToList}
+            isInList={isInList}
+            tag={video.tag}
+            handleMute={handleMute}
+          />
+        </CSSTransition>
+      </div>
     </>
   );
 };
