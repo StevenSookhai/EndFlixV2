@@ -10,6 +10,7 @@ profile_routes = Blueprint('profiles', __name__)
 @profile_routes.route('/', methods=['POST'])
 @login_required
 def create_profile():
+    print(current_user)
     try:
         if request.method == 'POST':
             profile = Profile(
@@ -47,6 +48,8 @@ def update_profile(id):
 @ profile_routes.route('/<int:id>', methods=['DELETE'])
 @ login_required
 def delete_profile(id):
+    print(current_user)
+
     try:
         print('id', id)
         profile = Profile.query.get(id)
