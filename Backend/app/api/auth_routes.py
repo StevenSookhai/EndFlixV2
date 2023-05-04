@@ -22,20 +22,22 @@ def authenticate():
 @auth_routes.route('/login', methods=['POST'])
 
 def login():
-    form = LoginForm()
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form = LoginForm(csrf_enabled=False)
+    # form['csrf_token'].data = request.cookies['csrf_token']
+    print(request)
     if form.validate_on_submit():
         user = User.query.filter(User.email == form.data['email']).first()
         login_user(user)
-        print(current_user)
+        # print(current_user)
         return {'user': user.to_dict() }
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401 
 
 
 @auth_routes.route('/signup', methods=['POST'])
 def signup():
-    form = SignUpForm() 
-    form['csrf_token'].data = request.cookies['csrf_token']
+    form = SignUpForm(csrf_enabled=False) 
+    # form['csrf_token'].data = request.cookies['csrf_token']
+    print(request.keys())
     if form.validate_on_submit():
         user = User(
             email=form.data['email'],
@@ -56,4 +58,5 @@ def logout():
 @auth_routes.route('/unauthorized')
 def unauthorized():
     return {'errors': ['Unauthorized']}, 401
+ 
  

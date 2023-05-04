@@ -19,15 +19,33 @@ const AuthForm = ({ possibleEmail }) => {
     if (possibleEmail) {
       setEmail(possibleEmail);
     }
+    document.addEventListener("DOMContentLoaded", () => {
+      const csrfToken = getCsrfToken();
+      console.log("csrf_token:", csrfToken);
+
+      // Rest of your code
+    });
   }, []);
+
+  function getCsrfToken() {
+    const csrfTokenRegex = /csrf_token=([^;]+);?/;
+    const match = document.cookie.match(csrfTokenRegex);
+    return match && match[1];
+  }
+
+  const csrfToken = getCsrfToken();
+  console.log("csrf_token:", csrfToken);
 
   const handleSignIn = async (e) => {
     try {
       e.preventDefault();
 
+      // const url = toggle
+      //   ? "http://localhost:5000/api/auth/login"
+      //   : "http://localhost:5000/api/auth/signup";
       const url = toggle
-        ? "http://localhost:5000/api/auth/login"
-        : "http://localhost:5000/api/auth/signup";
+        ? "https://endflix.onrender.com/api/auth/login"
+        : "https://endflix.onrender.com/api/auth/signup";
 
       const response = await fetch(url, {
         method: "POST",
@@ -39,6 +57,7 @@ const AuthForm = ({ possibleEmail }) => {
           password: password,
         }),
         credentials: "include", // This is required to send the cookie
+        // withCredentials: true,
       });
 
       if (response.ok) {
