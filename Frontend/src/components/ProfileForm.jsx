@@ -25,8 +25,8 @@ const ProfileForm = ({
       if (profileName !== profile.name) {
         try {
           const response = await fetch(
-            // `https://endflix.onrender.com/api/profiles/${profile.id}`,
-            `http://localhost:5000/api/profiles/${profile.id}`,
+            `https://endflix.onrender.com/api/profiles/${profile.id}`,
+            // `http://localhost:5000/api/profiles/${profile.id}`,
             {
               method: "PATCH",
               headers: {
