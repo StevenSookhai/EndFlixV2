@@ -5,9 +5,6 @@ from app.models import User
 import re
 
 
-import re
-
-
 def email_exists(form, field):
 
     email = field.data
@@ -25,4 +22,3 @@ class SignUpForm(FlaskForm):
     password = PasswordField('password', validators=[
                              DataRequired(), Length(min=6)])
     submit = SubmitField('SignUP')
- 

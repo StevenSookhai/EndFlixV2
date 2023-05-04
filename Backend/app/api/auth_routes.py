@@ -37,7 +37,7 @@ def login():
 def signup():
     form = SignUpForm(csrf_enabled=False) 
     # form['csrf_token'].data = request.cookies['csrf_token']
-    print(request.keys())
+    # print(request.keys())
     if form.validate_on_submit():
         user = User(
             email=form.data['email'],
