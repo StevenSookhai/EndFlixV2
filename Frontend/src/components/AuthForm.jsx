@@ -37,8 +37,8 @@ const AuthForm = ({ possibleEmail, handleLoading }) => {
 
   const handleDemo = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:5000/api/auth/login";
-    // const url = "https://endflix.onrender.com/api/auth/demo";
+    // const url = "http://localhost:5000/api/auth/login";
+    const url = "https://endflix.onrender.com/api/auth/login";
     const response = await fetch(url, {
       method: "POST",
       headers: {
@@ -72,12 +72,12 @@ const AuthForm = ({ possibleEmail, handleLoading }) => {
     try {
       e.preventDefault();
 
+      // const url = toggle;
+      // ? "http://localhost:5000/api/auth/login"
+      // : "http://localhost:5000/api/auth/signup";
       const url = toggle
-        ? "http://localhost:5000/api/auth/login"
-        : "http://localhost:5000/api/auth/signup";
-      // const url = toggle
-      //   ? "https://endflix.onrender.com/api/auth/login"
-      //   : "https://endflix.onrender.com/api/auth/signup";
+        ? "https://endflix.onrender.com/api/auth/login"
+        : "https://endflix.onrender.com/api/auth/signup";
 
       const response = await fetch(url, {
         method: "POST",
