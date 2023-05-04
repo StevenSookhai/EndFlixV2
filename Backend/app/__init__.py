@@ -24,8 +24,11 @@ login.login_view = 'auth.unauthorized'
 
 
 @login.user_loader
-def load_user(id):
-    return User.query.get(int(id))
+def user_loader(user_id):
+    user = User.query.filter_by(id=user_id).first()
+    if user:
+        return user
+    return None
 
 
 CORS(app, supports_credentials=True, resources={
