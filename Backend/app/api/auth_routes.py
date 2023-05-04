@@ -32,6 +32,7 @@ def login():
         user = User.query.filter(User.email == form.data['email']).first()
         login_user(user)
         print(current_user)
+        print(current_user.is_authenticated)
         return {'user': user.to_dict()}
     print(form.errors)
     return {'errors': validation_errors_to_error_messages(form.errors)}, 401

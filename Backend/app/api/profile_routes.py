@@ -10,6 +10,8 @@ profile_routes = Blueprint('profiles', __name__)
 @profile_routes.route('/', methods=['POST'])
 @login_required
 def create_profile():
+    print('current_user', current_user)
+    print(current_user.is_authenticated)
     print(current_user)
     try:
         if request.method == 'POST':
@@ -26,8 +28,10 @@ def create_profile():
 
 
 @ profile_routes.route('/<int:id>', methods=['PATCH', 'GET'])
-@ login_required
+@login_required
 def update_profile(id):
+    print('current_user', current_user)
+    print(current_user.is_authenticated)
     print(current_user)
     try:
         if request.method == 'GET':
@@ -46,8 +50,10 @@ def update_profile(id):
 
 
 @ profile_routes.route('/<int:id>', methods=['DELETE'])
-@ login_required
+@login_required
 def delete_profile(id):
+    print('current_user', current_user)
+    print(current_user.is_authenticated)
     print(current_user)
 
     try:

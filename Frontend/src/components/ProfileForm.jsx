@@ -42,6 +42,8 @@ const ProfileForm = ({
             const data = await response.json();
             getProfiles();
             handleToggleEdit(null);
+          } else {
+            console.error(`API request failed with status: ${response}`);
           }
         } catch (error) {
           console.log(error);
@@ -72,6 +74,8 @@ const ProfileForm = ({
             const data = await response.json();
             getProfiles();
             handleAddProfile();
+          } else {
+            console.error(`API request failed with status: ${response}`);
           }
         } catch (error) {
           console.log(error);
@@ -83,7 +87,7 @@ const ProfileForm = ({
   const handleDelete = async () => {
     try {
       const response = await fetch(
-        `https://endflix.onrender.com/${profile.id}`,
+        `https://endflix.onrender.com/api/profiles/${profile.id}`,
         {
           method: "DELETE",
           headers: {
@@ -96,6 +100,8 @@ const ProfileForm = ({
       if (response.ok) {
         getProfiles();
         handleToggleEdit(null);
+      } else {
+        console.error(`API request failed with status: ${response}`);
       }
     } catch (error) {
       console.log(error);
