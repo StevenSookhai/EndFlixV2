@@ -78,9 +78,9 @@ const AuthForm = ({ possibleEmail, handleLoading }) => {
       // const url = toggle
       //   ? "http://localhost:5000/api/auth/login"
       //   : "http://localhost:5000/api/auth/signup";
-      const url = toggle
-        ? "https://endflix.onrender.com/api/auth/login"
-        : "https://endflix.onrender.com/api/auth/signup";
+      // const url = toggle
+      //   ? "https://endflix.onrender.com/api/auth/login"
+      //   : "https://endflix.onrender.com/api/auth/signup";
 
       const response = await fetch(url, {
         method: "POST",
