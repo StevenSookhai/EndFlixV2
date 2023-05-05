@@ -24,8 +24,8 @@ def authenticate():
 
 @auth_routes.route('/login', methods=['POST'])
 def login():
-    form = LoginForm(csrf_enabled=False)
-    # form['csrf_token'].data = request.cookies['csrf_token']
+    form = LoginForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
     print(request)
     print(form.validate_on_submit())
     if form.validate_on_submit():
@@ -41,8 +41,8 @@ def login():
 
 @auth_routes.route('/signup', methods=['POST'])
 def signup():
-    form = SignUpForm(csrf_enabled=False)
-    # form['csrf_token'].data = request.cookies['csrf_token']
+    form = SignUpForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
     # print(request.keys())
     if form.validate_on_submit():
         user = User(

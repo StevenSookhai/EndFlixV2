@@ -22,24 +22,17 @@ app = Flask(__name__, static_folder='Fontend/dist', static_url_path='/')
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
 
+# app.config.update(
+#     SESSION_COOKIE_SAMESITE="None",
+#     SESSION_COOKIE_SECURE=True
+# )
+
 
 @login.user_loader
-def user_loader(user_id):
-    user = User.query.filter_by(id=user_id).first()
-    if user:
-        return user
-    return None
+def load_user(id):
+    return User.query.get(int(id))
 
 
-CORS(app, supports_credentials=True, resources={
-     r'/*': {'origins': ['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"]}})
-# CORS(auth_routes, supports_credentials=True, origins=['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"])
-# CORS(video_routes, supports_credentials=True, origins=['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"])
-# CORS(user_routes, supports_credentials=True, origins=['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"])
-# CORS(video_likes_routes, supports_credentials=True, origins=['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"])
-# CORS(trending_routes, supports_credentials=True, origins=['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"])
-# CORS(list_routes, supports_credentials=True, origins=['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"])
-# CORS(profile_routes, supports_credentials=True, origins=['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"])
 app.cli.add_command(seed_commands)
 app.config.from_object(Config)
 app.register_blueprint(auth_routes, url_prefix='/api/auth')
@@ -54,7 +47,11 @@ db.init_app(app)
 Migrate(app, db)
 
 
-@app.before_request
+CORS(app, supports_credentials=True, resources={
+     r'/*': {"origins": ['http://localhost:5173', 'https://endflixv2.onrender.com', ".onrender.com"]}})
+
+
+@ app.before_request
 def https_redirect():
     if os.environ.get('FLASK_ENV') == 'production':
         if request.headers.get('X-Forwarded-Proto') == 'http':
@@ -63,40 +60,33 @@ def https_redirect():
             return redirect(url, code=code)
 
 
-@app.after_request
+@ app.after_request
 def inject_csrf_token(response):
-    token = generate_csrf()
-    print(f"Generated CSRF token: {token}")
     response.set_cookie(
         'csrf_token',
-        token,
-        secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
+        generate_csrf(),
+        secure=True if os.environ.get(
+            'FLASK_ENV') == 'production' else False,
         samesite='Strict' if os.environ.get(
             'FLASK_ENV') == 'production' else None,
         httponly=True)
-    print(f"Set CSRF token in response: {response}")
-    response.headers.set('Access-Control-Allow-Credentials', 'true')
-    response.headers.set('Access-Control-Allow-Headers', 'Content-Type')
     return response
 
 
-@app.route('/', defaults={'path': ''})
-@app.route('/<path:path>')
+@ app.route('/', defaults={'path': ''})
+@ app.route('/<path:path>')
 def react_root(path):
-    if path == 'favicon.ico':
-        return app.send_static_file('public', 'favicon.ico')
+    """
+    This route will direct to the public directory in our
+    react builds in the production environment for favicon
+    or index.html requests
+    """
+    # if path == 'favicon.ico':
+    #     return app.send_from_directory('public', 'favicon.ico')
+    # return app.send_from_directory('public', 'avatar_paw.ico')
     return app.send_static_file('index.html')
 
 
-@app.errorhandler(404)
+@ app.errorhandler(404)
 def not_found(e):
     return app.send_static_file('index.html')
-
-
-@app.route("/api/auth/csrf-token", methods=["GET"])
-def csrf_token():
-    token = generate_csrf()
-    response = jsonify({"csrf_token": token})
-    response.headers.set("X-CSRFToken", token)
-    response.headers.set("Access-Control-Allow-Credentials", "true")
-    return response

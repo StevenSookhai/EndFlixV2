@@ -31,7 +31,6 @@ const ProfileForm = ({
               method: "PATCH",
               headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
               },
               body: JSON.stringify({
                 name: profileName,
@@ -59,7 +58,6 @@ const ProfileForm = ({
               method: "POST",
               headers: {
                 "Content-Type": "application/json",
-                "Accept": "application/json",
               },
               body: JSON.stringify({
                 name: profileName,
@@ -94,7 +92,6 @@ const ProfileForm = ({
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
-            "Accept": "application/json",
           },
           credentials: "include",
         }
