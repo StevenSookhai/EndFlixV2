@@ -27,6 +27,7 @@ app.config.update(
     SESSION_COOKIE_SAMESITE="None",
     SESSION_COOKIE_SECURE=True if os.environ.get(
         'FLASK_ENV') == 'production' else False,
+    SESSION_COOKIE_DOMAIN=os.environ.get('COOKIE_DOMAIN', None),
     # SESSION_COOKIE_DOMAIN=".onrender.com" if os.environ.get(
     #     'FLASK_ENV') == 'production' else None
 )
@@ -64,13 +65,14 @@ def https_redirect():
             return redirect(url, code=code)
 
 
+@ app.after_request
 def inject_csrf_token(response):
     response.set_cookie(
         'csrf_token',
         generate_csrf(),
-        domain=os.environ.get('COOKIE_DOMAIN', None),
         secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
-        samesite='None' if os.environ.get('FLASK_ENV') == 'production' else None,
+        samesite='Lax' if os.environ.get(
+            'FLASK_ENV') == 'production' else None,
         httponly=True)
     return response
 
