@@ -27,8 +27,8 @@ app.config.update(
     SESSION_COOKIE_SAMESITE="None",
     SESSION_COOKIE_SECURE=True if os.environ.get(
         'FLASK_ENV') == 'production' else False,
-    SESSION_COOKIE_DOMAIN=".onrender.com" if os.environ.get(
-        'FLASK_ENV') == 'production' else None
+    # SESSION_COOKIE_DOMAIN=".onrender.com" if os.environ.get(
+    #     'FLASK_ENV') == 'production' else None
 )
 
 
@@ -69,10 +69,7 @@ def inject_csrf_token(response):
         'csrf_token',
         generate_csrf(),
         secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
-        samesite='None' if os.environ.get(
-            'FLASK_ENV') == 'production' else None,
-        domain=".onrender.com" if os.environ.get(
-            'FLASK_ENV') == 'production' else None,
+        samesite='None' if os.environ.get('FLASK_ENV') == 'production' else None,
         httponly=True)
     return response
 
