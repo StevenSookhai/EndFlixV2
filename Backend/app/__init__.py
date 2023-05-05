@@ -14,6 +14,7 @@ from flask_login import LoginManager
 from .models import User
 from flask_cors import CORS
 from flask_wtf.csrf import CSRFProtect, generate_csrf
+
 import os
 
 
@@ -22,10 +23,13 @@ app = Flask(__name__, static_folder='Fontend/dist', static_url_path='/')
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
 
-# app.config.update(
-#     SESSION_COOKIE_SAMESITE="None",
-#     SESSION_COOKIE_SECURE=True
-# )
+app.config.update(
+    SESSION_COOKIE_SAMESITE="None",
+    SESSION_COOKIE_SECURE=True if os.environ.get(
+        'FLASK_ENV') == 'production' else False,
+    SESSION_COOKIE_DOMAIN=".onrender.com" if os.environ.get(
+        'FLASK_ENV') == 'production' else None
+)
 
 
 @login.user_loader
@@ -60,14 +64,14 @@ def https_redirect():
             return redirect(url, code=code)
 
 
-@ app.after_request
 def inject_csrf_token(response):
     response.set_cookie(
         'csrf_token',
         generate_csrf(),
-        secure=True if os.environ.get(
-            'FLASK_ENV') == 'production' else False,
-        samesite='Strict' if os.environ.get(
+        secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
+        samesite='None' if os.environ.get(
+            'FLASK_ENV') == 'production' else None,
+        domain=".onrender.com" if os.environ.get(
             'FLASK_ENV') == 'production' else None,
         httponly=True)
     return response
