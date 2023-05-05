@@ -23,14 +23,14 @@ app = Flask(__name__, static_folder="../../Frontend/dist", static_url_path='/')
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
 
-app.config.update(
-    SESSION_COOKIE_SAMESITE="None",
-    SESSION_COOKIE_SECURE=True if os.environ.get(
-        'FLASK_ENV') == 'production' else False,
-    SESSION_COOKIE_DOMAIN=os.environ.get('COOKIE_DOMAIN', None),
-    # SESSION_COOKIE_DOMAIN=".onrender.com" if os.environ.get(
-    #     'FLASK_ENV') == 'production' else None
-)
+# app.config.update(
+#     SESSION_COOKIE_SAMESITE="None",
+#     SESSION_COOKIE_SECURE=True if os.environ.get(
+#         'FLASK_ENV') == 'production' else False,
+#     SESSION_COOKIE_DOMAIN=os.environ.get('COOKIE_DOMAIN', None),
+#     # SESSION_COOKIE_DOMAIN=".onrender.com" if os.environ.get(
+#     #     'FLASK_ENV') == 'production' else None
+# )
 
 
 @login.user_loader
