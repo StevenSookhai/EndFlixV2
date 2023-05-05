@@ -132,9 +132,7 @@ const VideoShowModal = ({
     <div className=" border-white h-[100vh] w-[100vw] z-50 overflow-y-scroll relative">
       <div
         ref={forwaredRef}
-        className={`absolute mx-auto inset-x-0 xs:w-[90vw] md:w-[85vh] max-w-[1200px] bg-[#181818] md:min-w-[850px] top-10 mb-[2rem] h-[${
-          window.innerHeight > 900 ? "1260px" : "1000px"
-        }]  min-h-[1000px] rounded-lg z-50   `}
+        className={`absolute mx-auto inset-x-0 xs:w-[90vw] md:w-[85vh] max-w-[1200px] bg-[#181818] md:min-w-[850px] top-10 mb-[2rem] h-[1260px]  min-h-[1000px] rounded-lg z-50 `}
       >
         <div className="relative h-[10vh] sm:h-[40vh] md:h-[48vh] min-h-[400px] rounded-md ">
           <div className="h-full w-full rounded-lg relative">

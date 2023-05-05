@@ -34,7 +34,7 @@ const NavBar = () => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("https://endflix.onrender.com/api/auth/logout", {
+      const response = await fetch("/api/auth/logout", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -46,7 +46,7 @@ const NavBar = () => {
       }
     } catch (error) {
       // console.log(error);
-      alert("Something went wrong! Please try again later.")
+      alert("Something went wrong! Please try again later.");
     }
   };
 

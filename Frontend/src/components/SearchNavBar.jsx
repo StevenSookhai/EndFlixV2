@@ -27,7 +27,7 @@ const SearchNavBar = ({ searchQuery, updateSearchTerm }) => {
 
   const handleLogout = async () => {
     try {
-      const response = await fetch("https://endflix.onrender.com/api/auth/logout", {
+      const response = await fetch("/api/auth/logout", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -44,8 +44,6 @@ const SearchNavBar = ({ searchQuery, updateSearchTerm }) => {
 
   const handleClickOutside = (event) => {
     if (searchRef.current && !searchRef.current.contains(event.target)) {
-   
-   
     }
   };
 
@@ -54,8 +52,6 @@ const SearchNavBar = ({ searchQuery, updateSearchTerm }) => {
   };
 
   const closeSearch = () => {
-    
- 
     navigate(-1);
   };
 
@@ -121,19 +117,25 @@ const SearchNavBar = ({ searchQuery, updateSearchTerm }) => {
         <img
           onMouseEnter={() => setShowMenu(true)}
           className="w-[40px] h-[40px] rounded-md cursor-pointer"
-          src="http://occ-0-3266-444.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQd4d531rYr0QnH2lEC7omicvIWxQTw1_rx-kENeMVr5DuRh51NtzpJa8GXfVivy7C207tpMW4R7NUMXAJOrt8dZHNszpECL4nre.png?r=8d7"
+          src={profile.image_url}
           alt=""
         />
         {showMenu && (
           <div
             onMouseLeave={() => setShowMenu(false)}
-            className="h-[400px] w-[200px] absolute border bg-[rgb(0,0,0,.9)] top-14 right-[.1vw] flex-col items-center   z-20"
+            className="h-[200px] w-[150px] absolute border bg-[rgb(0,0,0,.9)] top-14 right-[.1vw] flex flex-col items-center   z-20"
           >
-            <div className="cursor-pointer" onClick={handleLogout}>
+            <div
+              className="cursor-pointer  w-full text-center font-poppins font-semibold p-3 "
+              onClick={handleLogout}
+            >
               Log out
             </div>
-            <div>
-              <Link to="/profiles">Profiles</Link>
+            <div
+              onClick={handleBackToProfiles}
+              className="cursor-pointer  w-full text-center font-poppins font-semibold p-3"
+            >
+              Profiles
             </div>
           </div>
         )}

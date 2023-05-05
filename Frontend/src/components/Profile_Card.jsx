@@ -28,7 +28,7 @@ const ProfileCard = ({
 
   const getList = async () => {
     try {
-      const response = await fetch(`https://endflix.onrender.com/api/lists/`, {
+      const response = await fetch(`/api/lists/`, {
         method: "POST",
         body: JSON.stringify({
           profile_id: profile.id,
@@ -42,7 +42,7 @@ const ProfileCard = ({
       dispatch(authActions.setList(data));
     } catch (error) {
       //this will not be deleted
-      alert("Something went wrong! Please try again later.");
+      // alert("Something went wrong! Please try again later.");
     }
   };
 
@@ -56,7 +56,6 @@ const ProfileCard = ({
       dispatch(authActions.setHeroVideo(video));
     } catch (error) {
       // console.log(error);
-
     }
   };
 
@@ -75,8 +74,6 @@ const ProfileCard = ({
         )}
         <img
           className="min-w-[84px] min-h-[84px] max-w-[200px] max-h-[200px] w-[10vw] border-[3px] border-transparent rounded-md hover:border-white hover:border-[3px]"
-          // src="http://occ-0-3266-444.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQd4d531rYr0QnH2lEC7omicvIWxQTw1_rx-kENeMVr5DuRh51NtzpJa8GXfVivy7C207tpMW4R7NUMXAJOrt8dZHNszpECL4nre.png?r=8d7"
-          // src="http://occ-0-3266-444.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABUCQw1IvyDiBJPtrlwSze4_VHboA_nFifXDHPb_t3yNWLejyn2_aM-tKRSceB8PsxgWe8F37YAK_7cfUn_yROh1ePDCsZ4EE7r8T.png?r=a21p://occ-0-3266-444.1.nflxso.net/dnm/api/v6/K6hjPJd6cR6FpVELC5Pd6ovHRSk/AAAABQd4d531rYr0QnH2lEC7omicvIWxQTw1_rx-kENeMVr5DuRh51NtzpJa8GXfVivy7C207tpMW4R7NUMXAJOrt8dZHNszpECL4nre.png?r=8d7"
           src={profile.image_url}
           alt=""
         ></img>
