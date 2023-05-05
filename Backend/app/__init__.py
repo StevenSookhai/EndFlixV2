@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for, jsonify
+from flask import Flask, render_template, request, session, redirect, url_for, jsonify, send_from_directory
 from app.config import Config
 from .api.auth_routes import auth_routes
 from .api.video_routes import video_routes
@@ -18,7 +18,7 @@ from flask_wtf.csrf import CSRFProtect, generate_csrf
 import os
 
 
-app = Flask(__name__, static_folder='Fontend/dist', static_url_path='/')
+app = Flask(__name__, static_folder="../../Frontend/dist", static_url_path='/')
 
 login = LoginManager(app)
 login.login_view = 'auth.unauthorized'
@@ -77,18 +77,13 @@ def inject_csrf_token(response):
     return response
 
 
-@ app.route('/', defaults={'path': ''})
-@ app.route('/<path:path>')
-def react_root(path):
-    """
-    This route will direct to the public directory in our
-    react builds in the production environment for favicon
-    or index.html requests
-    """
-    # if path == 'favicon.ico':
-    #     return app.send_from_directory('public', 'favicon.ico')
-    # return app.send_from_directory('public', 'avatar_paw.ico')
-    return app.send_static_file('index.html')
+@app.route("/", defaults={"path": ""})
+@app.route("/<path:path>")
+def serve(path):
+    if path != "" and os.path.exists(app.static_folder + "/" + path):
+        return send_from_directory(app.static_folder, path)
+    else:
+        return send_from_directory(app.static_folder, "index.html")
 
 
 @ app.errorhandler(404)
