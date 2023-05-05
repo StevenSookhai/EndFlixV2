@@ -143,7 +143,7 @@ const VideoHoverCard = ({ handleModalShown }) => {
   const handleAddAndDeleteFromList = async (flag) => {
     try {
       const response = await fetch(
-        `https://endflix.onrender.com/api/lists/${profile.id}`,
+        `/api/lists/${profile.id}`,
         {
           method: flag ? "PATCH" : "DELETE",
           headers: {

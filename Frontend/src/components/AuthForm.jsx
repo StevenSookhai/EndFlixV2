@@ -37,7 +37,7 @@ const AuthForm = ({ possibleEmail, handleLoading }) => {
 
   const handleDemo = async (e) => {
     e.preventDefault();
-    const url = "https://endflix.onrender.com/api/auth/login";
+    const url = "/api/auth/login";
     // const url = "https://endflix.onrender.com/api/auth/login";
     const response = await fetch(url, {
       method: "POST",
@@ -72,6 +72,9 @@ const AuthForm = ({ possibleEmail, handleLoading }) => {
     try {
       e.preventDefault();
 
+      const url = toggle
+        ? "/api/auth/login"
+        : "/api/auth/signup";
       // const url = toggle
       //   ? "http://localhost:5000/api/auth/login"
       //   : "http://localhost:5000/api/auth/signup";
