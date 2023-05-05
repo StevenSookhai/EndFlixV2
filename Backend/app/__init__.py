@@ -68,6 +68,7 @@ def inject_csrf_token(response):
     response.set_cookie(
         'csrf_token',
         generate_csrf(),
+        domain=os.environ.get('COOKIE_DOMAIN', None),
         secure=True if os.environ.get('FLASK_ENV') == 'production' else False,
         samesite='None' if os.environ.get('FLASK_ENV') == 'production' else None,
         httponly=True)
