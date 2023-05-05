@@ -48,7 +48,7 @@ const ProfileCard = ({
 
   const getHeroVideo = async () => {
     try {
-      const response = await fetch(`https://endflix.onrender.com/api/videos/`);
+      const response = await fetch(`/api/videos/`);
       const data = await response.json();
 
       const video = data.videos[Math.floor(Math.random() * data.videos.length)];
