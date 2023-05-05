@@ -12,7 +12,7 @@ import { AiOutlineSearch } from "react-icons/ai";
 import { AiOutlineClose } from "react-icons/ai";
 
 const SearchNavBar = ({ searchQuery, updateSearchTerm }) => {
-  const [showMenu, setShowMenu] = useState(false);
+  const profile = useSelector((state) => state.auth.profile);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const searchRef = useRef();
