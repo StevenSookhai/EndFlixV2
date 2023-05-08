@@ -56,6 +56,10 @@ const SearchNavBar = ({ searchQuery, updateSearchTerm }) => {
     navigate(-1);
   };
 
+  const handleBackToProfiles = () => {
+    navigate("/profiles");
+    dispatch(authActions.removeHeroVideo());
+  };
   return (
     <div className="fixed top-0 z-20 w-full h-[50px] sm:h-[70px] flex justify-start items-center bg-gradient-to-b from-black">
       <div className="ml-[3vw] mr-[2vw]">
