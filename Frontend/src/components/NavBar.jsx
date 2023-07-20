@@ -101,7 +101,7 @@ const NavBar = () => {
           <Link to="/browse">Home</Link>
         </span>
         <span className="font-poppins text-[#e5e5e5] h-full text-[14px]">
-          <Link to="https://stevensookhai.github.io/Portfolio/">Protfolio</Link>
+          <Link to="https://www.stevensookhai.com/about">Portfolio</Link>
         </span>
         <span className="font-poppins text-[#e5e5e5] h-full text-[14px]">
           <Link to="https://github.com/StevenSookhai">Github</Link>
